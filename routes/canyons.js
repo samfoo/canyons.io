@@ -1,12 +1,18 @@
-var express = require('express');
-var router = express.Router();
+var express = require("express"),
+    React = require("react"),
+    router = express.Router();
 
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
+router.get("/", function(req, res) {
+    res.send("respond with a resource");
 });
 
 router.get("/new", function(req, res) {
-  res.render('canyons/form', {});
+    var canyons = require("../client/canyons"),
+        renderedForm = React.renderToString(
+            React.createElement(canyons.Form, {})
+        );
+
+    res.render("canyons/form", {form: renderedForm});
 });
 
 module.exports = router;
