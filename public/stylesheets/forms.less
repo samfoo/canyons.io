@@ -1,0 +1,108 @@
+@import "palette";
+@import "typography";
+
+@field-separator: 35px;
+
+.input {
+  display: inline-block;
+  width: 100%;
+}
+
+.file-upload {
+  position: relative;
+
+  &:hover:after {
+    position: absolute;
+    content: ' ';
+    border: 5px solid @drop-area-color;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.submit {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  position: relative;
+  margin-top: 30px;
+  font-size: @font-large;
+
+  &.disabled, &.disabled:hover {
+    color: @disabled-button-text-color;
+    cursor: default;
+    background-color: @disabled-button-background-color;
+    border-color: darken(@disabled-button-background-color, 15%);
+  }
+}
+
+textarea {
+  resize: none;
+  overflow: auto;
+}
+
+input, textarea {
+  font-size: @font-large;
+  outline: none;
+  padding: 15px 0;
+  border-radius: 2px;
+  border-style: solid;
+  border-color: @input-border-color;
+  border-bottom-width: 2px;
+  border-top-width: 0;
+  border-right-width: 0;
+  border-left-width: 0;
+  width: 100%;
+
+  &:focus, &:focus:hover {
+    border-color: @input-focus-border-color;
+  }
+
+  &:hover {
+    border-color: darken(@input-border-color, 15%);
+  }
+
+  &.error {
+    border-color: @error-color !important;
+  }
+}
+
+label {
+  display: block;
+  font-size: @font-small;
+  color: @label-color;
+  padding: 6px 0;
+}
+
+.field {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: @field-separator;
+  padding: 0 25px;
+
+  &.fill {
+    padding: 0;
+  }
+
+  .error-message {
+    font-size: @font-small;
+    position: relative;
+    height: 0;
+    overflow: visible;
+    line-height: 22px;
+    width: 100%;
+    color: @error-color;
+
+    .error-icon {
+      position: absolute;
+      font-size: 14px;
+      line-height: 22px;
+      right: 0;
+    }
+  }
+}
