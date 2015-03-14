@@ -1,0 +1,186 @@
+@import "palette";
+@import "typography";
+
+@field-separator: 35px;
+
+.input {
+  display: inline-block;
+  width: 100%;
+}
+
+.file-upload {
+  position: relative;
+
+  &:hover:after {
+    position: absolute;
+    content: ' ';
+    border: 5px solid @drop-area-color;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.upload {
+    position: relative;
+    text-align: center;
+    height: 33vh;
+    padding: 40px 0;
+
+    input[type="file"] {
+        display: none;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.dragging:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        content: ' ';
+        opacity: 0.9;
+        border: 5px solid lightgray;
+        background-color: white;
+    }
+
+    &.finished {
+        .map-canvas {
+            opacity: 1;
+            z-index: 0;
+        }
+
+        .title {
+            display: none;
+        }
+    }
+
+    &.error .error-message {
+        display: block;
+    }
+
+    .title {
+        color: white;
+        font-size: 48px;
+        font-weight: 300;
+        margin-top: 0;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .error-message {
+        display: none;
+        color: @error-color;
+    }
+
+    .image-canvas {
+        background-image: url(../images/example-canyon.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        opacity: 0.95;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+.submit {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  position: relative;
+  margin-top: 30px;
+  font-size: @font-large;
+
+  &.disabled, &.disabled:hover {
+    color: @disabled-button-text-color;
+    cursor: default;
+    background-color: @disabled-button-background-color;
+    border-color: darken(@disabled-button-background-color, 15%);
+  }
+}
+
+textarea {
+  resize: none;
+  overflow: auto;
+}
+
+input, textarea {
+  font-size: @font-large;
+  outline: none;
+  padding: 15px 0;
+  border-radius: 2px;
+  border-style: solid;
+  border-color: @input-border-color;
+  border-bottom-width: 2px;
+  border-top-width: 0;
+  border-right-width: 0;
+  border-left-width: 0;
+  width: 100%;
+
+  // I'm not entirely sure why FF needs this, but without it textarea font
+  // family is mucked up.
+  font-family: "Open Sans", Helvetica, sans-serif !important;
+
+  &:focus, &:focus:hover {
+    border-color: @input-focus-border-color;
+  }
+
+  &:hover {
+    border-color: darken(@input-border-color, 15%);
+  }
+
+  &.error {
+    border-color: @error-color !important;
+  }
+}
+
+label {
+  display: block;
+  font-size: @font-small;
+  color: @label-color;
+  padding: 6px 0;
+}
+
+.field {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: @field-separator;
+  padding: 0 25px;
+
+  &.fill {
+    padding: 0;
+  }
+
+  .error-message {
+    font-size: @font-small;
+    position: relative;
+    height: 0;
+    overflow: visible;
+    line-height: 22px;
+    width: 100%;
+    color: @error-color;
+
+    .error-icon {
+      position: absolute;
+      font-size: 14px;
+      line-height: 22px;
+      right: 0;
+    }
+  }
+}
