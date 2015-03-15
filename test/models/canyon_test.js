@@ -3,45 +3,26 @@ var canyons = require("../../models/canyon"),
 
 describe("Canyons", function() {
     describe("#validate", function() {
-        describe("tracknotes", function() {
-            it("should not be valid if not present", function() {
-                var result = canyons.validate({});
-                expect(result.tracknotes).to.exist;
-            });
-
-            it("should be valid if present", function() {
-                var result = canyons.validate({
-                    tracknotes: "Second left of Mt. Hay Rd..."
+        ["notes", "directions", "name"].forEach(function(requiredField) {
+            describe(requiredField, function() {
+                it("should not be valid if empty", function() {
+                    var model = {};
+                    model[requiredField] = "";
+                    var result = canyons.validate(model);
+                    expect(result[requiredField]).to.exist;
                 });
-                expect(result.tracknotes).not.to.exist;
-            });
-        });
 
-        describe("directions", function() {
-            it("should not be valid if not present", function() {
-                var result = canyons.validate({});
-                expect(result.directions).to.exist;
-            });
-
-            it("should be valid if present", function() {
-                var result = canyons.validate({
-                    directions: "Second left of Mt. Hay Rd..."
+                it("should not be valid if not present", function() {
+                    var result = canyons.validate({});
+                    expect(result[requiredField]).to.exist;
                 });
-                expect(result.directions).not.to.exist;
-            });
-        });
 
-        describe("name", function() {
-            it("should not be valid if not present", function() {
-                var result = canyons.validate({});
-                expect(result.name).to.exist;
-            });
-
-            it("should be valid if present", function() {
-                var result = canyons.validate({
-                    name: "Starlight"
+                it("should be valid if present", function() {
+                    var model = {};
+                    model[requiredField] = "value";
+                    var result = canyons.validate(model);
+                    expect(result[requiredField]).not.to.exist;
                 });
-                expect(result.name).not.to.exist;
             });
         });
     });

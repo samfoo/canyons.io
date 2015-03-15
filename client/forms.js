@@ -2,17 +2,60 @@ var React = require("react"),
     d = React.DOM,
     r = require("ramda");
 
+var ErrorMixin = {
+    hasErrors: function() {
+        return this.props.model &&
+            this.props.model.errors &&
+            this.props.model.errors[this.props.name];
+    },
+
+    errorMessage: function() {
+        if (this.hasErrors()) {
+            return this.props.model.errors[this.props.name];
+        }
+    },
+
+    errorStyle: function() {
+        if (this.hasErrors()) {
+            return {display: "block"};
+        } else {
+            return {display: "none"};
+        }
+    },
+
+    inputClass: function() {
+        if (this.hasErrors()) {
+            return "error";
+        } else {
+            return null;
+        }
+    }
+};
+
 var Text = React.createClass({
+    mixins: [ErrorMixin],
+
     render: function() {
         return d.div(
             {className: "field"},
             d.label({htmlFor: this.props.name}, this.props.label),
-            d.input(r.merge(this.props, {type: "text"}), null)
+            d.input(
+                r.merge(
+                    this.props,
+                    {className: this.inputClass(), type: "text"}
+                )
+            ),
+            d.div(
+                {className: "error-message", style: this.errorStyle()},
+                this.errorMessage()
+            )
         );
     }
 });
 
 var TextAreaAutoresize = React.createClass({
+    mixins: [ErrorMixin],
+
     getInitialState: function() {
         return {height: "0px"};
     },
@@ -59,6 +102,13 @@ var TextAreaAutoresize = React.createClass({
         }
     },
 
+    changed: function(e) {
+        this.resize();
+        if (this.props.onChange) {
+            this.props.onChange(e);
+        }
+    },
+
     componentDidMount: function() {
         this.resize();
     },
@@ -69,9 +119,10 @@ var TextAreaAutoresize = React.createClass({
                 className: "shadow",
                 style: {overflow: "hidden", visibility: "hidden", position: "absolute"}
             }),
+
             d.textarea(r.merge(this.props, {
-                className: "real",
-                onChange: this.resize,
+                className: "real " + this.inputClass(),
+                onChange: this.changed,
                 style: {overflow: "hidden", height: this.state.height}
             }))
         );
@@ -79,11 +130,20 @@ var TextAreaAutoresize = React.createClass({
 });
 
 var TextArea = React.createClass({
+    mixins: [ErrorMixin],
+
     render: function() {
         return d.div(
             {className: "field"},
+
             d.label({htmlFor: this.props.name}, this.props.label),
-            React.createElement(TextAreaAutoresize, this.props)
+
+            React.createElement(TextAreaAutoresize, this.props),
+
+            d.div(
+                {className: "error-message", style: this.errorStyle()},
+                this.errorMessage()
+            )
         );
     }
 });
