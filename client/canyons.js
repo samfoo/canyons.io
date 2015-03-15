@@ -39,7 +39,7 @@ module.exports = {
         form: function() {
             React.render(
                 React.createElement(Form, {}),
-                document.getElementById("new-canyon")
+                document.getElementById("canyons-form")
             );
         }
     }
