@@ -3,7 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "client-js": "browserify client/main.js",
+    "client-styles": "./node_modules/.bin/lessc styles/style.less",
+    "build-client": "npm run client-js | tail +5 > public/js/canyons.io.js",
+    "build-styles": "npm run client-styles | tail +5 > public/stylesheets/style.css",
+    "watch-client": "fswatch -o client | xargs -n1 -I{} npm run build-client",
+    "watch-styles": "fswatch -o styles | xargs -n1 -I{} npm run build-styles",
+    "serve": "nodemon bin/www"
   },
   "dependencies": {
     "body-parser": "~1.0.0",
@@ -14,15 +20,11 @@
     "jade": "^1.9.2",
     "less": "^2.4.0",
     "morgan": "~1.0.0",
-    "ramda": "^0.11.0"
+    "ramda": "^0.11.0",
+    "validate.js": "^0.5.0"
   },
-  "scripts": {
-      "client-js": "browserify client/main.js",
-      "client-styles": "./node_modules/.bin/lessc styles/style.less",
-      "build-client": "npm run client-js | tail +5 > public/js/canyons.io.js",
-      "build-styles": "npm run client-styles | tail +5 > public/stylesheets/style.css",
-      "watch-client": "fswatch -o client | xargs -n1 -I{} npm run build-client",
-      "watch-styles": "fswatch -o styles | xargs -n1 -I{} npm run build-styles",
-      "serve": "nodemon bin/www"
+  "devDependencies": {
+    "chai": "^2.1.1",
+    "mocha": "^2.2.1"
   }
 }
