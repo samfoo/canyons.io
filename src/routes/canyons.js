@@ -7,7 +7,7 @@ router.get("/", function(req, res) {
 });
 
 router.get("/new", function(req, res) {
-    var canyons = require("../client/canyons"),
+    var canyons = require("../views/canyons"),
         renderedForm = React.renderToString(
             React.createElement(canyons.Form, {})
         );

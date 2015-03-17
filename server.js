@@ -4,8 +4,8 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser');
 
-var routes = require('./routes/index'),
-    canyons = require('./routes/canyons');
+var routes = require('./src/routes/index'),
+    canyons = require('./src/routes/canyons');
 
 var app = express();
 

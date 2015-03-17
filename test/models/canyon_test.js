@@ -1,4 +1,4 @@
-var canyons = require("../../models/canyon"),
+var canyons = require("../../src/models/canyon"),
     expect = require("chai").expect;
 
 describe("Canyons", function() {

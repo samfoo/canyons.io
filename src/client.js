@@ -1,4 +1,4 @@
-var canyons = require("./canyons"),
+var canyons = require("./views/canyons"),
     React = require("react"),
     director = require("director");
 

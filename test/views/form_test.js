@@ -1,4 +1,4 @@
-var forms = require("../../client/forms"),
+var forms = require("../../src/views/forms"),
     React = require("react/addons"),
     jsdom = require("jsdom"),
     expect = require("chai").expect;

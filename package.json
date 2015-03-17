@@ -3,11 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "client-js": "browserify client/main.js",
+    "client-js": "browserify src/client.js",
     "client-styles": "./node_modules/.bin/lessc styles/style.less",
     "build-client": "npm run client-js | tail +5 > public/js/canyons.io.js",
     "build-styles": "npm run client-styles | tail +5 > public/stylesheets/style.css",
-    "watch-client": "fswatch -o client | xargs -n1 -I{} npm run build-client",
+    "watch-client": "fswatch -o src | xargs -n1 -I{} npm run build-client",
     "watch-styles": "fswatch -o styles | xargs -n1 -I{} npm run build-styles",
     "serve": "nodemon bin/www"
   },
@@ -27,6 +27,7 @@
   "devDependencies": {
     "chai": "^2.1.1",
     "contextify": "^0.1.13",
+    "debug": "^2.1.3",
     "jsdom": "^4.0.2",
     "mocha": "^2.2.1"
   }
