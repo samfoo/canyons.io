@@ -90,8 +90,10 @@ var TextAreaAutoresize = React.createClass({
             real = this.real(),
             shadow = this.shadow();
 
-        shadow.value = real.attributes.placeholder.value;
-        this.resizeToShadow();
+        if (real.attributes.placeholder) {
+            shadow.value = real.attributes.placeholder.value;
+            this.resizeToShadow();
+        }
     },
 
     resize: function() {
