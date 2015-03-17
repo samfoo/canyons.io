@@ -1,10 +1,11 @@
 doctype html
 html
-  head
-    title= title
-    link(rel="stylesheet", href="/stylesheets/style.css")
+    head
+        title= title
+        link(rel="stylesheet", href="/stylesheets/style.css")
 
-  body
-    block content
+    body
+        #content
+            != rendered
 
-    script(src="/js/canyons.io.js", type="text/javascript")
+        script(src="/js/canyons.io.js", type="text/javascript")

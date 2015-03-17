@@ -8,11 +8,11 @@ router.get("/", function(req, res) {
 
 router.get("/new", function(req, res) {
     var canyons = require("../views/canyons"),
-        renderedForm = React.renderToString(
+        rendered = React.renderToString(
             React.createElement(canyons.Form, {})
         );
 
-    res.render("canyons/form", {form: renderedForm});
+    res.render("layout", {rendered: rendered});
 });
 
 module.exports = router;

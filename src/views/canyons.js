@@ -74,7 +74,7 @@ module.exports = {
         form: function() {
             React.render(
                 React.createElement(Form, {}),
-                document.getElementById("canyons-form")
+                document.getElementById("content")
             );
         }
     }
