@@ -1,0 +1,33 @@
+{
+  "name": "canyons.io",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A website for canyoneers to record their adventures.",
+  "main": "start.js",
+  "author": "Sam Gibson",
+  "license": "GPL-3.0",
+  "scripts": {
+    "client": "./node_modules/.bin/webpack ./client.js public/canyons.js",
+    "styles": "./node_modules/.bin/lessc styles/site.less",
+    "serve": "DEBUG=canyons nodemon --use_strict start.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "cookie-parser": "^1.4.0",
+    "express": "^4.13.3",
+    "morgan": "^1.6.1",
+    "ramda": "^0.17.1",
+    "react": "~0.13.x",
+    "react-router": "1.0.0-rc3",
+    "reflux": "^0.2.12"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "chai": "^3.3.0",
+    "debug": "^2.2.0",
+    "less": "^2.5.3",
+    "mocha": "^2.3.3",
+    "nodemon": "^1.7.1",
+    "webpack": "^1.12.2"
+  }
+}
