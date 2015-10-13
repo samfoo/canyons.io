@@ -3,7 +3,11 @@ module.exports = function(content) {
 <html>
     <head>
         <meta charset="utf-8">
+        <link rel="stylesheet" href="site.css">
     </head>
-    <body>${content}</body>
+    <body>
+        <div id="render">${content}</div>
+        <script type="application/javascript" src="app.js"></script>
+    </body>
 </html>`
 };
