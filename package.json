@@ -9,7 +9,7 @@
   "scripts": {
     "client": "./node_modules/.bin/webpack",
     "styles": "./node_modules/.bin/lessc --no-js --strict-imports styles/site.less ./public/site.css",
-    "watch-client": "fswatch -o src | xargs -n1 -I{} npm run-script client",
+    "watch-client": "./node_modules/.bin/webpack --watch",
     "watch-styles": "fswatch -o styles | xargs -n1 -I{} npm run-script styles",
     "serve": "DEBUG=canyons nodemon --use_strict server.js"
   },

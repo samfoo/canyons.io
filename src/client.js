@@ -6,7 +6,8 @@ import createBrowserHistory from 'history/lib/createBrowserHistory';
 import routes from './routes';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { promises } from './reducers/middleware';
 
 const history = createBrowserHistory();
 const initialState = window.__INITIAL_STATE__;
@@ -18,12 +19,11 @@ Object
     });
 
 const reducer = combineReducers(reducers);
-const store = createStore(reducer);
+const store = applyMiddleware(promises)(createStore)(reducer, initialState);
 
 ReactDOM.render(
     React.createElement(
         Provider,
-        // todo - wire up a hydrated store here
         {store: store},
         React.createElement(
             Router,

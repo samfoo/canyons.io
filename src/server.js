@@ -1,4 +1,5 @@
 import * as reducers from './reducers';
+import Immutable from 'immutable';
 import React from 'react';
 import cookieParser from 'cookie-parser';
 import express from 'express';
@@ -6,9 +7,10 @@ import logger from 'morgan';
 import path from 'path';
 import routes from './routes';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { match, RoutingContext } from 'react-router';
 import { renderToString } from 'react-dom/server';
+import { promises } from './reducers/middleware';
 
 export var app = express();
 
@@ -37,7 +39,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.use((req, res, next) => {
     const reducer = combineReducers(reducers);
-    const store = createStore(reducer);
+    const store = applyMiddleware(promises)(createStore)(reducer);
 
     match({routes, location: req.url}, (error, redir, props) => {
         if (error) {
@@ -45,16 +47,35 @@ app.use((req, res, next) => {
         } else if (redir) {
             res.redirect(302, redir.pathname + redir.search)
         } else if (props) {
-            const app = React.createElement(
-                Provider,
-                {store: store},
-                React.createElement(RoutingContext, props)
-            );
+            let allDeps = props.components.reduce((deps, comp) => {
+                let compDeps = comp.deps || [];
 
-            let innerHTML = renderToString(app);
+                if (comp.WrappedComponent) {
+                    compDeps.concat(comp.WrappedComponent.deps || []);
+                }
 
-            res.status(200)
-                .send(layout(innerHTML, store.getState()));
+                return deps.union(compDeps);
+            }, new Immutable.Set());
+
+            let loadDepState = Promise.all(allDeps.map((d) => store.dispatch(d())));
+
+            loadDepState
+                .then(() => {
+                    const app = React.createElement(
+                        Provider,
+                        {store: store},
+                        React.createElement(RoutingContext, props)
+                    );
+
+                    return renderToString(app);
+                })
+                .then((html) => {
+                    res.end(
+                        layout(html, store.getState())
+                    );
+                })
+                .catch((err) => res.status(500).end(err.message));
+
         } else {
             res.status(404).send("not found")
         }
