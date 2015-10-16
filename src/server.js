@@ -1,16 +1,16 @@
-import * as reducers from './reducers';
-import Immutable from 'immutable';
-import React from 'react';
-import cookieParser from 'cookie-parser';
-import express from 'express';
-import logger from 'morgan';
-import path from 'path';
-import routes from './routes';
-import { Provider } from 'react-redux';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { match, RoutingContext } from 'react-router';
-import { renderToString } from 'react-dom/server';
-import { promises } from './reducers/middleware';
+import * as reducers from "./reducers";
+import Immutable from "immutable";
+import React from "react";
+import cookieParser from "cookie-parser";
+import express from "express";
+import logger from "morgan";
+import path from "path";
+import routes from "./routes";
+import { Provider } from "react-redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { match, RoutingContext } from "react-router";
+import { renderToString } from "react-dom/server";
+import { promises } from "./reducers/middleware";
 
 export var app = express();
 
@@ -28,16 +28,16 @@ const layout = function(content, state) {
         </script>
         <script type="application/javascript" src="app.js"></script>
     </body>
-</html>`
+</html>`;
 };
 
 // TODO - make this environment dependent on how the app is started.
-app.use(logger('dev'));
+app.use(logger("dev"));
 
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, "../public")));
 
-app.use((req, res, next) => {
+app.use((req, res) => {
     const reducer = combineReducers(reducers);
     const store = applyMiddleware(promises)(createStore)(reducer);
 
@@ -45,7 +45,7 @@ app.use((req, res, next) => {
         if (error) {
             res.status(500).send(error.message);
         } else if (redir) {
-            res.redirect(302, redir.pathname + redir.search)
+            res.redirect(302, redir.pathname + redir.search);
         } else if (props) {
             let allDeps = props.components.reduce((deps, comp) => {
                 let compDeps = comp.deps || [];
@@ -77,14 +77,13 @@ app.use((req, res, next) => {
                 .catch((err) => res.status(500).end(err.message));
 
         } else {
-            res.status(404).send("not found")
+            res.status(404).send("not found");
         }
     });
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     res.status(err.status || 500);
-    console.error(err);
     res.send(layout({
         content: err.message
     }));

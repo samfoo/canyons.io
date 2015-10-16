@@ -1,6 +1,6 @@
-import * as UserActions from '../actions/user';
-import React from 'react';
-import { connect } from 'react-redux';
+import * as UserActions from "../actions/user";
+import React from "react";
+import { connect } from "react-redux";
 
 var d = React.DOM;
 
@@ -11,7 +11,7 @@ export default class Application extends React.Component {
     ];
 
     render() {
-        const { users, dispatch } = this.props;
+        const { users } = this.props;
 
         let header;
         if (users.has("current")) {

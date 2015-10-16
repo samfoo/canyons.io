@@ -1,13 +1,13 @@
-import * as reducers from './reducers';
-import Immutable from 'immutable';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-import routes from './routes';
-import { Provider } from 'react-redux';
-import { Router } from 'react-router';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { promises } from './reducers/middleware';
+import * as reducers from "./reducers";
+import Immutable from "immutable";
+import React from "react";
+import ReactDOM from "react-dom";
+import createBrowserHistory from "history/lib/createBrowserHistory";
+import routes from "./routes";
+import { Provider } from "react-redux";
+import { Router } from "react-router";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { promises } from "./reducers/middleware";
 
 const history = createBrowserHistory();
 const initialState = window.__INITIAL_STATE__;
