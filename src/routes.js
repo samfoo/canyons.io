@@ -1,7 +1,7 @@
 import React from 'react';
 import { IndexRoute, Route } from 'react-router';
-import App from './application';
-import Home from './home';
+import App from './components/application';
+import Home from './components/home';
 
 var Index = React.createElement(
     IndexRoute,

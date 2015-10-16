@@ -1,5 +1,5 @@
 {
-  "name": "canyons.io",
+  "name": "canyons-web",
   "version": "0.1.0",
   "private": true,
   "description": "A website for canyoneers to record their adventures.",
@@ -11,16 +11,17 @@
     "styles": "./node_modules/.bin/lessc --no-js --strict-imports styles/site.less ./public/site.css",
     "watch-client": "fswatch -o src | xargs -n1 -I{} npm run-script client",
     "watch-styles": "fswatch -o styles | xargs -n1 -I{} npm run-script styles",
-    "serve": "DEBUG=canyons nodemon --use_strict start.js"
+    "serve": "DEBUG=canyons nodemon --use_strict server.js"
   },
   "dependencies": {
-    "body-parser": "^1.14.1",
+    "axios": "^0.7.0",
+    "babel": "^5.8.23",
+    "babel-core": "^5.8.25",
     "cookie-parser": "^1.4.0",
     "express": "^4.13.3",
     "history": "^1.12.5",
     "immutable": "^3.7.5",
     "morgan": "^1.6.1",
-    "ramda": "^0.17.1",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^3.1.0",
@@ -28,8 +29,6 @@
     "redux": "^3.0.2"
   },
   "devDependencies": {
-    "babel": "^5.8.23",
-    "babel-core": "^5.8.25",
     "babel-loader": "^5.3.2",
     "chai": "^3.3.0",
     "debug": "^2.2.0",
