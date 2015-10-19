@@ -1,2 +1,13 @@
 @import (inline) "./node_modules/normalize.css/normalize.css";
-@import (inline) "./src/components/home.less";
+@import (less) "./src/components/home/index.less";
+
+* {
+    box-sizing: border-box;
+}
+
+#site-header {
+    position: fixed;
+    width: 100%;
+    text-align: right;
+    padding: 5px 15px;
+}

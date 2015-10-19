@@ -8,7 +8,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "client": "./node_modules/.bin/webpack",
-    "styles": "./node_modules/.bin/lessc --no-js --strict-imports src/components/application.less ./public/site.css",
+    "styles": "./node_modules/.bin/lessc --verbose --no-js --strict-imports src/components/application.less ./public/site.css",
     "watch-client": "./node_modules/.bin/webpack --watch",
     "watch-styles": "fswatch -i '\\.less' -o src | xargs -n1 -I{} npm run-script styles",
     "serve": "DEBUG=canyons nodemon --use_strict server.js",

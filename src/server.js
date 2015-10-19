@@ -19,14 +19,14 @@ const layout = function(content, state) {
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="site.css">
+        <link rel="stylesheet" href="/site.css">
     </head>
     <body>
         <div id="render">${content}</div>
         <script type="application/javascript">
             window.__INITIAL_STATE__ = ${JSON.stringify(state)};
         </script>
-        <script type="application/javascript" src="app.js"></script>
+        <script type="application/javascript" src="/app.js"></script>
     </body>
 </html>`;
 };
@@ -43,7 +43,7 @@ app.use((req, res) => {
 
     match({routes, location: req.url}, (error, redir, props) => {
         if (error) {
-            res.status(500).send(error.message);
+            res.status(500).send(error);
         } else if (redir) {
             res.redirect(302, redir.pathname + redir.search);
         } else if (props) {
@@ -74,7 +74,7 @@ app.use((req, res) => {
                         layout(html, store.getState())
                     );
                 })
-                .catch((err) => res.status(500).end(err.message));
+                .catch((err) => res.status(500).end(err.stack));
 
         } else {
             res.status(404).send("not found");
