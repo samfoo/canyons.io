@@ -1,0 +1,30 @@
+{
+  "name": "canyons-api",
+  "version": "0.1.0",
+  "description": "The API backend for canyons.io",
+  "main": "server.js",
+  "author": "Sam Gibson",
+  "license": "GPL-3.0",
+  "scripts": {
+    "serve": "DEBUG=canyons-api nodemon --use_strict start.js"
+  },
+  "dependencies": {
+    "babel": "^5.8.23",
+    "babel-core": "^5.8.25",
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "migrate": "^0.2.2",
+    "morgan": "^1.6.1",
+    "nodemon": "^1.7.1",
+    "passport": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "pg": "^4.4.2",
+    "pg-promise": "^2.0.11",
+    "sql": "^0.60.0"
+  },
+  "devDependencies": {
+    "debug": "^2.2.0"
+  }
+}
