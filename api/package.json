@@ -6,6 +6,7 @@
   "author": "Sam Gibson",
   "license": "GPL-3.0",
   "scripts": {
+    "migrate": "node --harmony ./node_modules/.bin/migrate up",
     "serve": "DEBUG=canyons-api nodemon --use_strict start.js"
   },
   "dependencies": {
@@ -13,6 +14,7 @@
     "babel-core": "^5.8.25",
     "bcrypt": "^0.8.5",
     "body-parser": "^1.14.1",
+    "debug": "^2.2.0",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "migrate": "^0.2.2",
@@ -23,8 +25,5 @@
     "pg": "^4.4.2",
     "pg-promise": "^2.0.11",
     "sql": "^0.60.0"
-  },
-  "devDependencies": {
-    "debug": "^2.2.0"
   }
 }
