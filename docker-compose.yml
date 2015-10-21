@@ -1,0 +1,34 @@
+web:
+    build: ./web
+    ports:
+        - "3000:3000"
+    links:
+        - api
+    volumes:
+        - ./web:/canyons-web
+        - /canyons-web/node_modules
+    environment:
+        NODE_DEBUG: canyon-web
+    command: bash -c 'cd /canyons-web; ./node_modules/.bin/nodemon -V --use_strict -L /canyons-web/server.js'
+api:
+    build: ./api
+    ports:
+        - "5678:5678"
+    links:
+        - db
+    volumes:
+        - ./api:/canyons-api
+        - /canyons-api/node_modules
+    environment:
+        NODE_DEBUG: canyon-api
+    command: bash -c 'cd /canyons-api; ./node_modules/.bin/nodemon -V --use_strict -L /canyons-api/server.js'
+db:
+    volumes:
+        - ./db:/docker-entrypoint-initdb.d
+    image: postgres
+migrations:
+    build: ./migrations
+    links:
+        - db
+    volumes:
+        - ./migrations:/migrations

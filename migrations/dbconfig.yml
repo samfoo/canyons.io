@@ -1,0 +1,5 @@
+production:
+    dialect: postgres
+    datasource: postgres://canyons:canyons@db:5432/canyons?sslmode=disable
+    dir: /migrations
+    table: migrations
