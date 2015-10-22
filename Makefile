@@ -18,6 +18,10 @@ styles:
 client:
 	(cd web && webpack)
 
+lint:
+	eslint web/src/**/*.js
+	eslint api/src/**/*.js
+
 watch-client:
 	(cd web && webpack --watch)
 

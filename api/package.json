@@ -6,7 +6,6 @@
   "author": "Sam Gibson",
   "license": "GPL-3.0",
   "scripts": {
-    "migrate": "node --harmony ./node_modules/.bin/migrate up",
     "serve": "DEBUG=canyons-api nodemon --use_strict start.js"
   },
   "dependencies": {
