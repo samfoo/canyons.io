@@ -12,6 +12,8 @@ down:
 	docker-compose stop
 	docker-compose rm -f -v
 
+restart: down up
+
 migrate:
 	docker-compose run migrations sql-migrate status -config /migrations/dbconfig.yml -env production
 	docker-compose run migrations sql-migrate up -config /migrations/dbconfig.yml -env production

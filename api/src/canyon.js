@@ -22,11 +22,9 @@ router.post("/", (req, res) => {
             canyons.name.value(c.name),
             canyons.access.value(c.access),
             canyons.notes.value(c.notes)
-        ).toString();
+        ).returning("*").toString();
 
-        console.log("insert is", insert);
-
-        db.query(insert).then((r) => res.status(200).send(r))
+        db.query(insert).then((r) => res.status(200).send(r[0]))
                         .catch((err) => res.status(500).send({error: err}));
     } else {
         res.status(400).send({
