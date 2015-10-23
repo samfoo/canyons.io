@@ -7,6 +7,8 @@ web:
     volumes:
         - ./web:/canyons-web
         - /canyons-web/node_modules
+        - ./models:/models
+        - ./models:/canyons-web/node_modules/models
     environment:
         NODE_DEBUG: canyon-web
     command: bash -c 'cd /canyons-web; ./node_modules/.bin/nodemon -V --use_strict -L /canyons-web/server.js'

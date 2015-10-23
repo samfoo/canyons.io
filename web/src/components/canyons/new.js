@@ -1,4 +1,5 @@
 import * as CanyonActions from "../../actions/canyon";
+import * as canyon from "models/canyon";
 import * as forms from "../forms";
 import Immutable from "immutable";
 import React from "react";
@@ -19,10 +20,20 @@ export default class NewCanyonForm extends React.Component {
 
     set(field) {
         return (e) => {
+            let updated = this.state.canyon.set(field, e.target.value);
+            let errors = Immutable.fromJS(canyon.validate(updated.toJS()));
+
+            let fieldErrors = errors.get(field, Immutable.Set(errors[field]));
+            updated = updated.setIn(["errors", field], fieldErrors);
+
             this.setState({
-                canyon: this.state.canyon.set(field, e.target.value)
+                canyon: updated
             });
         }.bind(this);
+    }
+
+    errors(field) {
+        return this.state.canyon.getIn(["errors", field], Immutable.Set());
     }
 
     render() {
@@ -35,6 +46,7 @@ export default class NewCanyonForm extends React.Component {
                     "Canyon Name",
                     "name",
                     {
+                        errors: this.errors("name"),
                         placeholder: "e.g. Claustral",
                         onChange: this.set("name")
                     }
@@ -44,6 +56,7 @@ export default class NewCanyonForm extends React.Component {
                     "Access",
                     "access",
                     {
+                        errors: this.errors("access"),
                         placeholder: "How do you get to the canyon entrance?",
                         onChange: this.set("access")
                     }
@@ -53,12 +66,13 @@ export default class NewCanyonForm extends React.Component {
                     "Track Notes",
                     "notes",
                     {
+                        errors: this.errors("notes"),
                         placeholder: "How do you get to the canyon, through it, and out?",
                         onChange: this.set("notes")
                     }
                 ),
 
-                d.button({onClick: this.submit.bind(this)}, "Create")
+                d.button({className: "submit", onClick: this.submit.bind(this)}, "Create")
             )
         )
     }

@@ -20,6 +20,7 @@
     "history": "^1.12.5",
     "immutable": "^3.7.5",
     "less": "^2.5.3",
+    "models": "file:../models",
     "morgan": "^1.6.1",
     "nodemon": "^1.7.1",
     "normalize.css": "^3.0.3",

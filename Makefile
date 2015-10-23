@@ -7,6 +7,7 @@ build:
 
 up:
 	docker-compose up -d
+	make migrate
 
 down:
 	docker-compose stop
@@ -35,6 +36,7 @@ lint:
 	eslint api/src/**/*.js
 
 watch-client:
+	(cd web && npm link ../models)
 	(cd web && webpack --watch)
 
 watch-styles:

@@ -3,21 +3,36 @@ import ReactDOM from "react-dom";
 
 var d = React.DOM;
 
-class Text extends React.Component {
+class Field extends React.Component {
+    errorClass() {
+        return this.hasErrors() ? "error" : "";
+    }
+
+    hasErrors() {
+        return !this.props.errors.isEmpty();
+    }
+
+    errorMessages() {
+        return this.props.errors.join(", ");
+    }
+}
+
+class Text extends Field {
     render() {
-        var inputProps = Object.assign(
-            {},
-            this.props,
-            {className: this.props.errorClass, type: "text"}
-        );
+        var inputProps = Object.assign({}, this.props, {type: "text"});
 
         return d.div(
-            {className: "field"},
+            {className: ["field", this.errorClass()].join(" ") },
             d.label({htmlFor: this.props.name}, this.props.label),
             d.input(inputProps),
             d.div(
-                {className: "error-message", style: this.props.errorStyle},
-                this.props.errorMessage
+                {
+                    className: "error-message",
+                    style: {
+                        display: this.hasErrors() ? "block" : "none"
+                    }
+                },
+                this.errorMessages()
             )
         );
     }
@@ -116,18 +131,20 @@ class TextAreaAutoresize extends React.Component {
     }
 }
 
-class TextArea extends React.Component {
+class TextArea extends Field {
     render() {
         return d.div(
-            {className: "field"},
-
+            {className: ["field", this.errorClass()].join(" ") },
             d.label({htmlFor: this.props.name}, this.props.label),
-
             React.createElement(TextAreaAutoresize, this.props),
-
             d.div(
-                {className: "error-message", style: this.props.errorStyle},
-                this.props.errorMessage
+                {
+                    className: "error-message",
+                    style: {
+                        display: this.hasErrors() ? "block" : "none"
+                    }
+                },
+                this.errorMessages()
             )
         );
     }
