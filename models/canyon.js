@@ -15,7 +15,7 @@ export const schema = {
             type: "string"
         },
 
-        trackNotes: {
+        notes: {
             required: true,
             allowEmpty: false,
             type: "string"

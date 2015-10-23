@@ -3,7 +3,7 @@ import * as canyon from "../canyon";
 import { expect } from "chai";
 
 describe("The canyon data model", () => {
-    const requiredFields = ["name", "access", "trackNotes"];
+    const requiredFields = ["name", "access", "notes"];
 
     requiredFields.forEach((field) => {
         describe("when " + field + " is not present", () => {

@@ -51,10 +51,10 @@ export default class NewCanyonForm extends React.Component {
 
                 forms.textarea(
                     "Track Notes",
-                    "track-notes",
+                    "notes",
                     {
                         placeholder: "How do you get to the canyon, through it, and out?",
-                        onChange: this.set("track-notes")
+                        onChange: this.set("notes")
                     }
                 ),
 
