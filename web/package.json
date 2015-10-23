@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "description": "A website for canyoneers to record their adventures.",
-  "main": "start.js",
+  "main": "server.js",
   "author": "Sam Gibson",
   "license": "GPL-3.0",
   "scripts": {
-    "serve": "DEBUG=canyons nodemon --use_strict server.js",
-    "lint": "./node_modules/.bin/eslint src/**/*.js"
+    "serve": "DEBUG=canyons nodemon --use_strict server.js"
   },
   "dependencies": {
     "axios": "^0.7.0",

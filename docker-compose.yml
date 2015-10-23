@@ -19,6 +19,8 @@ api:
     volumes:
         - ./api:/canyons-api
         - /canyons-api/node_modules
+        - ./models:/models
+        - ./models:/canyons-api/node_modules/models
     environment:
         NODE_DEBUG: canyon-api
     command: bash -c 'cd /canyons-api; ./node_modules/.bin/nodemon -V --use_strict -L /canyons-api/server.js'

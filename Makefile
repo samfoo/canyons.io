@@ -1,3 +1,10 @@
+logs:
+	docker-compose logs
+
+build:
+	(cd models; docker build -t models .)
+	docker-compose build
+
 up:
 	docker-compose up -d
 
@@ -8,6 +15,9 @@ down:
 migrate:
 	docker-compose run migrations sql-migrate status -config /migrations/dbconfig.yml -env production
 	docker-compose run migrations sql-migrate up -config /migrations/dbconfig.yml -env production
+
+sh:
+	docker-compose run $(host) bash
 
 sql:
 	docker-compose run db sh -c 'exec psql -h db -U canyons'

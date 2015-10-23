@@ -54,8 +54,3 @@ app.use((req, res, next) => {
 
 app.use("/sessions", login.routes);
 app.use("/canyons", canyon.routes);
-
-app.use((err, req, res) => {
-    res.status(err.status || 500);
-    res.send({content: err.message});
-});

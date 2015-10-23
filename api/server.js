@@ -1,4 +1,16 @@
-require('babel/register');
+require('babel/register')({
+    ignore: function(filename) {
+        if (filename.indexOf("node_modules") > -1) {
+            if (filename.indexOf("node_modules/models") > -1) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+});
 
 var debug = require('debug')('canyons-api'),
     app = require('./src/server').app;
