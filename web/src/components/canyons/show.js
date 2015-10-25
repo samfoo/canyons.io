@@ -4,6 +4,7 @@ import * as forms from "../forms";
 import Immutable from "immutable";
 import React from "react";
 import { connect } from "react-redux";
+import { notFoundWhen } from "../decorators";
 
 var d = React.DOM;
 
@@ -13,6 +14,16 @@ export default class CanyonForm extends React.Component {
         CanyonActions.getCanyon
     ];
 
+    static exists = (props, store) => {
+        return store.getState().canyons.get(props.params.id);
+    };
+
+    canyon() {
+        const { canyons } = this.props;
+        return canyons.get(this.props.params.id);
+    }
+
+    @notFoundWhen((c) => !c.canyon())
     render() {
         const { canyons } = this.props;
         const canyon = canyons.get(this.props.params.id);

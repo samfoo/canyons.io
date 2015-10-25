@@ -14,12 +14,19 @@ const canyons = sql.define({
 });
 
 router.get("/:id", (req, res) => {
-    res.status(200).send({
-        id: req.params.id,
-        name: "Her",
-        access: "derp",
-        notes: "notes"
-    });
+    let select = canyons.select(canyons.star())
+                        .from(canyons)
+                        .where(canyons.id.equals(req.params.id))
+                        .toString();
+
+    db.query(select).then((r) => {
+                        if (r.length > 0) {
+                            res.status(200).send(r[0]);
+                        } else {
+                            res.status(404).end();
+                        }
+                    })
+                    .catch((err) => res.status(500).send({error: err}));
 });
 
 router.post("/", (req, res) => {
@@ -27,7 +34,7 @@ router.post("/", (req, res) => {
     let c = req.body;
 
     if (hasNo(errors)) {
-        var insert = canyons.insert(
+        let insert = canyons.insert(
             canyons.name.value(c.name),
             canyons.access.value(c.access),
             canyons.notes.value(c.notes)

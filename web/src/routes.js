@@ -23,6 +23,4 @@ var Root = React.createElement(
     r("*", NotFound)
 );
 
-export default [
-    Root
-];
+export default [ Root ];

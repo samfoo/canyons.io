@@ -8,9 +8,9 @@ import path from "path";
 import routes from "./routes";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { match, RoutingContext } from "react-router";
+import { match, RoutingContext, Router } from "react-router";
 import { renderToString } from "react-dom/server";
-import { promises } from "./reducers/middleware";
+import { promises, errors } from "./reducers/middleware";
 
 export var app = express();
 
@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use((req, res) => {
     const reducer = combineReducers(reducers);
-    const store = applyMiddleware(promises)(createStore)(reducer);
+    const store = applyMiddleware(promises, errors)(createStore)(reducer);
 
     match({routes, location: req.url}, (error, redir, props) => {
         if (error) {
@@ -61,6 +61,18 @@ app.use((req, res) => {
 
             loadDepState
                 .then(() => {
+                    let resourcesAllExist = props.components.reduce((all, comp) => {
+                        if (comp.exists) {
+                            return all && comp.exists(props, store);
+                        } else {
+                            return all;
+                        }
+                    }, true);
+
+                    if (!resourcesAllExist) {
+                        res.status(404);
+                    }
+
                     const app = React.createElement(
                         Provider,
                         {store: store},
@@ -74,10 +86,10 @@ app.use((req, res) => {
                         layout(html, store.getState())
                     );
                 })
-                .catch((err) => res.status(500).end(err.stack));
-
-        } else {
-            res.status(404).send("not found");
+                .catch((err) => {
+                    console.log(err);
+                    res.status(500).end(err.stack)
+                });
         }
     });
 });

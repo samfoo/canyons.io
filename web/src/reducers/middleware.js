@@ -10,14 +10,23 @@ export function promises() {
 
         next({ ...rest, type: REQUEST });
 
-        return promise
-      .then(res => {
-          next({ ...rest, res, type: SUCCESS });
-          return res.data;
-      })
-      .catch(error => {
-          next({ ...rest, error, type: FAILURE });
-          return error;
-      });
+        return promise.then(res => {
+            next({ ...rest, res, type: SUCCESS });
+            return res.data;
+        })
+        .catch(error => {
+            next({ ...rest, error, type: FAILURE });
+            return error;
+        });
     };
+}
+
+export function errors() {
+    return (next) => (action) => {
+        if (action.error) {
+            console.error(action);
+        } else {
+            return next(action);
+        }
+    }
 }
