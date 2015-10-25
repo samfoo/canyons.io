@@ -10,7 +10,7 @@ import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { match, RoutingContext, Router } from "react-router";
 import { renderToString } from "react-dom/server";
-import { promises, errors } from "./reducers/middleware";
+import { promises } from "./reducers/middleware";
 
 export var app = express();
 
@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use((req, res) => {
     const reducer = combineReducers(reducers);
-    const store = applyMiddleware(promises, errors)(createStore)(reducer);
+    const store = applyMiddleware(promises)(createStore)(reducer);
 
     match({routes, location: req.url}, (error, redir, props) => {
         if (error) {
@@ -87,7 +87,7 @@ app.use((req, res) => {
                     );
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.log(err.stack);
                     res.status(500).end(err.stack)
                 });
         }

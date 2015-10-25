@@ -20,13 +20,3 @@ export function promises() {
         });
     };
 }
-
-export function errors() {
-    return (next) => (action) => {
-        if (action.error) {
-            console.error(action);
-        } else {
-            return next(action);
-        }
-    }
-}

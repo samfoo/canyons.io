@@ -8,7 +8,7 @@ export default class NotFound extends React.Component {
     render() {
         return d.div(
             {},
-            "not found"
+            "not found, please try again "
         );
     }
 }

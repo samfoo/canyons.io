@@ -12,7 +12,7 @@ require('babel/register')({
     }
 });
 
-var debug = require("debug")("canyons-web"),
+var debug = require("debug")("canyons"),
     app = require("./src/server").app;
 
 app.set("port", process.env.PORT || 3000);

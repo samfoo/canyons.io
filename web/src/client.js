@@ -7,7 +7,7 @@ import routes from "./routes";
 import { Provider } from "react-redux";
 import { Router } from "react-router";
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { promises, errors } from "./reducers/middleware";
+import { promises } from "./reducers/middleware";
 
 const history = createBrowserHistory();
 const initialState = window.__INITIAL_STATE__;
@@ -19,7 +19,7 @@ Object
     });
 
 const reducer = combineReducers(reducers);
-const store = applyMiddleware(promises, errors)(createStore)(reducer, initialState);
+const store = applyMiddleware(promises)(createStore)(reducer, initialState);
 
 ReactDOM.render(
     React.createElement(
