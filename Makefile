@@ -38,7 +38,7 @@ lint:
 
 watch-client:
 	(cd web && npm link ../models)
-	(cd web && webpack --watch)
+	(cd web && webpack --watch -p --optimize-dedupe -d)
 
 watch-styles:
 	fswatch -i "\\.less" -e ".*" -o ./web/src | xargs -n1 -I{} make styles

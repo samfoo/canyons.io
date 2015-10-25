@@ -1,6 +1,4 @@
 import * as CanyonActions from "../../actions/canyon";
-import * as canyon from "models/canyon";
-import * as forms from "../forms";
 import Immutable from "immutable";
 import React from "react";
 import { connect } from "react-redux";
