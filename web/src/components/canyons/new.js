@@ -3,19 +3,27 @@ import * as canyon from "models/canyon";
 import * as forms from "../forms";
 import Immutable from "immutable";
 import React from "react";
+import { Router } from "react-router";
+import { connect } from "react-redux";
 
 var d = React.DOM;
 
-export default class NewCanyonForm extends React.Component {
-    constructor(props) {
-        super(props);
+@connect(state => state)
+export default class CanyonForm extends React.Component {
+    constructor(props, context) {
+        super(props, context);
         this.state = { canyon: new Immutable.Map() };
     }
 
     submit(e) {
+        const { dispatch } = this.props;
+
         e.preventDefault();
         e.stopPropagation();
-        CanyonActions.createCanyon(this.state.canyon);
+
+        dispatch(CanyonActions.createCanyon(this.state.canyon)).then((c) => {
+            this.props.history.pushState({}, `/canyons/${c.id}`);
+        });
     }
 
     set(field) {

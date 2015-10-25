@@ -1,5 +1,6 @@
 import * as UserActions from "../actions/user";
 import React from "react";
+import { Link } from "react-router";
 import { connect } from "react-redux";
 
 var d = React.DOM;
@@ -17,13 +18,21 @@ export default class Application extends React.Component {
         if (users.has("current")) {
             header = d.header(
                 {id: "site-header"},
+                d.span(
+                    {id: "logo"},
+                    React.createElement(Link, {to: "/"}, "canyons.io")
+                ),
                 "Hello, ",
                 users.getIn(["current", "name"])
             );
         } else {
             header = d.header(
                 {id: "site-header"},
-                d.a({}, "login")
+                d.span(
+                    {id: "logo"},
+                    React.createElement(Link, {to: "/"}, "canyons.io")
+                ),
+                React.createElement(Link, {to: "/login"}, "login")
             );
         }
 

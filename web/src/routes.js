@@ -1,22 +1,28 @@
+import App from "./components/application";
+import CanyonForm from "./components/canyons/new";
+import CanyonShow from "./components/canyons/show";
+import Home from "./components/home";
+import NotFound from "./components/not-found";
 import React from "react";
 import { IndexRoute, Route } from "react-router";
-import App from "./components/application";
-import Home from "./components/home";
-import NewCanyonForm from "./components/canyons/new";
+
+const r = (path, comp) => {
+    return React.createElement(Route, {path: path, component: comp});
+};
+
+const home = () => React.createElement(IndexRoute, {component: Home});
 
 var Root = React.createElement(
     Route,
     {path: "/", component: App},
-    React.createElement(IndexRoute, {component: Home})
-);
 
-var CanyonsNew = React.createElement(
-    Route,
-    {path: "/canyons/new", component: App},
-    React.createElement(IndexRoute, {component: NewCanyonForm})
+    // Application routes
+    home(),
+    r("/canyons/new", CanyonForm),
+    r("/canyons/:id", CanyonShow),
+    r("*", NotFound)
 );
 
 export default [
-    Root,
-    CanyonsNew
+    Root
 ];

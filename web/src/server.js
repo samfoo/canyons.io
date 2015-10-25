@@ -57,7 +57,7 @@ app.use((req, res) => {
                 return deps.union(compDeps);
             }, new Immutable.Set());
 
-            let loadDepState = Promise.all(allDeps.map((d) => store.dispatch(d())));
+            let loadDepState = Promise.all(allDeps.map((d) => store.dispatch(d(props.params))));
 
             loadDepState
                 .then(() => {

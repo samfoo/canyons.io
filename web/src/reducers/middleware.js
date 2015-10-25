@@ -13,11 +13,11 @@ export function promises() {
         return promise
       .then(res => {
           next({ ...rest, res, type: SUCCESS });
-          return true;
+          return res.data;
       })
       .catch(error => {
           next({ ...rest, error, type: FAILURE });
-          return false;
+          return error;
       });
     };
 }

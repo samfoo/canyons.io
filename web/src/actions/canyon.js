@@ -8,3 +8,10 @@ export function createCanyon(canyon) {
     };
 }
 
+export function getCanyon(params) {
+    return {
+        type: "GET_CANYON",
+        promise: request.get(api("canyons/" + params.id))
+    };
+}
+

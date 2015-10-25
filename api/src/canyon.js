@@ -13,6 +13,15 @@ const canyons = sql.define({
     columns: ["id", "name", "access", "notes"]
 });
 
+router.get("/:id", (req, res) => {
+    res.status(200).send({
+        id: req.params.id,
+        name: "Her",
+        access: "derp",
+        notes: "notes"
+    });
+});
+
 router.post("/", (req, res) => {
     let errors = canyon.validate(req.body);
     let c = req.body;
