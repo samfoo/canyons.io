@@ -17,6 +17,6 @@ export const notFoundWhen = (test) => (target, name, descriptor) => {
                 return render.bind(this);
             }
         }
-    }
-}
+    };
+};
 

@@ -34,6 +34,7 @@ client:
 lint:
 	eslint web/src/**/*.js
 	eslint api/src/**/*.js
+	eslint models/*.js
 
 watch-client:
 	(cd web && npm link ../models)

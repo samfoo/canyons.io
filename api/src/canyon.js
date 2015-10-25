@@ -20,13 +20,13 @@ router.get("/:id", (req, res) => {
                         .toString();
 
     db.query(select).then((r) => {
-                        if (r.length > 0) {
-                            res.status(200).send(r[0]);
-                        } else {
-                            res.status(404).end();
-                        }
-                    })
-                    .catch((err) => res.status(500).send({error: err}));
+        if (r.length > 0) {
+            res.status(200).send(r[0]);
+        } else {
+            res.status(404).end();
+        }
+    })
+    .catch((err) => res.status(500).send({error: err}));
 });
 
 router.post("/", (req, res) => {
