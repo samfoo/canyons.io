@@ -13,6 +13,18 @@ const canyons = sql.define({
     columns: ["id", "name", "access", "notes"]
 });
 
+router.get("/", (req, res) => {
+    let select = canyons.select(canyons.star())
+                        .from(canyons)
+                        .limit(10)
+                        .toString();
+
+    db.query(select).then((r) => {
+        res.status(200).send(r);
+    })
+    .catch((err) => res.status(500).send({error: err}));
+});
+
 router.get("/:id", (req, res) => {
     let select = canyons.select(canyons.star())
                         .from(canyons)

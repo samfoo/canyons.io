@@ -27,7 +27,7 @@ ReactDOM.render(
         {store: store},
         React.createElement(
             Router,
-            {children: routes, history: history}
+            {children: routes(store), history: history}
         )
     ),
     document.getElementById("render")

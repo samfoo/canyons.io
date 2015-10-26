@@ -15,3 +15,10 @@ export function getCanyon(params) {
     };
 }
 
+export function getCanyons() {
+    return {
+        type: "GET_CANYONS",
+        promise: request.get(api("canyons"))
+    };
+}
+

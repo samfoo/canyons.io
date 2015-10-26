@@ -41,7 +41,7 @@ app.use((req, res) => {
     const reducer = combineReducers(reducers);
     const store = applyMiddleware(promises)(createStore)(reducer);
 
-    match({routes, location: req.url}, (error, redir, props) => {
+    match({routes: routes(store), location: req.url}, (error, redir, props) => {
         if (error) {
             res.status(500).send(error);
         } else if (redir) {
