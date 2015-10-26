@@ -8,7 +8,14 @@ import { IndexRoute, Route } from "react-router";
 
 export default function(store) {
     const r = (path, comp) => {
-        return React.createElement(Route, {path: path, component: comp});
+        let onEnter = comp.onEnter;
+
+        let props = { path: path, component: comp };
+        if (onEnter) {
+            props.onEnter = onEnter(store);
+        }
+
+        return React.createElement(Route, props);
     };
 
     const home = () => {
@@ -20,9 +27,8 @@ export default function(store) {
 
     var Root = React.createElement(
         Route,
-        {path: "/", component: App},
+        {path: "/", component: App, onEnter: App.onEnter(store)},
 
-        // Application routes
         home(),
         r("/canyons/new", CanyonForm),
         r("/canyons/:id", CanyonShow),

@@ -1,37 +1,12 @@
 import * as CanyonActions from "../../actions/canyon";
 import React from "react";
+import { fetch } from "../../decorators";
 import { connect } from "react-redux";
 
 var d = React.DOM;
 
-const fetch = function(fn) {
-    return DecoratedComponent => class ConnctorDecorate extends React.Component {
-        static DecoratedComponent = DecoratedComponent;
-
-        static onEnter = store => {
-            return (state, _, callback) => {
-                let load = fn(store, state);
-
-                if (typeof load !== 'undefined') {
-                    load
-                        .then(() => callback())
-                        .catch(err => callback(err));
-                } else {
-                    callback();
-                }
-            }
-        }
-
-        render() {
-            return React.createElement(
-                DecoratedComponent, {...this.props}
-            );
-        }
-    };
-};
-
-@fetch((store, r) => {
-    let loaded = store.getState().canyons.get("@@server/list");
+@fetch((store) => {
+    let loaded = store.getState().canyons.getIn(["meta", "@@loaded/list"]);
 
     if (!loaded) {
         return store.dispatch(CanyonActions.getCanyons())

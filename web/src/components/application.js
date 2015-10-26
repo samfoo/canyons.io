@@ -2,15 +2,19 @@ import * as UserActions from "../actions/user";
 import React from "react";
 import { Link } from "react-router";
 import { connect } from "react-redux";
+import { fetch } from "../decorators";
 
 var d = React.DOM;
 
+@fetch((store, r) => {
+    let loaded = store.getState().users.getIn(["meta", "@@loaded/current"]);
+
+    if (!loaded) {
+        return store.dispatch(UserActions.getCurrentUser())
+    }
+})
 @connect(state => ({users: state.users}))
 export default class Application extends React.Component {
-    static deps = [
-        UserActions.getCurrentUser
-    ];
-
     render() {
         const { users } = this.props;
 

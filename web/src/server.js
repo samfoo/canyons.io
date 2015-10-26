@@ -47,49 +47,28 @@ app.use((req, res) => {
         } else if (redir) {
             res.redirect(302, redir.pathname + redir.search);
         } else if (props) {
-            let allDeps = props.components.reduce((deps, comp) => {
-                let compDeps = comp.deps || [];
-
-                if (comp.WrappedComponent) {
-                    compDeps.concat(comp.WrappedComponent.deps || []);
+            let resourcesAllExist = props.components.reduce((all, comp) => {
+                if (comp.exists) {
+                    return all && comp.exists(props, store);
+                } else {
+                    return all;
                 }
+            }, true);
 
-                return deps.union(compDeps);
-            }, new Immutable.Set());
+            if (!resourcesAllExist) {
+                res.status(404);
+            }
 
-            let loadDepState = Promise.all(allDeps.map((d) => store.dispatch(d(props.params))));
+            const app = React.createElement(
+                Provider,
+                {store: store},
+                React.createElement(RoutingContext, props)
+            );
 
-            loadDepState
-                .then(() => {
-                    let resourcesAllExist = props.components.reduce((all, comp) => {
-                        if (comp.exists) {
-                            return all && comp.exists(props, store);
-                        } else {
-                            return all;
-                        }
-                    }, true);
-
-                    if (!resourcesAllExist) {
-                        res.status(404);
-                    }
-
-                    const app = React.createElement(
-                        Provider,
-                        {store: store},
-                        React.createElement(RoutingContext, props)
-                    );
-
-                    return renderToString(app);
-                })
-                .then((html) => {
-                    res.end(
-                        layout(html, store.getState())
-                    );
-                })
-                .catch((err) => {
-                    console.log(err.stack);
-                    res.status(500).end(err.stack)
-                });
+            const html = renderToString(app);
+            res.end(
+                layout(html, store.getState())
+            );
         }
     });
 });
