@@ -1,5 +1,4 @@
 import * as reducers from "./reducers";
-import Immutable from "immutable";
 import NotFound from "./components/not-found";
 import React from "react";
 import cookieParser from "cookie-parser";
@@ -10,7 +9,7 @@ import routes from "./routes";
 import { Provider } from "react-redux";
 import { addLoaded } from "./utils/enhancers";
 import { compose, createStore, combineReducers, applyMiddleware } from "redux";
-import { match, RoutingContext, Router } from "react-router";
+import { match, RoutingContext } from "react-router";
 import { promises } from "./reducers/middleware";
 import { renderToString } from "react-dom/server";
 
@@ -78,6 +77,6 @@ app.use((req, res) => {
 app.use((err, req, res) => {
     res.status(err.status || 500);
     res.send(layout({
-        content: err.message
+        content: err.stack
     }));
 });

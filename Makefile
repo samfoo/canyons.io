@@ -32,7 +32,9 @@ client:
 	(cd web && webpack)
 
 lint:
+	eslint web/src/*.js
 	eslint web/src/**/*.js
+	eslint api/src/*.js
 	eslint api/src/**/*.js
 	eslint models/*.js
 

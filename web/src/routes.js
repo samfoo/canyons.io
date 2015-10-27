@@ -23,7 +23,7 @@ export default function(store) {
             component: Home,
             onEnter: Home.onEnter(store)
         });
-    }
+    };
 
     var Root = React.createElement(
         Route,
