@@ -1,5 +1,6 @@
 import * as reducers from "./reducers";
 import Immutable from "immutable";
+import NotFound from "./components/not-found";
 import React from "react";
 import cookieParser from "cookie-parser";
 import express from "express";
@@ -7,11 +8,11 @@ import logger from "morgan";
 import path from "path";
 import routes from "./routes";
 import { Provider } from "react-redux";
+import { addLoaded } from "./utils/enhancers";
 import { compose, createStore, combineReducers, applyMiddleware } from "redux";
 import { match, RoutingContext, Router } from "react-router";
-import { renderToString } from "react-dom/server";
 import { promises } from "./reducers/middleware";
-import { addLoaded } from "./utils/enhancers";
+import { renderToString } from "react-dom/server";
 
 export var app = express();
 
@@ -47,22 +48,20 @@ app.use((req, res) => {
 
     match({routes: routes(store), location: req.url}, (error, redir, props) => {
         if (error) {
-            res.status(500).send(error);
+            if (error.type === "not-found") {
+                res.status(404);
+                store.getState().error = 404;
+
+                const app = React.createElement(NotFound, {});
+                const html = renderToString(app);
+
+                res.end(layout(html, store.getState()));
+            } else {
+                res.status(500).end("server error");
+            }
         } else if (redir) {
             res.redirect(302, redir.pathname + redir.search);
         } else if (props) {
-            let resourcesAllExist = props.components.reduce((all, comp) => {
-                if (comp.exists) {
-                    return all && comp.exists(props, store);
-                } else {
-                    return all;
-                }
-            }, true);
-
-            if (!resourcesAllExist) {
-                res.status(404);
-            }
-
             const app = React.createElement(
                 Provider,
                 {store: store},

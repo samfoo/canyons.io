@@ -16,7 +16,7 @@ export function promises() {
         })
         .catch(error => {
             next({ ...rest, error, type: FAILURE });
-            return error;
+            return Promise.reject(error);
         });
     };
 }

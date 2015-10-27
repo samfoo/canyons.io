@@ -7,10 +7,10 @@ export const addLoaded = (next) => (reducer, initialState) => {
             var [top, ...rest] = path.split(".");
 
             if (store.getState()[top]) {
-                return store.getState()[top].getIn(["meta", `@@loaded/${rest.join('/')}`]);
+                return store.getState()[top].getIn(["meta", `@@loaded/${rest.join("/")}`]);
             } else {
                 return false;
             }
         }
-    }
+    };
 };

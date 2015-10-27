@@ -2,11 +2,11 @@ import * as CanyonActions from "../../actions/canyon";
 import Immutable from "immutable";
 import React from "react";
 import { connect } from "react-redux";
-import { fetch } from "../../decorators";
-import { notFoundWhen } from "../decorators";
+import { fetch, resourceRequired } from "../../decorators";
 
 var d = React.DOM;
 
+@resourceRequired((store, r) => store.loaded(`canyons.ids.${r.params.id}`))
 @fetch((store, r) => {
     if (!store.loaded(`canyons.ids.${r.params.id}`)) {
         return store.dispatch(CanyonActions.getCanyon(r.params))
@@ -23,7 +23,6 @@ export default class CanyonForm extends React.Component {
         return canyons.getIn(["ids", this.props.params.id]);
     }
 
-    @notFoundWhen((c) => !c.canyon())
     render() {
         return d.div(
             {className: "canyon"},

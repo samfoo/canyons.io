@@ -1,14 +1,15 @@
 import * as reducers from "./reducers";
 import Immutable from "immutable";
+import NotFound from "./components/not-found";
 import React from "react";
 import ReactDOM from "react-dom";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 import routes from "./routes";
 import { Provider } from "react-redux";
 import { Router } from "react-router";
+import { addLoaded } from "./utils/enhancers";
 import { compose, createStore, combineReducers, applyMiddleware } from "redux";
 import { promises } from "./reducers/middleware";
-import { addLoaded } from "./utils/enhancers";
 
 const history = createBrowserHistory();
 const initialState = window.__INITIAL_STATE__;
@@ -25,14 +26,21 @@ const store = compose(
     applyMiddleware(promises)
 )(createStore)(reducer, initialState);
 
-ReactDOM.render(
-    React.createElement(
-        Provider,
-        {store: store},
+if (store.getState().error == 404) {
+    ReactDOM.render(
+        React.createElement(NotFound, {}),
+        document.getElementById("render")
+    );
+} else {
+    ReactDOM.render(
         React.createElement(
-            Router,
-            {children: routes(store), history: history}
-        )
-    ),
-    document.getElementById("render")
-);
+            Provider,
+            {store: store},
+            React.createElement(
+                Router,
+                {children: routes(store), history: history}
+            )
+        ),
+        document.getElementById("render")
+    );
+}

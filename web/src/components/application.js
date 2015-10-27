@@ -6,9 +6,9 @@ import { fetch } from "../decorators";
 
 var d = React.DOM;
 
-@fetch((store, r) => {
+@fetch((store) => {
     if (!store.loaded("users.current")) {
-        return store.dispatch(UserActions.getCurrentUser())
+        return store.dispatch(UserActions.getCurrentUser());
     }
 })
 @connect(state => ({users: state.users}))
