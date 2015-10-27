@@ -7,9 +7,7 @@ import { fetch } from "../decorators";
 var d = React.DOM;
 
 @fetch((store, r) => {
-    let loaded = store.getState().users.getIn(["meta", "@@loaded/current"]);
-
-    if (!loaded) {
+    if (!store.loaded("users.current")) {
         return store.dispatch(UserActions.getCurrentUser())
     }
 })

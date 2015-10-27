@@ -7,10 +7,11 @@ import logger from "morgan";
 import path from "path";
 import routes from "./routes";
 import { Provider } from "react-redux";
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { compose, createStore, combineReducers, applyMiddleware } from "redux";
 import { match, RoutingContext, Router } from "react-router";
 import { renderToString } from "react-dom/server";
 import { promises } from "./reducers/middleware";
+import { addLoaded } from "./utils/enhancers";
 
 export var app = express();
 
@@ -39,7 +40,10 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use((req, res) => {
     const reducer = combineReducers(reducers);
-    const store = applyMiddleware(promises)(createStore)(reducer);
+    const store = compose(
+        addLoaded,
+        applyMiddleware(promises)
+    )(createStore)(reducer);
 
     match({routes: routes(store), location: req.url}, (error, redir, props) => {
         if (error) {
@@ -66,9 +70,8 @@ app.use((req, res) => {
             );
 
             const html = renderToString(app);
-            res.end(
-                layout(html, store.getState())
-            );
+
+            res.end(layout(html, store.getState()));
         }
     });
 });

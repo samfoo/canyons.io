@@ -6,9 +6,7 @@ import { connect } from "react-redux";
 var d = React.DOM;
 
 @fetch((store) => {
-    let loaded = store.getState().canyons.getIn(["meta", "@@loaded/list"]);
-
-    if (!loaded) {
+    if (!store.loaded("canyons.list")) {
         return store.dispatch(CanyonActions.getCanyons())
     }
 })

@@ -8,10 +8,7 @@ import { notFoundWhen } from "../decorators";
 var d = React.DOM;
 
 @fetch((store, r) => {
-    let id = r.params.id;
-    let loaded = store.getState().canyons.getIn(["meta", `@@loaded/ids/${id}`]);
-
-    if (!loaded) {
+    if (!store.loaded(`canyons.ids.${r.params.id}`)) {
         return store.dispatch(CanyonActions.getCanyon(r.params))
     }
 })
