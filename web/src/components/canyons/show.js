@@ -8,9 +8,17 @@ var d = React.DOM;
 
 @resourceRequired((store, r) => store.loaded(`canyons.ids.${r.params.id}`))
 @fetch((store, r) => {
-    if (!store.loaded(`canyons.ids.${r.params.id}`)) {
-        return store.dispatch(CanyonActions.getCanyon(r.params))
+    let resources = [];
+
+    if (!store.loaded(`canyons.images.ids.${r.params.id}`)) {
+        // todo: resolve to default image when 404
+        resources.push(store.dispatch(CanyonActions.getCanyonImages(r.params.id)));
     }
+    if (!store.loaded(`canyons.ids.${r.params.id}`)) {
+        resources.push(store.dispatch(CanyonActions.getCanyon(r.params.id)));
+    }
+
+    return Promise.all(resources);
 })
 @connect(state => ({canyons: state.canyons}))
 export default class CanyonForm extends React.Component {
@@ -23,9 +31,17 @@ export default class CanyonForm extends React.Component {
         return canyons.getIn(["ids", this.props.params.id]);
     }
 
+    images() {
+        const { canyons } = this.props;
+        return canyons.getIn(["images", "ids", this.props.params.id]);
+    }
+
     render() {
         return d.div(
             {className: "canyon"},
+
+            d.img({className: "cover", src: this.images().first().get("secure_url")}),
+
             d.h1({className: "name"}, this.canyon().get("name")),
 
             d.h2({}, "Access"),

@@ -42,6 +42,22 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(500).send({error: err}));
 });
 
+router.get("/:id/images", (req, res) => {
+    let select = canyonImages.select(canyonImages.cloudinary_response)
+                            .from(canyonImages)
+                            .where(canyonImages.canyon_id.equals(req.params.id))
+                            .toString();
+
+    db.query(select).then((r) => {
+        if (r.length > 0) {
+            res.status(200).send(r.map(i => i.cloudinary_response));
+        } else {
+            res.status(404).end();
+        }
+    })
+    .catch((err) => res.status(500).send({error: err}));
+});
+
 router.get("/:id", (req, res) => {
     let select = canyons.select(canyons.star())
                         .from(canyons)
@@ -98,8 +114,6 @@ router.post("/", (req, res) => {
                 res.status(200).send(r)
             })
             .catch((err) => {
-                console.log(err);
-                console.log(err.stack);
                 res.status(500).send({error: err})
             });
         });

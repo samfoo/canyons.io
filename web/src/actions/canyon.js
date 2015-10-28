@@ -8,10 +8,18 @@ export function createCanyon(canyon) {
     };
 }
 
-export function getCanyon(params) {
+export function getCanyonImages(id) {
+    return {
+        type: "GET_CANYON_IMAGES",
+        canyonId: id,
+        promise: request.get(api(`canyons/${id}/images`))
+    };
+}
+
+export function getCanyon(id) {
     return {
         type: "GET_CANYON",
-        promise: request.get(api("canyons/" + params.id))
+        promise: request.get(api("canyons/" + id))
     };
 }
 
