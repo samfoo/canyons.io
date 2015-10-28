@@ -15,7 +15,8 @@ export default function canyonReducer(state=defaultState, action) {
             .setIn(["meta", "@@loaded/list"], true);
     case "GET_CANYON_IMAGES":
         return state
-            .setIn(["images", "ids", action.canyonId], Immutable.fromJS(action.res.data));
+            .setIn(["images", "ids", action.canyonId], Immutable.fromJS(action.res.data))
+            .setIn(["meta", `@@loaded/images/ids/${action.canyonId}`], true);
     default:
         return state;
     }

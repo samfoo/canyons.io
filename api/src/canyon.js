@@ -6,14 +6,14 @@ import express from "express";
 import sql from "sql";
 
 if (typeof process.env.CLOUDINARY_API_KEY == "undefined" ||
-    typeof process.env.CLOUDINARY_API_SECRET == "undefined") {
+    typeof process.env.CLOUDINARY_SECRET_KEY == "undefined") {
     throw new Error("please make sure CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET are set on the environment");
 }
 
 cloudinary.config({ 
     cloud_name: "adventure",
     api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRECT
+    api_secret: process.env.CLOUDINARY_SECRET_KEY
 });
 
 const router = express.Router();

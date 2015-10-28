@@ -17,7 +17,7 @@ api:
     ports:
         - "5678:5678"
     extends:
-        file: ./secres.yml
+        file: ./secrets.yml
         service: api
     links:
         - db

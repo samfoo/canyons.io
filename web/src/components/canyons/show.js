@@ -14,11 +14,14 @@ var d = React.DOM;
         // todo: resolve to default image when 404
         resources.push(store.dispatch(CanyonActions.getCanyonImages(r.params.id)));
     }
+
     if (!store.loaded(`canyons.ids.${r.params.id}`)) {
         resources.push(store.dispatch(CanyonActions.getCanyon(r.params.id)));
     }
 
-    return Promise.all(resources);
+    if (resources.length > 0 ) {
+        return Promise.all(resources);
+    }
 })
 @connect(state => ({canyons: state.canyons}))
 export default class CanyonForm extends React.Component {
