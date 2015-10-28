@@ -56,7 +56,7 @@ app.use((req, res) => {
 
                 res.end(layout(html, store.getState()));
             } else {
-                res.status(500).end("server error");
+                res.status(500).end("server error\n" + error.stack);
             }
         } else if (redir) {
             res.redirect(302, redir.pathname + redir.search);

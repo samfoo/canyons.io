@@ -50,6 +50,11 @@ export default class CanyonForm extends React.Component {
             d.form(
                 {action: "/canyons", method: "POST", onSubmit: this.submit.bind(this)},
 
+                forms.imageUploader(
+                    "Add a cover photo",
+                    { onChange: this.set("cover") }
+                ),
+
                 forms.text(
                     "Canyon Name",
                     "name",

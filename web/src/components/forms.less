@@ -91,3 +91,92 @@ label {
         }
     }
 }
+
+.file-upload {
+    position: relative;
+
+    &:hover:after {
+        position: absolute;
+        content: ' ';
+        border: 5px solid @drop-area-color;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
+
+.upload {
+    position: relative;
+    text-align: center;
+    height: 33vh;
+    padding: 40px 0;
+
+    input[type="file"] {
+        display: none;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.dragging:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        content: ' ';
+        opacity: 0.9;
+        border: 5px solid lightgray;
+        background-color: white;
+    }
+
+    &.finished {
+        .map-canvas {
+            opacity: 1;
+            z-index: 0;
+        }
+
+        .title {
+            display: none;
+        }
+    }
+
+    &.error .error-message {
+        display: block;
+    }
+
+    .title {
+        color: white;
+        font-size: 48px;
+        font-weight: 300;
+        margin-top: 0;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+    }
+
+    .error-message {
+        display: none;
+        color: @error-color;
+    }
+
+    .image-canvas {
+        background-image: url(../images/example-canyon.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        opacity: 0.95;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}

@@ -35,7 +35,7 @@ export var app = express();
 
 // TODO - make this environment dependent on how the app is started.
 app.use(logger("dev"));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: "3mb"}));
 app.use(
     session({
         secret: "TODO - Change me to an environment variable",
