@@ -26,8 +26,15 @@ export default class CanyonForm extends React.Component {
 
         if (errors.isEmpty()) {
             this.setState({submitting: true});
-            dispatch(CanyonActions.createCanyon(this.state.canyon)).then((c) => {
+            dispatch(CanyonActions.createCanyon(this.state.canyon)).then(c => {
                 this.props.history.pushState({}, `/canyons/${c.id}`);
+            })
+            .catch(e => {
+                console.log("caught the thing in the thing");
+                this.setState({
+                    error: e,
+                    submitting: false
+                });
             });
         } else {
             let updated = errors.reduce((c, msgs, field) => {
@@ -59,14 +66,26 @@ export default class CanyonForm extends React.Component {
     }
 
     render() {
+        var e = this.state.error ? `${this.state.error.statusText}: ${this.state.error.data.message}` : null;
+
         return d.div(
             {id: "new-canyon-form"},
             d.form(
                 {action: "/canyons", method: "POST", onSubmit: this.submit.bind(this)},
 
                 forms.imageUploader(
-                    "Add a cover photo",
+                    "Drag image to add a cover photo",
                     { onChange: this.set("cover") }
+                ),
+
+                d.div(
+                    {
+                        className: "notification error",
+                        style: {
+                            display: e ? "block" : "none"
+                        }
+                    },
+                    `There was an problem creating the canyon. ${e}`
                 ),
 
                 forms.text(
