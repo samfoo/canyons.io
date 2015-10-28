@@ -21,9 +21,21 @@ export default class CanyonForm extends React.Component {
         e.preventDefault();
         e.stopPropagation();
 
-        dispatch(CanyonActions.createCanyon(this.state.canyon)).then((c) => {
-            this.props.history.pushState({}, `/canyons/${c.id}`);
-        });
+        let errors = Immutable.fromJS(canyon.validate(this.state.canyon.toJS()));
+
+        if (errors.isEmpty()) {
+            dispatch(CanyonActions.createCanyon(this.state.canyon)).then((c) => {
+                this.props.history.pushState({}, `/canyons/${c.id}`);
+            });
+        } else {
+            let updated = errors.reduce((c, msgs, field) => {
+                return c.setIn(["errors", field], msgs);
+            }, this.state.canyon);
+
+            this.setState({
+                canyon: updated
+            });
+        }
     }
 
     set(field) {
