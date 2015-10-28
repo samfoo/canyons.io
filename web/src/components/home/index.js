@@ -41,7 +41,7 @@ export default class Home extends React.Component {
                     canyons.map((c) => d.li({key: c.get("id")},
                                             link({to: `/canyons/${c.get("id")}`}, c.get("name"))))
                 ),
-                d.button({}, link({to: "/canyons/new"}, "Add a new canyon"))
+                link({to: "/canyons/new"}, d.button({}, "Add a new canyon"))
             )
         );
     }
