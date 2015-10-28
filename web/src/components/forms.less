@@ -1,5 +1,6 @@
 @import "palette";
 @import "typography";
+@import "spinner";
 
 @field-separator: 35px;
 
@@ -8,13 +9,20 @@
     width: 100%;
 }
 
-.submit {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: auto;
-    position: relative;
+.submission {
+    display: flex;
     margin-top: 30px;
+    align-items: center;
+    justify-content: center;
+
+    .spinner {
+        display: inline-block;
+    }
+}
+
+.submit {
+    display: inline-block;
+    position: relative;
     font-size: @font-large;
 
     &.disabled, &.disabled:hover {
@@ -46,6 +54,14 @@ input, textarea {
     border-right-width: 0;
     border-left-width: 0;
     width: 100%;
+
+    &[disabled] {
+        color: @disabled-input-text-color;
+
+        &:hover {
+            border-color: @input-border-color;
+        }
+    }
 
     &:focus, &:focus:hover {
         border-color: @input-focus-border-color;

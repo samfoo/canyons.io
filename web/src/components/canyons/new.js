@@ -3,6 +3,7 @@ import * as canyon from "models/canyon";
 import * as forms from "../forms";
 import Immutable from "immutable";
 import React from "react";
+import spinner from "../spinner";
 import { Router } from "react-router";
 import { connect } from "react-redux";
 
@@ -24,6 +25,7 @@ export default class CanyonForm extends React.Component {
         let errors = Immutable.fromJS(canyon.validate(this.state.canyon.toJS()));
 
         if (errors.isEmpty()) {
+            this.setState({submitting: true});
             dispatch(CanyonActions.createCanyon(this.state.canyon)).then((c) => {
                 this.props.history.pushState({}, `/canyons/${c.id}`);
             });
@@ -73,7 +75,8 @@ export default class CanyonForm extends React.Component {
                     {
                         errors: this.errors("name"),
                         placeholder: "e.g. Claustral",
-                        onChange: this.set("name")
+                        onChange: this.set("name"),
+                        disabled: this.state.submitting
                     }
                 ),
 
@@ -83,7 +86,8 @@ export default class CanyonForm extends React.Component {
                     {
                         errors: this.errors("access"),
                         placeholder: "How do you get to the canyon entrance?",
-                        onChange: this.set("access")
+                        onChange: this.set("access"),
+                        disabled: this.state.submitting
                     }
                 ),
 
@@ -93,11 +97,26 @@ export default class CanyonForm extends React.Component {
                     {
                         errors: this.errors("notes"),
                         placeholder: "How do you get to the canyon, through it, and out?",
-                        onChange: this.set("notes")
+                        onChange: this.set("notes"),
+                        disabled: this.state.submitting
                     }
                 ),
 
-                d.button({className: "submit", onClick: this.submit.bind(this)}, "Create")
+                d.div(
+                    {className: "submission"},
+
+                    d.button({
+                        className: "submit " + (this.state.submitting ? "disabled" : ""),
+                        onClick: this.submit.bind(this),
+                        disabled: this.state.submitting
+                    }, "Create"),
+
+                    spinner({
+                        style: {
+                            display: this.state.submitting ? "inline-block" : "none"
+                        }
+                    })
+                )
             )
         )
     }
