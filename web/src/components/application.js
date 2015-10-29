@@ -17,24 +17,36 @@ export default class Application extends React.Component {
         const { users } = this.props;
 
         let header;
-        if (users.has("current")) {
+        if (users.hasIn(["current", "name"])) {
             header = d.header(
                 {id: "site-header"},
-                d.span(
-                    {id: "logo"},
-                    React.createElement(Link, {to: "/"}, "canyons.io")
-                ),
-                "Hello, ",
-                users.getIn(["current", "name"])
+                d.div(
+                    {},
+                    d.span(
+                        {id: "logo"},
+                        React.createElement(Link, {to: "/"}, "canyons.io")
+                    ),
+                    d.span(
+                        {id: "account-actions"},
+                        "Hello, ",
+                        users.getIn(["current", "name"])
+                    )
+                )
             );
         } else {
             header = d.header(
                 {id: "site-header"},
-                d.span(
-                    {id: "logo"},
-                    React.createElement(Link, {to: "/"}, "canyons.io")
-                ),
-                React.createElement(Link, {to: "/login"}, "login")
+                d.div(
+                    {},
+                    d.span(
+                        {id: "logo"},
+                        React.createElement(Link, {to: "/"}, "canyons.io")
+                    ),
+                    d.span(
+                        {id: "account-actions"},
+                        React.createElement(Link, {to: "/login"}, "login")
+                    )
+                )
             );
         }
 

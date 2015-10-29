@@ -7,3 +7,13 @@ export function getCurrentUser() {
         promise: request.get(api("sessions"))
     };
 }
+
+export function login(email, pass) {
+    return {
+        type: "LOGIN_USER",
+        promise: request.post(api("sessions"), {
+            email: email,
+            password: pass
+        })
+    }
+}

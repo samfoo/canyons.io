@@ -15,12 +15,7 @@ router.post("/", passport.authenticate("local"), (req, res) => {
 });
 
 router.get("/", (req, res) => {
-    // res.send(req.user || {});
-    res.send({
-        email: "sam@ifdown.net",
-        name: "Sam Gibson",
-        id: "1"
-    });
+    res.send(req.user || {});
 });
 
 export default {

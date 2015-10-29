@@ -17,7 +17,9 @@ var user = {
 
 passport.use(
     new Strategy(
-        (username, password, done) => {
+        {usernameField: "email", passwordField: "password"},
+        (email, password, done) => {
+            console.log(`attempting to login ${email}:${password}`);
             return done(null, user);
         }
     )

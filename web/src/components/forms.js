@@ -19,12 +19,10 @@ class Field extends React.Component {
 
 class Text extends Field {
     render() {
-        var inputProps = Object.assign({}, this.props, {type: "text"});
-
         return d.div(
             {className: ["field", this.errorClass()].join(" ") },
             d.label({htmlFor: this.props.name}, this.props.label),
-            d.input(inputProps),
+            d.input(this.props),
             d.div(
                 {
                     className: "error-message",
@@ -39,7 +37,12 @@ class Text extends Field {
 }
 
 export const text = function(label, name, options) {
-    let props = Object.assign({}, options, {label: label, name: name});
+    let props = Object.assign({}, options, {label: label, name: name, type: "text"});
+    return React.createElement(Text, props);
+};
+
+export const password = function(label, name, options) {
+    let props = Object.assign({}, options, {label: label, name: name, type: "password"});
     return React.createElement(Text, props);
 };
 

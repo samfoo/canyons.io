@@ -1,19 +1,18 @@
-import * as CanyonActions from "../../actions/canyon";
-import * as canyon from "models/canyon";
+import * as UserActions from "../../actions/user";
 import * as forms from "../forms";
+import * as login from "models/login";
 import Immutable from "immutable";
 import React from "react";
 import spinner from "../spinner";
-import { Router } from "react-router";
 import { connect } from "react-redux";
 
 var d = React.DOM;
 
 @connect(state => state)
-export default class CanyonForm extends React.Component {
+export default class Login extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = { canyon: new Immutable.Map() };
+        this.state = { login: new Immutable.Map() };
     }
 
     submit(e) {
@@ -22,12 +21,15 @@ export default class CanyonForm extends React.Component {
         e.preventDefault();
         e.stopPropagation();
 
-        let errors = Immutable.fromJS(canyon.validate(this.state.canyon.toJS()));
+        let errors = Immutable.fromJS(login.validate(this.state.login.toJS()));
 
+        debugger;
         if (errors.isEmpty()) {
             this.setState({submitting: true});
-            dispatch(CanyonActions.createCanyon(this.state.canyon)).then(c => {
-                this.props.history.pushState({}, `/canyons/${c.id}`);
+            dispatch(UserActions.login(this.state.login.get("email"), this.state.login.get("password")))
+            .then(c => {
+                // todo - redirect back to where they were going?
+                this.props.history.pushState({}, `/`);
             })
             .catch(e => {
                 this.setState({
@@ -38,44 +40,40 @@ export default class CanyonForm extends React.Component {
         } else {
             let updated = errors.reduce((c, msgs, field) => {
                 return c.setIn(["errors", field], msgs);
-            }, this.state.canyon);
+            }, this.state.login);
 
             this.setState({
-                canyon: updated
+                login: updated
             });
         }
     }
 
     set(field) {
         return (e) => {
-            let updated = this.state.canyon.set(field, e.target.value);
-            let errors = Immutable.fromJS(canyon.validate(updated.toJS()));
+            let updated = this.state.login.set(field, e.target.value);
+            let errors = Immutable.fromJS(login.validate(updated.toJS()));
 
             let fieldErrors = errors.get(field, Immutable.Set(errors[field]));
             updated = updated.setIn(["errors", field], fieldErrors);
 
             this.setState({
-                canyon: updated
+                login: updated
             });
         }.bind(this);
     }
 
     errors(field) {
-        return this.state.canyon.getIn(["errors", field], Immutable.Set());
+        return this.state.login.getIn(["errors", field], Immutable.Set());
     }
 
     render() {
         var e = this.state.error ? `${this.state.error.statusText}: ${this.state.error.data.message}` : null;
 
         return d.div(
-            {id: "new-canyon-form"},
-            d.form(
-                {action: "/canyons", method: "POST", onSubmit: this.submit.bind(this)},
+            {id: "login"},
 
-                forms.imageUploader(
-                    "Drag image to add a cover photo",
-                    { onChange: this.set("cover") }
-                ),
+            d.form(
+                {action: "/sessions", method: "POST"},
 
                 d.div(
                     {
@@ -88,34 +86,24 @@ export default class CanyonForm extends React.Component {
                 ),
 
                 forms.text(
-                    "Canyon Name",
-                    "name",
+                    "Email",
+                    "email",
                     {
-                        errors: this.errors("name"),
-                        placeholder: "e.g. Claustral",
-                        onChange: this.set("name"),
+                        errors: this.errors("email"),
+                        placeholder: "email@example.com",
+                        onChange: this.set("email"),
                         disabled: this.state.submitting
                     }
                 ),
 
-                forms.textarea(
-                    "Access",
-                    "access",
+                forms.password(
+                    "Password",
+                    "password",
                     {
-                        errors: this.errors("access"),
-                        placeholder: "How do you get to the canyon entrance?",
-                        onChange: this.set("access"),
-                        disabled: this.state.submitting
-                    }
-                ),
-
-                forms.textarea(
-                    "Track Notes",
-                    "notes",
-                    {
-                        errors: this.errors("notes"),
-                        placeholder: "How do you get to the canyon, through it, and out?",
-                        onChange: this.set("notes"),
+                        errors: this.errors("password"),
+                        placeholder: "super secret",
+                        onChange: this.set("password"),
+                        type: "password",
                         disabled: this.state.submitting
                     }
                 ),
@@ -127,7 +115,7 @@ export default class CanyonForm extends React.Component {
                         className: "submit " + (this.state.submitting ? "disabled" : ""),
                         onClick: this.submit.bind(this),
                         disabled: this.state.submitting
-                    }, "Create"),
+                    }, "Login"),
 
                     spinner({
                         style: {
@@ -136,6 +124,6 @@ export default class CanyonForm extends React.Component {
                     })
                 )
             )
-        )
+        );
     }
 }
