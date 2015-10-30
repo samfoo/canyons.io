@@ -18,11 +18,19 @@ class Field extends React.Component {
 }
 
 class Text extends Field {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {focus: false};
+    }
+
     render() {
         return d.div(
-            {className: ["field", this.errorClass()].join(" ") },
+            {className: ["field", this.state.focus ? "focus" : "", this.errorClass()].join(" ") },
             d.label({htmlFor: this.props.name}, this.props.label),
-            d.input(this.props),
+            d.input(Object.assign({
+                onFocus: () => this.setState({focus: true}),
+                onBlur: () => this.setState({focus: false})
+            }, this.props)),
             d.div(
                 {
                     className: "error-message",
@@ -135,11 +143,19 @@ class TextAreaAutoresize extends React.Component {
 }
 
 class TextArea extends Field {
+    constructor(props, context) {
+        super(props, context);
+        this.state = {focus: false};
+    }
+
     render() {
         return d.div(
-            {className: ["field", this.errorClass()].join(" ") },
+            {className: ["field", this.state.focus ? "focus" : "", this.errorClass()].join(" ") },
             d.label({htmlFor: this.props.name}, this.props.label),
-            React.createElement(TextAreaAutoresize, this.props),
+            React.createElement(TextAreaAutoresize, Object.assign({}, {
+                onFocus: () => this.setState({focus: true}),
+                onBlur: () => this.setState({focus: false})
+            }, this.props)),
             d.div(
                 {
                     className: "error-message",

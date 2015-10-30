@@ -3,6 +3,7 @@
 @import "spinner";
 
 @field-separator: 35px;
+@transition-time: 200ms;
 
 .input {
     display: inline-block;
@@ -38,8 +39,32 @@ textarea {
     overflow: auto;
 }
 
-.error input, .error textarea {
-    border-color: @error-color !important;
+.focus {
+    label {
+        color: @input-focus-color;
+    }
+
+    input, textarea {
+        border-color: @input-focus-color;
+
+        &:hover {
+            border-color: @input-focus-color;
+        }
+    }
+}
+
+.error {
+    label {
+        color: @error-color;
+    }
+
+    input, textarea {
+        border-color: @error-color;
+
+        &:hover {
+            border-color: @error-color;
+        }
+    }
 }
 
 input, textarea {
@@ -54,21 +79,14 @@ input, textarea {
     border-right-width: 0;
     border-left-width: 0;
     width: 100%;
-
-    &[disabled] {
-        color: @disabled-input-text-color;
-
-        &:hover {
-            border-color: @input-border-color;
-        }
-    }
-
-    &:focus, &:focus:hover {
-        border-color: @input-focus-border-color;
-    }
+    transition: border-color @transition-time;
 
     &:hover {
         border-color: darken(@input-border-color, 15%);
+    }
+
+    &[disabled] {
+        color: @disabled-input-text-color;
     }
 }
 
@@ -76,7 +94,8 @@ label {
     display: block;
     font-size: @font-small;
     color: @label-color;
-    padding: 6px 0;
+    padding: 5px 0;
+    transition: color @transition-time;
 }
 
 .field {
@@ -85,10 +104,6 @@ label {
     margin-top: 0;
     margin-bottom: @field-separator;
     padding: 0 25px;
-
-    &.fill {
-        padding: 0;
-    }
 
     .error-message {
         font-size: @font-small;
@@ -105,21 +120,6 @@ label {
             line-height: 22px;
             right: 0;
         }
-    }
-}
-
-.file-upload {
-    position: relative;
-
-    &:hover:after {
-        position: absolute;
-        content: ' ';
-        border: 5px solid @drop-area-color;
-        pointer-events: none;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
     }
 }
 
