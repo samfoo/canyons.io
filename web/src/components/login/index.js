@@ -23,7 +23,6 @@ export default class Login extends React.Component {
 
         let errors = Immutable.fromJS(login.validate(this.state.login.toJS()));
 
-        debugger;
         if (errors.isEmpty()) {
             this.setState({submitting: true});
             dispatch(UserActions.login(this.state.login.get("email"), this.state.login.get("password")))
@@ -32,10 +31,17 @@ export default class Login extends React.Component {
                 this.props.history.pushState({}, `/`);
             })
             .catch(e => {
-                this.setState({
-                    error: e,
-                    submitting: false
-                });
+                this.setState({ submitting: false });
+
+                if (e.status == 401) {
+                    this.setState({
+                        error: "Incorrect email or password"
+                    });
+                } else {
+                    this.settsate({
+                        error: `The was an unexpected problem: ${e.data}`
+                    });
+                }
             });
         } else {
             let updated = errors.reduce((c, msgs, field) => {
@@ -67,8 +73,6 @@ export default class Login extends React.Component {
     }
 
     render() {
-        var e = this.state.error ? `${this.state.error.statusText}: ${this.state.error.data.message}` : null;
-
         return d.div(
             {id: "login"},
 
@@ -77,12 +81,12 @@ export default class Login extends React.Component {
 
                 d.div(
                     {
-                        className: "notification error",
+                        className: "notification error plain",
                         style: {
-                            display: e ? "block" : "none"
+                            display: this.state.error ? "block" : "none"
                         }
                     },
-                    `There was an problem creating the canyon. ${e}`
+                    this.state.error
                 ),
 
                 forms.text(

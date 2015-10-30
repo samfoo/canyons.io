@@ -48,14 +48,14 @@ router.get("/:id/images", (req, res) => {
                             .where(canyonImages.canyon_id.equals(req.params.id))
                             .toString();
 
-    db.query(select).then((r) => {
+    db.query(select).then(r => {
         if (r.length > 0) {
             res.status(200).send(r.map(i => i.cloudinary_response));
         } else {
             res.status(404).end();
         }
     })
-    .catch((err) => res.status(500).send({error: err}));
+    .catch(err => res.status(500).send({error: err}));
 });
 
 router.get("/:id", (req, res) => {
