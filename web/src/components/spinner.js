@@ -16,4 +16,4 @@ class Spinner extends React.Component {
 
 export default function spinner(props={}) {
     return React.createElement(Spinner, props);
-};
+}

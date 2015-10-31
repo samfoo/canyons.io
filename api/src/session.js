@@ -28,7 +28,7 @@ const authenticate = (email, password, done) => {
         .then(user => {
             return scrypt.verifyKdf(new Buffer(user.password, "base64"), new Buffer(password)).then(matching => {
                 if (matching) {
-                    delete user['password'];
+                    delete user["password"];
                     done(null, user);
                 } else {
                     done(null, null);
@@ -38,7 +38,7 @@ const authenticate = (email, password, done) => {
                 done(err);
             });
         })
-        .catch(err => done(null, null));
+        .catch(() => done(null, null));
 };
 
 router.post("/", passport.authenticate("local"), (req, res) => {

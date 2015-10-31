@@ -14,8 +14,6 @@ var d = React.DOM;
 @connect(state => ({users: state.users}))
 export default class Application extends React.Component {
     render() {
-        const { users } = this.props;
-
         return d.div(
             {
                 className: "wrapper",

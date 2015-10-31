@@ -85,36 +85,36 @@ router.post("/", (req, res) => {
             db.tx((t) => {
                 return t.sequence((i, data) => {
                     switch (i) {
-                        case 0:
-                            let insertCanyon = canyons.insert(
-                                canyons.name.value(c.name),
-                                canyons.access.value(c.access),
-                                canyons.notes.value(c.notes)
-                            ).returning("*").toString();
+                    case 0:
+                        let insertCanyon = canyons.insert(
+                            canyons.name.value(c.name),
+                            canyons.access.value(c.access),
+                            canyons.notes.value(c.notes)
+                        ).returning("*").toString();
 
-                            return db.query(insertCanyon);
+                        return db.query(insertCanyon);
 
-                        case 1:
-                            id = data[0].id;
-                            let insertImage = canyonImages.insert(
-                                canyonImages.canyon_id.value(data[0].id),
-                                canyonImages.cloudinary_response.value(JSON.stringify(result))
-                            ).returning("*").toString();
+                    case 1:
+                        id = data[0].id;
+                        let insertImage = canyonImages.insert(
+                            canyonImages.canyon_id.value(data[0].id),
+                            canyonImages.cloudinary_response.value(JSON.stringify(result))
+                        ).returning("*").toString();
 
-                            return db.query(insertImage);
+                        return db.query(insertImage);
                     }
                 });
-            }).then((r) => {
+            }).then(() => {
                 return db.one(canyons.select(canyons.star())
                               .from(canyons)
                               .where(canyons.id.equals(id))
                               .toString());
             })
             .then((r) => {
-                res.status(200).send(r)
+                res.status(200).send(r);
             })
             .catch((err) => {
-                res.status(500).send({error: err})
+                res.status(500).send({error: err});
             });
         });
     } else {

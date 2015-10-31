@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
         })
         .then(user => {
             if (user.length > 0) {
-                delete user[0]['password'];
+                delete user[0]["password"];
                 req.login(user[0], function() {
                     res.status(200).send(user[0]);
                 });
@@ -53,4 +53,4 @@ router.post("/", (req, res) => {
 export default {
     routes: router,
     table: users
-}
+};

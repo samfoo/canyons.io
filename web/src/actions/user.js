@@ -15,7 +15,7 @@ export function login(email, pass) {
             email: email,
             password: pass
         })
-    }
+    };
 }
 
 export function register(email, pass, confirmation) {
@@ -26,5 +26,5 @@ export function register(email, pass, confirmation) {
             password: pass,
             confirmation: confirmation
         })
-    }
+    };
 }

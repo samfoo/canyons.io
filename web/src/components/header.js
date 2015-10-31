@@ -7,7 +7,6 @@ export default class Header extends React.Component {
     render() {
         const { users } = this.props;
 
-        let header;
         if (users.hasIn(["current", "email"])) {
             return d.header(
                 {id: "site-header"},
