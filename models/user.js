@@ -6,7 +6,8 @@ export const schema = {
         email: {
             required: true,
             allowEmpty: false,
-            type: "string"
+            type: "string",
+            format: "email"
         },
 
         password: {

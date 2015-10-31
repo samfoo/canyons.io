@@ -1,4 +1,5 @@
 import bodyParser from "body-parser";
+import db from "./db";
 import express from "express";
 import logger from "morgan";
 import passport from "passport";
@@ -8,12 +9,7 @@ import { Strategy } from "passport-local";
 // routes...
 import session from "./session";
 import canyon from "./canyon";
-
-var user = {
-    email: "sam@ifdown.net",
-    name: "Sam Gibson",
-    id: "1"
-};
+import user from "./user";
 
 passport.use(
     new Strategy(
@@ -26,8 +22,14 @@ passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 
-passport.deserializeUser((session, done) => {
-    done(null, user);
+passport.deserializeUser((id, done) => {
+    let select = user.table.select(user.table.star())
+                            .where(user.table.id.equals(id))
+                            .toString();
+
+    db.one(select)
+        .then(user => done(null, user))
+        .catch(e => done(e));
 });
 
 export var app = express();
@@ -47,9 +49,11 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
     res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.set("Access-Control-Allow-Headers", "Content-Type");
     next();
 });
 
 app.use("/sessions", session.routes);
 app.use("/canyons", canyon.routes);
+app.use("/users", user.routes);

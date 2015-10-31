@@ -17,3 +17,14 @@ export function login(email, pass) {
         })
     }
 }
+
+export function register(email, pass, confirmation) {
+    return {
+        type: "REGISTER_USER",
+        promise: request.post(api("users"), {
+            email: email,
+            password: pass,
+            confirmation: confirmation
+        })
+    }
+}

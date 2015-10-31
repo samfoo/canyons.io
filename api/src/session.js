@@ -19,29 +19,30 @@ const users = sql.define({
 });
 
 const authenticate = (email, password, done) => {
-    scrypt.kdf(password, { maxtime: 2.0, N: 1, r:1, p:1 }).then(result => {
-        let crypted = result.toString("base64");
-        let select = users.select(users.id, users.email)
-                          .from(users)
-                          .where(users.password.equals(crypted))
-                          .toString();
+    let select = users.select(users.id, users.email, users.password)
+                      .from(users)
+                      .where(users.email.equals(email))
+                      .toString();
 
-        return db.query(select);
-    })
-    .then(user => {
-        if (user.length > 0) {
-            done(null, user);
-        } else {
-            done(null, null);
-        }
-    })
-    .catch(err => {
-        done(err);
-    });
+    db.one(select)
+        .then(user => {
+            return scrypt.verifyKdf(new Buffer(user.password, "base64"), new Buffer(password)).then(matching => {
+                if (matching) {
+                    delete user['password'];
+                    done(null, user);
+                } else {
+                    done(null, null);
+                }
+            })
+            .catch(err => {
+                done(err);
+            });
+        })
+        .catch(err => done(null, null));
 };
 
 router.post("/", passport.authenticate("local"), (req, res) => {
-    res.send({});
+    res.send(req.user);
 });
 
 router.get("/", (req, res) => {

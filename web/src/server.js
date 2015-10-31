@@ -21,6 +21,7 @@ const layout = function(content, state) {
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="/site.css">
+        <title>canyons.io - The collaborative canyoning database</title>
     </head>
     <body>
         <div id="render">${content}</div>

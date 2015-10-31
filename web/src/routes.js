@@ -3,6 +3,7 @@ import CanyonForm from "./components/canyons/new";
 import CanyonShow from "./components/canyons/show";
 import Home from "./components/home";
 import Login from "./components/login";
+import SignUp from "./components/sign-up";
 import NotFound from "./components/not-found";
 import React from "react";
 import { IndexRoute, Route } from "react-router";
@@ -32,6 +33,7 @@ export default function(store) {
 
         home(),
         r("/login", Login),
+        r("/sign-up", SignUp),
         r("/canyons/new", CanyonForm),
         r("/canyons/:id", CanyonShow),
         r("*", NotFound)
