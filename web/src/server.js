@@ -12,6 +12,7 @@ import { compose, createStore, combineReducers, applyMiddleware } from "redux";
 import { match, RoutingContext } from "react-router";
 import { promises } from "./reducers/middleware";
 import { renderToString } from "react-dom/server";
+import api from "./actions/api";
 
 export var app = express();
 
@@ -26,6 +27,7 @@ const layout = function(content, state) {
     <body>
         <div id="render">${content}</div>
         <script type="application/javascript">
+            window.API_DOMAIN = "${process.env.API_DOMAIN}";
             window.__INITIAL_STATE__ = ${JSON.stringify(state)};
         </script>
         <script type="application/javascript" src="/app.js"></script>
@@ -40,10 +42,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.use((req, res) => {
+    let client = api(req.get("cookie"));
+
     const reducer = combineReducers(reducers);
     const store = compose(
         addLoaded,
-        applyMiddleware(promises)
+        applyMiddleware(promises(client))
     )(createStore)(reducer);
 
     match({routes: routes(store), location: req.url}, (error, redir, props) => {

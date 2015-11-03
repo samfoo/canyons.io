@@ -9,6 +9,9 @@ web:
         - /canyons-web/node_modules
         - ./models:/models
         - ./models:/canyons-web/node_modules/models
+    extends:
+        file: ./secrets.yml
+        service: config
     environment:
         NODE_DEBUG: canyon-web
     command: bash -c 'cd /canyons-web; DEBUG=canyons supervisor -w src /canyons-web/server.js'
@@ -18,7 +21,7 @@ api:
         - "5678:5678"
     extends:
         file: ./secrets.yml
-        service: api
+        service: config
     links:
         - db
     volumes:

@@ -1,5 +1,5 @@
-export function promises() {
-    return (next) => (action) => {
+export function promises(api) {
+    return () => next => action => {
         const { promise, type, ...rest } = action;
 
         if (!promise) { return next(action); }
@@ -10,7 +10,7 @@ export function promises() {
 
         next({ ...rest, type: REQUEST });
 
-        return promise.then(res => {
+        return promise(api).then(res => {
             next({ ...rest, res, type: SUCCESS });
             return res.data;
         })

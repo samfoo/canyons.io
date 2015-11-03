@@ -10,6 +10,7 @@ import { Router } from "react-router";
 import { addLoaded } from "./utils/enhancers";
 import { compose, createStore, combineReducers, applyMiddleware } from "redux";
 import { promises } from "./reducers/middleware";
+import api from "./actions/api";
 
 const history = createBrowserHistory();
 const initialState = window.__INITIAL_STATE__;
@@ -23,7 +24,7 @@ Object
 const reducer = combineReducers(reducers);
 const store = compose(
     addLoaded,
-    applyMiddleware(promises)
+    applyMiddleware(promises(api()))
 )(createStore)(reducer, initialState);
 
 if (store.getState().error == 404) {
