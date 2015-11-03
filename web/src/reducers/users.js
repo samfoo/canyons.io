@@ -12,6 +12,8 @@ export default function userReducer(state=defaultState, action) {
         return state
             .set("current", Immutable.fromJS(action.res.data))
             .setIn(["meta", "@@loaded/current"], true);
+    case "LOGOUT_USER":
+        return state.set("current", null);
     default:
         return state;
     }

@@ -41,6 +41,11 @@ const authenticate = (email, password, done) => {
         .catch(() => done(null, null));
 };
 
+router.post("/logout", (req, res) => {
+    req.logout();
+    res.send({});
+});
+
 router.post("/", passport.authenticate("local"), (req, res) => {
     res.send(req.user);
 });
