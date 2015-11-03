@@ -13,9 +13,9 @@ export default class Header extends React.Component {
         e.preventDefault();
         e.stopPropagation();
 
-        dispatch(UserActions.logout()).then(c => {
+        dispatch(UserActions.logout()).then(() => {
             this.props.history.pushState({}, `/`);
-        })
+        });
     }
 
     render() {

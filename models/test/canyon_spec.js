@@ -1,4 +1,5 @@
-import Immutable from "immutable";
+/* eslint-env node, mocha */
+
 import * as canyon from "../canyon";
 import { expect } from "chai";
 
@@ -11,7 +12,7 @@ describe("The canyon data model", () => {
                 let c = {
                     name: "Starlight",
                     access: "Head to the wollangambe...",
-                    trackNotes: "Long walk in accross the river..."
+                    notes: "Long walk in accross the river..."
                 };
 
                 delete c[field];

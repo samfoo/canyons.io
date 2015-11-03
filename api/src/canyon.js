@@ -18,8 +18,6 @@ cloudinary.config({
 
 const router = express.Router();
 
-const hasNo = (errors) => Immutable.fromJS(errors).isEmpty();
-
 const canyons = sql.define({
     name: "canyons",
     columns: ["id", "name", "access", "notes"]
@@ -75,10 +73,10 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-    let errors = canyon.validate(req.body);
+    let errors = Immutable.fromJS(canyon.validate(req.body));
     let c = req.body;
 
-    if (hasNo(errors)) {
+    if (errors.isEmpty()) {
         cloudinary.uploader.upload(c.cover, (result) => {
             var id;
 
@@ -120,7 +118,7 @@ router.post("/", (req, res) => {
     } else {
         res.status(400).send({
             message: "invalid canyon",
-            errors: errors
+            errors: errors.toJS()
         });
     }
 });

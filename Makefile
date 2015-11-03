@@ -1,7 +1,28 @@
+api/node_modules: api/package.json
+	(cd api && npm install)
+
+web/node_modules: web/package.json
+	(cd web && npm install)
+
+models/node_modules: models/package.json
+	(cd models && npm install)
+
+test-api: api/node_modules
+	(cd api && NODE_ENV=test SESSION_SECRET=secret WEB_DOMAIN=canyons.test mocha --compilers js:babel-core/register)
+
+test-models: models/node_modules
+	(cd models && NODE_ENV=test mocha --compilers js:babel-core/register)
+
+test: test-api test-models
+
 logs:
 	docker-compose logs
 
 build:
+	echo "clean node_modules for built docker"
+	rm -rf web/node_modules
+	rm -rf api/node_modules
+	rm -rf models/node_modules
 	(cd models; docker build -t models .)
 	docker-compose build
 
@@ -36,7 +57,10 @@ lint:
 	eslint web/src/**/*.js
 	eslint api/src/*.js
 	eslint api/src/**/*.js
+	eslint api/test/*.js
+	eslint api/test/**/*.js
 	eslint models/*.js
+	eslint models/test/*.js
 
 watch-client:
 	(cd web && npm link ../models)
