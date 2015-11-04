@@ -1,11 +1,17 @@
 api/node_modules: api/package.json
 	(cd api && npm install)
+	touch api/node_modules
 
 web/node_modules: web/package.json
 	(cd web && npm install)
+	touch web/node_modules
 
 models/node_modules: models/package.json
 	(cd models && npm install)
+	touch models/node_modules
+
+test-web: web/node_modules
+	(cd web && NODE_ENV=test ./node_modules/.bin/jest)
 
 test-api: api/node_modules
 	(cd api && NODE_ENV=test SESSION_SECRET=secret WEB_DOMAIN=canyons.test mocha --compilers js:babel-core/register)
@@ -13,7 +19,7 @@ test-api: api/node_modules
 test-models: models/node_modules
 	(cd models && NODE_ENV=test mocha --compilers js:babel-core/register)
 
-test: test-api test-models
+test: test-api test-models test-web
 
 logs:
 	docker-compose logs

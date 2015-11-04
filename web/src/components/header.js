@@ -33,7 +33,10 @@ export default class Header extends React.Component {
                     d.span(
                         {id: "account-actions"},
                         "Hello, ",
-                        users.getIn(["current", "email"]),
+                        d.span(
+                            {className: "logged-in-user"},
+                            users.getIn(["current", "email"])
+                        ),
                         d.span(
                             {id: "logout"},
                             d.a({onClick: this.logout.bind(this), href: "/logout"}, "logout")
@@ -52,8 +55,8 @@ export default class Header extends React.Component {
                     ),
                     d.span(
                         {id: "account-actions"},
-                        React.createElement(Link, {to: "/sign-up"}, "sign up"),
-                        React.createElement(Link, {to: "/login"}, "login")
+                        React.createElement(Link, {href: "/sign-up", to: "/sign-up", className: "sign-up"}, "sign up"),
+                        React.createElement(Link, {href: "/login", to: "/login", className: "login"}, "login")
                     )
                 )
             );
