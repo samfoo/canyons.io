@@ -1,6 +1,6 @@
 import * as UserActions from "../../actions/user";
 import * as forms from "../forms";
-import * as login from "models/login";
+import * as login from "models/user";
 import Immutable from "immutable";
 import React from "react";
 import spinner from "../spinner";
