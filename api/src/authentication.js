@@ -1,6 +1,6 @@
 import db from "./db";
 import passport from "passport";
-import scrypt from "scrypt";
+import bcrypt from "bcrypt";
 import sessionMgt from "express-session";
 import sql from "sql";
 import { Strategy } from "passport-local";
@@ -34,17 +34,14 @@ const auth = (email, password, done) => {
 
     db.one(select)
         .then(user => {
-            return scrypt.verifyKdf(new Buffer(user.password, "base64"), new Buffer(password)).then(matching => {
-                if (matching) {
-                    delete user["password"];
-                    done(null, user);
-                } else {
-                    done(null, null);
-                }
-            })
-            .catch(err => {
-                done(err);
-            });
+            let valid = bcrypt.compareSync(password, user.password);
+
+            if (valid) {
+                delete user["password"];
+                done(null, user);
+            } else {
+                done(null, null);
+            }
         })
         .catch(() => done(null, null));
 };
@@ -74,6 +71,14 @@ passport.deserializeUser((id, done) => {
 });
 
 export default {
+    required: (req, res, next) => {
+        if (req.isAuthenticated()) {
+            return next();
+        } else {
+            res.status(401).send({error: "unauthorized"});
+        }
+    },
+
     initialize: (app) => {
         app.use(
             sessionMgt({
@@ -91,6 +96,5 @@ export default {
 
         app.use(passport.initialize());
         app.use(passport.session());
-
     }
 };

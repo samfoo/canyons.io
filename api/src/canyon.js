@@ -4,10 +4,11 @@ import cloudinary from "cloudinary";
 import db from "./db";
 import express from "express";
 import sql from "sql";
+import * as authentication from "./authentication";
 
-if (typeof process.env.CLOUDINARY_API_KEY == "undefined" ||
-    typeof process.env.CLOUDINARY_SECRET_KEY == "undefined") {
-    throw new Error("please make sure CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET are set on the environment");
+if (typeof process.env.CLOUDINARY_API_KEY === "undefined" ||
+    typeof process.env.CLOUDINARY_SECRET_KEY === "undefined") {
+    throw new Error("please make sure CLOUDINARY_API_KEY and CLOUDINARY_SECRET_KEY are set on the environment");
 }
 
 cloudinary.config({ 
@@ -72,46 +73,31 @@ router.get("/:id", (req, res) => {
     .catch((err) => res.status(500).send({error: err}));
 });
 
-router.post("/", (req, res) => {
+router.post("/", authentication.required, (req, res) => {
     let errors = Immutable.fromJS(canyon.validate(req.body));
     let c = req.body;
-
     if (errors.isEmpty()) {
+        // todo some kind of error handling for cloudinary
         cloudinary.uploader.upload(c.cover, (result) => {
-            var id;
+            let canyonSql = canyons.insert(
+                canyons.name.value(c.name),
+                canyons.access.value(c.access),
+                canyons.notes.value(c.notes)
+            ).returning("*").toString();
 
-            db.tx((t) => {
-                return t.sequence((i, data) => {
-                    switch (i) {
-                    case 0:
-                        let insertCanyon = canyons.insert(
-                            canyons.name.value(c.name),
-                            canyons.access.value(c.access),
-                            canyons.notes.value(c.notes)
-                        ).returning("*").toString();
+            db.query(canyonSql).then(results => {
+                let insertImage = canyonImages.insert(
+                    canyonImages.canyon_id.value(results[0].id),
+                    canyonImages.cloudinary_response.value(JSON.stringify(result))
+                ).returning("*").toString();
 
-                        return db.query(insertCanyon);
-
-                    case 1:
-                        id = data[0].id;
-                        let insertImage = canyonImages.insert(
-                            canyonImages.canyon_id.value(data[0].id),
-                            canyonImages.cloudinary_response.value(JSON.stringify(result))
-                        ).returning("*").toString();
-
-                        return db.query(insertImage);
-                    }
-                });
-            }).then(() => {
-                return db.one(canyons.select(canyons.star())
-                              .from(canyons)
-                              .where(canyons.id.equals(id))
-                              .toString());
+                db.query(insertImage);
+                return results[0];
             })
-            .then((r) => {
+            .then(r => {
                 res.status(200).send(r);
             })
-            .catch((err) => {
+            .catch(err => {
                 res.status(500).send({error: err});
             });
         });
