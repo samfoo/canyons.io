@@ -59,14 +59,11 @@ client:
 	(cd web && webpack)
 
 lint:
-	eslint web/src/*.js
 	eslint web/src/**/*.js
-	eslint api/src/*.js
+	eslint web/__tests__/**/*.js
 	eslint api/src/**/*.js
-	eslint api/test/*.js
 	eslint api/test/**/*.js
-	eslint models/*.js
-	eslint models/test/*.js
+	eslint models/**/*.js
 
 watch-client:
 	(cd web && npm link ../models)

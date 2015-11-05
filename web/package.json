@@ -2,13 +2,12 @@
   "name": "canyons-web",
   "version": "0.1.0",
   "private": true,
-  "description": "A website for canyoneers to record their adventures.",
+  "description": "A website for canyoners to record their adventures.",
   "main": "server.js",
   "author": "Sam Gibson",
   "license": "GPL-3.0",
   "scripts": {
-    "serve": "DEBUG=canyons nodemon --use_strict server.js",
-    "test": "jest"
+    "serve": "DEBUG=canyons nodemon --use_strict server.js"
   },
   "dependencies": {
     "axios": "^0.7.0",
@@ -43,7 +42,7 @@
     "sinon": "^1.17.2"
   },
   "jest": {
-    "scriptPreprocessor": "./node_modules/babel-jest",
+    "scriptPreprocessor": "./test-preprocessor.js",
     "unmockedModulePathPatterns": [
       "./node_modules/immutable",
       "./node_modules/react",

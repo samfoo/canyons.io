@@ -25,21 +25,13 @@ class Text extends Field {
 
     render() {
         return d.div(
-            {className: ["field", this.state.focus ? "focus" : "", this.errorClass()].join(" ") },
+            {className: [this.props.name, "field", this.state.focus ? "focus" : "", this.errorClass()].join(" ") },
             d.label({htmlFor: this.props.name}, this.props.label),
             d.input(Object.assign({
                 onFocus: () => this.setState({focus: true}),
                 onBlur: () => this.setState({focus: false})
             }, this.props)),
-            d.div(
-                {
-                    className: "error-message",
-                    style: {
-                        display: this.hasErrors() ? "block" : "none"
-                    }
-                },
-                this.errorMessages()
-            )
+            this.hasErrors() ? d.div({className: `error-message ${this.props.name}-error`}, this.errorMessages()) : null
         );
     }
 }
@@ -118,7 +110,7 @@ class TextAreaAutoresize extends React.Component {
             {},
             this.props,
             {
-                className: "real " + this.props.inputClass,
+                className: "real " + this.props.className,
                 onChange: this.changed.bind(this),
                 style: {
                     overflow: "hidden",
@@ -156,15 +148,7 @@ class TextArea extends Field {
                 onFocus: () => this.setState({focus: true}),
                 onBlur: () => this.setState({focus: false})
             }, this.props)),
-            d.div(
-                {
-                    className: "error-message",
-                    style: {
-                        display: this.hasErrors() ? "block" : "none"
-                    }
-                },
-                this.errorMessages()
-            )
+            this.hasErrors() ? d.div({className: `error-message ${this.props.name}-error`}, this.errorMessages()) : null
         );
     }
 }

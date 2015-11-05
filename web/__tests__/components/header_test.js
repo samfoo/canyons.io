@@ -1,3 +1,5 @@
+/* eslint-env node, jest */
+
 jest.dontMock("../../src/components/header");
 
 import Immutable from "immutable";
@@ -9,15 +11,15 @@ const Header = require("../../src/components/header");
 
 const header = (props) => {
     return React.createElement(Header, props);
-}
+};
 
 describe("the site header", () => {
     let state = {};
 
     let store = {
         subscribe: () => {},
-            dispatch: () => {},
-                getState: () => state
+        dispatch: () => {},
+        getState: () => state
     };
 
     beforeEach(() => {

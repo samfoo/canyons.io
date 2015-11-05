@@ -4,7 +4,6 @@ import * as forms from "../forms";
 import Immutable from "immutable";
 import React from "react";
 import spinner from "../spinner";
-import { Router } from "react-router";
 import { connect } from "react-redux";
 
 var d = React.DOM;
@@ -22,11 +21,11 @@ export default class CanyonForm extends React.Component {
         e.preventDefault();
         e.stopPropagation();
 
-        let errors = Immutable.fromJS(canyon.validate(this.state.canyon.toJS()));
+        let errors = Immutable.fromJS(canyon.validate(this.state.canyon.toJS()) || {});
 
         if (errors.isEmpty()) {
             this.setState({submitting: true});
-            dispatch(CanyonActions.createCanyon(this.state.canyon)).then(c => {
+            dispatch(CanyonActions.createCanyon(this.state.canyon.delete("errors"))).then(c => {
                 this.props.history.pushState({}, `/canyons/${c.id}`);
             })
             .catch(e => {
@@ -91,6 +90,7 @@ export default class CanyonForm extends React.Component {
                     "Canyon Name",
                     "name",
                     {
+                        className: "name-input",
                         errors: this.errors("name"),
                         placeholder: "e.g. Claustral",
                         onChange: this.set("name"),
@@ -102,6 +102,7 @@ export default class CanyonForm extends React.Component {
                     "Access",
                     "access",
                     {
+                        className: "access-input",
                         errors: this.errors("access"),
                         placeholder: "How do you get to the canyon entrance?",
                         onChange: this.set("access"),
@@ -113,6 +114,7 @@ export default class CanyonForm extends React.Component {
                     "Track Notes",
                     "notes",
                     {
+                        className: "notes-input",
                         errors: this.errors("notes"),
                         placeholder: "How do you get to the canyon, through it, and out?",
                         onChange: this.set("notes"),
