@@ -1,10 +1,12 @@
 FROM models
-RUN apt-get update
-RUN apt-get install -y curl
-RUN curl --silent --location https://deb.nodesource.com/setup_0.12 | bash -
-RUN apt-get install -y nodejs build-essential
-COPY . /canyons-api
+MAINTAINER Sam Gibson <sam@ifdown.net>
+
+ADD package.json /tmp/package.json
 RUN npm config set production
+RUN cd /tmp && npm install
 RUN npm install -g supervisor
-RUN cd /canyons-api; npm install
-CMD ["node", "--use_strict", "/canyons-api/server.js"]
+
+RUN mkdir /app && cp -a /tmp/node_modules /app
+ADD . /app
+
+CMD ["node", "--use_strict", "/app/server.js"]

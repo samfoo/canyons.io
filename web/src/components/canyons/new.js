@@ -3,6 +3,7 @@ import * as canyon from "models/canyon";
 import * as forms from "../forms";
 import Immutable from "immutable";
 import React from "react";
+import gpxUploader from "./gpx-uploader";
 import spinner from "../spinner";
 import { connect } from "react-redux";
 
@@ -72,7 +73,7 @@ export default class CanyonForm extends React.Component {
                 {action: "/canyons", method: "POST", onSubmit: this.submit.bind(this)},
 
                 forms.imageUploader(
-                    "Drag image to add a cover photo",
+                    "Add a cover photo",
                     { onChange: this.set("cover") }
                 ),
 
@@ -121,6 +122,8 @@ export default class CanyonForm extends React.Component {
                         disabled: this.state.submitting
                     }
                 ),
+
+                gpxUploader(),
 
                 d.div(
                     {className: "submission"},

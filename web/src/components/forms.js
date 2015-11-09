@@ -158,28 +158,20 @@ export const textarea = function(label, name, options) {
     return React.createElement(TextArea, props);
 };
 
-class ImageUploader extends React.Component {
-    static MaxWidth = 1024;
-
+export class FileUploader extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            image: "/img/example-canyon.jpg"
-        };
+        this.state = {};
     }
 
     componentDidMount() {
-        window.addEventListener("drop", this.preventDefault, false);
-        window.addEventListener("dragover", this.preventDefault, false);
+        window.addEventListener("drop", (e) => e.preventDefault(), false);
+        window.addEventListener("dragover", (e) => e.preventDefault(), false);
     }
 
     componentWillUnmount() {
-        window.removeEventListener("drop", this.preventDefault);
-        window.removeEventListener("dragover", this.preventDefault);
-    }
-
-    preventDefault(e) {
-        e.preventDefault();
+        window.removeEventListener("drop", (e) => e.preventDefault());
+        window.removeEventListener("dragover", (e) => e.preventDefault());
     }
 
     stateClasses() {
@@ -200,6 +192,40 @@ class ImageUploader extends React.Component {
 
     notDragging() {
         this.setState({dragging: false});
+    }
+
+    select(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        let file = e.target.files[0];
+        this.setFile(file);
+    }
+
+    drop(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        this.setState({dragging: false});
+
+        let file = e.dataTransfer.files[0];
+        this.setFile(file);
+    }
+
+    browse() {
+        let node = ReactDOM.findDOMNode(this),
+            input = node.querySelector("input[type='file']");
+
+        input.click();
+    }
+}
+
+class ImageUploader extends FileUploader {
+    static MaxWidth = 800;
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = {};
     }
 
     resize(data) {
@@ -233,39 +259,22 @@ class ImageUploader extends React.Component {
     setFile(file) {
         let reader = new FileReader();
 
-        reader.onload = function(e) {
-            this.resize(e.target.result);
-        }.bind(this);
+        reader.onload = (e) => this.resize(e.target.result);
 
         reader.readAsDataURL(file);
     }
 
-    select(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        let file = e.target.files[0];
-        this.setFile(file);
-    }
-
-    drop(e) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        this.setState({dragging: false});
-
-        let file = e.dataTransfer.files[0];
-        this.setFile(file);
-    }
-
-    browse() {
-        let node = ReactDOM.findDOMNode(this),
-            input = node.querySelector("input[type='file']");
-
-        input.click();
-    }
-
     render() {
+        let img;
+
+        if (this.state.image) {
+            img = d.div({className: "image-canvas", style: {
+                backgroundImage: "url(" + this.state.image + ")"
+            }});
+        } else {
+            img = d.div({className: "image-canvas"});
+        }
+
         return d.div(
             {
                 onDragOver: this.dragging.bind(this),
@@ -281,12 +290,10 @@ class ImageUploader extends React.Component {
             d.h2({className: "title"}, this.props.title),
             d.h4(
                 {className: "error-message"},
-                "Oh no! There was a problem uploading."
+                "There was a problem processing the image."
             ),
 
-            d.div({className: "image-canvas", style: {
-                backgroundImage: "url(" + this.state.image + ")"
-            }}),
+            img,
 
             d.input({type: "file", onChange: this.select.bind(this)})
         );

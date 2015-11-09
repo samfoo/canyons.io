@@ -25,10 +25,6 @@ var d = React.DOM;
 })
 @connect(state => ({canyons: state.canyons}))
 export default class CanyonForm extends React.Component {
-    static exists = (props, store) => {
-        return store.getState().canyons.getIn(["ids", props.params.id]);
-    };
-
     canyon() {
         const { canyons } = this.props;
         return canyons.getIn(["ids", this.props.params.id]);

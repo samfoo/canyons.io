@@ -5,16 +5,16 @@ web:
     links:
         - api
     volumes:
-        - ./web:/canyons-web
-        - /canyons-web/node_modules
+        - ./web:/app
+        - /app/node_modules
         - ./models:/models
-        - ./models:/canyons-web/node_modules/models
+        - ./models:/app/node_modules/models
     extends:
         file: ./secrets.yml
         service: config
     environment:
         NODE_DEBUG: canyon-web
-    command: bash -c 'cd /canyons-web; DEBUG=canyons supervisor -w src /canyons-web/server.js'
+    command: bash -c 'cd /app; DEBUG=canyons supervisor -w src /app/server.js'
 api:
     build: ./api
     ports:
@@ -25,13 +25,13 @@ api:
     links:
         - db
     volumes:
-        - ./api:/canyons-api
-        - /canyons-api/node_modules
+        - ./api:/app
+        - /app/node_modules
         - ./models:/models
-        - ./models:/canyons-api/node_modules/models
+        - ./models:/app/node_modules/models
     environment:
         NODE_DEBUG: canyon-api
-    command: bash -c 'cd /canyons-api; DEBUG=canyons supervisor -w src /canyons-api/server.js'
+    command: bash -c 'cd /app; DEBUG=canyons supervisor -w src /app/server.js'
 db:
     volumes:
         - ./db:/docker-entrypoint-initdb.d

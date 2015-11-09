@@ -30,6 +30,9 @@ test: test-api test-models test-web
 logs:
 	docker-compose logs
 
+clean: down
+	docker images | sed "1 d" | awk '{ print $3; }' | xargs docker rmi -f
+
 build:
 	echo "clean node_modules for built docker"
 	rm -rf web/node_modules
@@ -38,7 +41,7 @@ build:
 	(cd models; docker build -t models .)
 	docker-compose build
 
-up:
+up: models/node_modules
 	docker-compose up -d
 	make migrate
 
