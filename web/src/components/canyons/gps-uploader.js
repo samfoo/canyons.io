@@ -1,8 +1,9 @@
+import GoogleMap from 'google-map-react';
 import React from "react";
 import ReactDOM from "react-dom";
 import geojson from "togeojson";
+import spinner from "../spinner";
 import { FileUploader } from "../forms";
-import GoogleMap from 'google-map-react';
 
 var d = React.DOM;
 
@@ -17,6 +18,11 @@ class GpsUploader extends FileUploader {
     }
 
     setFile(file) {
+        this.setState({
+            loading: true,
+            finished: false
+        });
+
         let reader = new FileReader();
 
         reader.onload = (e) => {
@@ -51,6 +57,11 @@ class GpsUploader extends FileUploader {
             });
 
             this.state.map.data.addGeoJson(track);
+
+            this.setState({
+                loading: false,
+                finished: true
+            });
         };
 
         reader.readAsText(file);
@@ -95,26 +106,55 @@ class GpsUploader extends FileUploader {
                 onDragEnter: this.dragging.bind(this),
                 onDragLeave: this.notDragging.bind(this),
                 onDrop: this.drop.bind(this),
-                onClick: this.browse.bind(this),
+                onClick: this.state.finished ? null : this.browse.bind(this),
                 type: "button",
                 className: `gps ${this.stateClasses()}`
             },
 
             d.input({type: "file", onChange: this.select.bind(this)}),
 
-            React.createElement(GoogleMap, {
-                onGoogleApiLoaded: this.mapLoaded.bind(this),
-                yesIWantToUseGoogleMapApiInternals: true,
+            d.div(
+                {
+                    className: "map",
+                    style: { height: "100%", width: "100%" }
+                },
+                React.createElement(GoogleMap, {
+                    onGoogleApiLoaded: this.mapLoaded.bind(this),
+                    yesIWantToUseGoogleMapApiInternals: true,
 
-                defaultZoom: GpsUploader.defaults.zoom,
-                defaultCenter: GpsUploader.defaults.center,
+                    defaultZoom: GpsUploader.defaults.zoom,
+                    defaultCenter: GpsUploader.defaults.center,
 
-                options: (maps) => {
-                    return {
-                        mapTypeId: maps.MapTypeId.TERRAIN
-                    };
-                }
-            })
+                    options: (maps) => {
+                        return {
+                            mapTypeId: maps.MapTypeId.TERRAIN
+                        };
+                    }
+                }),
+            ),
+
+            d.h2(
+                {className: "title"},
+                d.div(
+                    {className: "heading"},
+                    d.i({className: "fa fa-map"}),
+                    "Add GPS track"
+                ),
+                spinner({
+                    style: {
+                        display: this.state.loading ? "inline-block" : "none"
+                    }
+                }),
+            ),
+
+            d.a(
+                {
+                    href: "javascript:null",
+                    onClick: this.state.finished ? this.browse.bind(this) : null,
+                    className: "button change-gps"
+                },
+                "Change GPS track"
+            )
         );
     }
 }
