@@ -1,3 +1,4 @@
+import spinner from "./spinner";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -175,10 +176,11 @@ export class FileUploader extends React.Component {
     }
 
     stateClasses() {
-        let { error, finished, dragging } = this.state;
+        let { error, finished, dragging, loading } = this.state;
         let classes = [
             [error, "error"],
             [finished, "finished"],
+            [loading, "loading"],
             [dragging, "dragging"]]
             .filter(s => s[0])
             .map(s => s[1]);
@@ -239,11 +241,6 @@ class ImageUploader extends FileUploader {
             let ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            this.setState({
-                image: canvas.toDataURL("image/jpeg"),
-                finished: true
-            });
-
             if (this.props.onChange) {
                 this.props.onChange({
                     target: {
@@ -251,12 +248,22 @@ class ImageUploader extends FileUploader {
                     }
                 });
             }
+
+            this.setState({
+                image: canvas.toDataURL("image/jpeg"),
+                loading: false,
+                finished: true
+            });
         };
 
         img.src = data;
     }
 
     setFile(file) {
+        this.setState({
+            loading: true
+        });
+
         let reader = new FileReader();
 
         reader.onload = (e) => this.resize(e.target.result);
@@ -287,7 +294,21 @@ class ImageUploader extends FileUploader {
                 className: this.stateClasses()
             },
 
-            d.h2({className: "title"}, this.props.title),
+            d.h2(
+                {className: "title"},
+                d.div(
+                    {className: "heading"},
+                    d.i({className: "fa fa-camera-retro"}),
+                    this.props.title
+                ),
+                spinner({
+                    style: {
+                        display: this.state.loading ? "inline-block" : "none"
+                    }
+                }),
+            ),
+
+
             d.h4(
                 {className: "error-message"},
                 "There was a problem processing the image."

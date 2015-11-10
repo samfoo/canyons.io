@@ -39,7 +39,9 @@ const layout = function(content, state) {
 app.use(logger("dev"));
 
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "../node_modules/font-awesome")));
 
 app.use((req, res) => {
     let client = api(req.get("cookie"));

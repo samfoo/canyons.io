@@ -145,6 +145,7 @@ label {
         right: 0;
         bottom: 0;
         border: 5px solid @upload-zone-hover-border-color;
+        background: transparent;
     }
 
     &.dragging:after {
@@ -159,13 +160,18 @@ label {
     }
 
     &.finished {
-        .map-canvas {
-            opacity: 1;
-            z-index: 0;
-        }
-
         .title {
             display: none;
+        }
+    }
+
+    &.loading {
+        .title .heading {
+            display: none;
+        }
+
+        .spinner {
+            display: inline-block;
         }
     }
 
@@ -173,9 +179,13 @@ label {
         display: block;
     }
 
+    .spinner {
+        display: none;
+    }
+
     .title {
         color: white;
-        font-size: 48px;
+        font-size: 18px;
         font-weight: 300;
         margin-top: 0;
         position: absolute;
@@ -183,7 +193,20 @@ label {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+
+        i {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .spinner {
+            margin: 0 auto;
+
+            & > div {
+                background-color: white;
+            }
+        }
     }
 
     .error-message {
@@ -193,6 +216,8 @@ label {
 
     .image-canvas {
         background-color: @upload-zone-background-color;
+        background-repeat: none;
+        background-size: cover;
         position: absolute;
         opacity: 0.95;
         z-index: -1;

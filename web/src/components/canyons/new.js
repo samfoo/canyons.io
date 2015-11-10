@@ -123,7 +123,12 @@ export default class CanyonForm extends React.Component {
                     }
                 ),
 
-                gpxUploader(),
+                gpxUploader({
+                    className: "gps-input",
+                    errors: this.errors("gps"),
+                    onChange: this.set("gps"),
+                    disabled: this.state.submitting
+                }),
 
                 d.div(
                     {className: "submission"},

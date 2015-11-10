@@ -14,7 +14,6 @@ class GpxUploader extends FileUploader {
 
     constructor(props, context) {
         super(props, context);
-        this.state = {}
     }
 
     setFile(file) {
@@ -24,6 +23,18 @@ class GpxUploader extends FileUploader {
             let gpx = e.target.result;
             let dom = (new DOMParser()).parseFromString(gpx, 'text/xml');
             let track = geojson.gpx(dom);
+
+            this.setState({ track: track });
+
+            if (this.props.onChange) {
+                this.props.onChange({
+                    target: {
+                        value: {
+                            track
+                        }
+                    }
+                });
+            }
 
             this.state.map.data.forEach((feature) => {
                 this.state.map.data.remove(feature);
@@ -36,7 +47,10 @@ class GpxUploader extends FileUploader {
     }
 
     mapLoaded({map, maps}) {
-        this.setState({map: map});
+        this.setState({
+            map: map,
+            bounds: new maps.LatLngBounds()
+        });
 
         let extendTo = (geometry, bounds) => {
             if (geometry instanceof maps.LatLng) {
@@ -58,7 +72,7 @@ class GpxUploader extends FileUploader {
         });
 
         map.data.addListener("addfeature", ({feature}) => {
-            let bounds = extendTo(feature.getGeometry(), new maps.LatLngBounds());
+            let bounds = extendTo(feature.getGeometry(), this.state.bounds);
             map.fitBounds(bounds);
         });
     }
@@ -95,6 +109,6 @@ class GpxUploader extends FileUploader {
     }
 }
 
-export default () => {
-    return React.createElement(GpxUploader, {});
+export default (props) => {
+    return React.createElement(GpxUploader, {...props});
 }
