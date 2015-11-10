@@ -18,6 +18,7 @@
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "immutable": "^3.7.5",
+    "markdown": "^0.5.0",
     "models": "file:../models",
     "morgan": "^1.6.1",
     "nodemon": "^1.7.1",
@@ -28,14 +29,13 @@
     "sql": "^0.60.0"
   },
   "devDependencies": {
-    "html-to-text": "^1.3.2",
     "jest-cli": "^0.7.1",
     "supertest": "^1.1.0"
   },
   "jest": {
     "scriptPreprocessor": "./test-preprocessor.js",
     "unmockedModulePathPatterns": [
-      "./node_modules/html-to-text",
+      "./node_modules/markdown",
       "./node_modules/express-session",
       "./node_modules/debug",
       "./node_modules/passport",

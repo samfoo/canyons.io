@@ -7,11 +7,12 @@ jest.setMock("../src/authentication", {
 });
 
 import bodyParser from "body-parser";
-import express from "express";
-import request from "supertest";
-import model from "models/canyon";
-import db from "../src/db";
 import cloudinary from "cloudinary";
+import db from "../src/db";
+import express from "express";
+import { markdown } from "markdown";
+import model from "models/canyon";
+import request from "supertest";
 
 const auth = require("../src/authentication");
 const canyon = require("../src/canyon");
@@ -23,6 +24,45 @@ describe("canyons", () => {
         app = express();
         app.use(bodyParser.json({}));
         app.use("/canyons", canyon.routes);
+    });
+
+    describe("GET /canyons/:id", () => {
+        describe("when canyon exists", () => {
+            pit("should contain formatted access & notes", () => {
+                let canyon = {
+                    id: "canyon-id",
+                    access: "Down to Bell's Line of Road\n\n* Then... \n* Next...",
+                    notes: "Be careful of the tiger snakes\n\nThey're vicious in the summer"
+                };
+
+                db.query.mockReturnValue(
+                    Promise.resolve([canyon])
+                );
+
+                return new Promise((resolve, reject) => {
+                    request(app)
+                        .get("/canyons/canyon-id")
+                        .type("json")
+                        .expect(200, Object.assign(
+                            {},
+                            canyon,
+                            {
+                                formatted: {
+                                    access: markdown.toHTML(canyon.access),
+                                    notes: markdown.toHTML(canyon.notes)
+                                }
+                            }
+                        ))
+                        .end((err, res) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve();
+                            }
+                        });
+                });
+            });
+        });
     });
 
     describe("POST /canyons", () => {

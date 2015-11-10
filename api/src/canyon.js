@@ -1,10 +1,11 @@
+import * as authentication from "./authentication";
 import * as canyon from "models/canyon";
 import Immutable from "immutable";
 import cloudinary from "cloudinary";
 import db from "./db";
 import express from "express";
 import sql from "sql";
-import * as authentication from "./authentication";
+import { markdown } from "markdown";
 
 if (typeof process.env.CLOUDINARY_API_KEY === "undefined" ||
     typeof process.env.CLOUDINARY_SECRET_KEY === "undefined") {
@@ -65,7 +66,14 @@ router.get("/:id", (req, res) => {
 
     db.query(select).then((r) => {
         if (r.length > 0) {
-            res.status(200).send(r[0]);
+            let canyon = r[0];
+            Object.assign(canyon, {
+                formatted: {
+                    access: markdown.toHTML(canyon.access),
+                    notes: markdown.toHTML(canyon.notes)
+                }
+            });
+            res.status(200).send(canyon);
         } else {
             res.status(404).end();
         }

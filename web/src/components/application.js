@@ -15,12 +15,7 @@ var d = React.DOM;
 export default class Application extends React.Component {
     render() {
         return d.div(
-            {
-                className: "wrapper",
-                style: {
-                    marginTop: this.props.location.pathname == "/" ? null : "50px"
-                }
-            },
+            { className: "wrapper" },
             React.createElement(Header, this.props),
             this.props.children
         );
