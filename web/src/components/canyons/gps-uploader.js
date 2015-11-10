@@ -6,7 +6,7 @@ import GoogleMap from 'google-map-react';
 
 var d = React.DOM;
 
-class GpxUploader extends FileUploader {
+class GpsUploader extends FileUploader {
     static defaults = {
         center: { lat: -33.7865352, lng: 150.4087605 },
         zoom: 10
@@ -20,9 +20,19 @@ class GpxUploader extends FileUploader {
         let reader = new FileReader();
 
         reader.onload = (e) => {
-            let gpx = e.target.result;
-            let dom = (new DOMParser()).parseFromString(gpx, 'text/xml');
-            let track = geojson.gpx(dom);
+            let xml = e.target.result;
+            let dom = (new DOMParser()).parseFromString(xml, 'text/xml');
+            let track;
+
+            if (dom.childNodes[0] &&
+                dom.childNodes[0].tagName === "gpx") {
+                track = geojson.gpx(dom);
+            } else if (dom.childNodes[0] &&
+                       dom.childNodes[0].tagName === "kml") {
+                track = geojson.kml(dom);
+            }
+
+            // TODO: handle errors in XML parsing, or when not gpx or kml
 
             this.setState({ track: track });
 
@@ -87,7 +97,7 @@ class GpxUploader extends FileUploader {
                 onDrop: this.drop.bind(this),
                 onClick: this.browse.bind(this),
                 type: "button",
-                className: `gpx ${this.stateClasses()}`
+                className: `gps ${this.stateClasses()}`
             },
 
             d.input({type: "file", onChange: this.select.bind(this)}),
@@ -96,8 +106,8 @@ class GpxUploader extends FileUploader {
                 onGoogleApiLoaded: this.mapLoaded.bind(this),
                 yesIWantToUseGoogleMapApiInternals: true,
 
-                defaultZoom: GpxUploader.defaults.zoom,
-                defaultCenter: GpxUploader.defaults.center,
+                defaultZoom: GpsUploader.defaults.zoom,
+                defaultCenter: GpsUploader.defaults.center,
 
                 options: (maps) => {
                     return {
@@ -110,5 +120,5 @@ class GpxUploader extends FileUploader {
 }
 
 export default (props) => {
-    return React.createElement(GpxUploader, {...props});
+    return React.createElement(GpsUploader, {...props});
 }

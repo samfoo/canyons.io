@@ -3,7 +3,7 @@ import * as canyon from "models/canyon";
 import * as forms from "../forms";
 import Immutable from "immutable";
 import React from "react";
-import gpxUploader from "./gpx-uploader";
+import gpsUploader from "./gps-uploader";
 import spinner from "../spinner";
 import { connect } from "react-redux";
 
@@ -123,7 +123,7 @@ export default class CanyonForm extends React.Component {
                     }
                 ),
 
-                gpxUploader({
+                gpsUploader({
                     className: "gps-input",
                     errors: this.errors("gps"),
                     onChange: this.set("gps"),
