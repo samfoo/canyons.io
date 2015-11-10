@@ -105,7 +105,7 @@ export default class CanyonShow extends React.Component {
                     link({
                         to: `/canyons/${this.canyon().get("id")}/descents/new`,
                         className: "button secondary left"
-                    }, d.i({className: "fa fa-book"}), " Log a descent"),
+                    }, d.i({className: "fa fa-book"}), " Add trip report"),
                     link({
                         to: `/canyons/${this.canyon().get("id")}/edit`,
                         className: "button tertiary right"
@@ -113,30 +113,28 @@ export default class CanyonShow extends React.Component {
                 ),
 
                 d.h2({}, "Access"),
-                d.p({dangerouslySetInnerHTML: {__html: this.canyon().getIn(["formatted", "access"])}}),
+
+                d.div(
+                    { className: "map" },
+                    React.createElement(GoogleMap, {
+                        onGoogleApiLoaded: this.mapLoaded.bind(this),
+                        yesIWantToUseGoogleMapApiInternals: true,
+
+                        defaultZoom: 10,
+                        defaultCenter: { lat: -33.7865352, lng: 150.4087605 },
+
+                        options: (maps) => {
+                            return {
+                                mapTypeId: maps.MapTypeId.TERRAIN
+                            };
+                        }
+                    })
+                ),
+
+                d.div({className: "formatted", dangerouslySetInnerHTML: {__html: this.canyon().getIn(["formatted", "access"])}}),
 
                 d.h2({}, "Track Notes"),
-                d.p({dangerouslySetInnerHTML: {__html: this.canyon().getIn(["formatted", "notes"])}}),
-            ),
-
-            d.div(
-                {
-                    className: "map",
-                    style: { height: "50vh", width: "100%" }
-                },
-                React.createElement(GoogleMap, {
-                    onGoogleApiLoaded: this.mapLoaded.bind(this),
-                    yesIWantToUseGoogleMapApiInternals: true,
-
-                    defaultZoom: 10,
-                    defaultCenter: { lat: -33.7865352, lng: 150.4087605 },
-
-                    options: (maps) => {
-                        return {
-                            mapTypeId: maps.MapTypeId.TERRAIN
-                        };
-                    }
-                })
+                d.div({className: "formatted", dangerouslySetInnerHTML: {__html: this.canyon().getIn(["formatted", "notes"])}}),
             )
         );
     }
