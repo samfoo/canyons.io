@@ -3,8 +3,15 @@ import GoogleMap from "google-map-react";
 import React from "react";
 import { connect } from "react-redux";
 import { fetch, resourceRequired } from "../../decorators";
+import { Link } from "react-router";
 
 var d = React.DOM;
+
+const link = (props, ...children) => {
+    return React.createElement(
+        Link, props, ...children
+    );
+};
 
 @resourceRequired((store, r) => store.loaded(`canyons.ids.${r.params.id}`))
 @fetch((store, r) => {
@@ -92,6 +99,18 @@ export default class CanyonShow extends React.Component {
                 {className: "details"},
 
                 d.h1({className: "name"}, this.canyon().get("name")),
+
+                d.div(
+                    {className: "actions"},
+                    link({
+                        to: `/canyons/${this.canyon().get("id")}/descents/new`,
+                        className: "button secondary left"
+                    }, d.i({className: "fa fa-book"}), " Log a descent"),
+                    link({
+                        to: `/canyons/${this.canyon().get("id")}/edit`,
+                        className: "button tertiary right"
+                    }, d.i({className: "fa fa-pencil"}), " Edit")
+                ),
 
                 d.h2({}, "Access"),
                 d.p({dangerouslySetInnerHTML: {__html: this.canyon().getIn(["formatted", "access"])}}),

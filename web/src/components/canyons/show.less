@@ -1,4 +1,11 @@
 #canyon-show {
+    @vert-padding: 15px;
+    @horiz-padding: 35px;
+
+    h1 {
+        margin-top: 0;
+    }
+
     .cover {
         height: 50vh;
         width: 100%;
@@ -6,6 +13,21 @@
     }
 
     .details, .map {
-        padding: 35px;
+        padding: @vert-padding @horiz-padding;
+    }
+
+    .details {
+        position: relative;
+    }
+
+    .button {
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .actions {
+        position: absolute;
+        top: @vert-padding;
+        right: @horiz-padding;
     }
 }
