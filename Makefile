@@ -68,11 +68,11 @@ client:
 	(cd web && webpack)
 
 lint:
-	eslint web/src/**/*.js
-	eslint web/__tests__/**/*.js
-	eslint api/src/**/*.js
-	eslint api/test/**/*.js
-	eslint models/**/*.js
+	find web/src -name "*.js" | xargs eslint
+	find web/__tests__ -name "*.js" | xargs eslint
+	find api/src -name "*.js" | xargs eslint
+	find api/__tests__ -name "*.js" | xargs eslint
+	find models -name "*.js" | grep -v node_modules | xargs eslint
 
 watch-client: web/node_modules
 	(cd web && npm link ../models)

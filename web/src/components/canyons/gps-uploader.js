@@ -1,6 +1,5 @@
-import GoogleMap from 'google-map-react';
+import GoogleMap from "google-map-react";
 import React from "react";
-import ReactDOM from "react-dom";
 import geojson from "togeojson";
 import spinner from "../spinner";
 import { FileUploader } from "../forms";
@@ -27,7 +26,7 @@ class GpsUploader extends FileUploader {
 
         reader.onload = (e) => {
             let xml = e.target.result;
-            let dom = (new DOMParser()).parseFromString(xml, 'text/xml');
+            let dom = (new DOMParser()).parseFromString(xml, "text/xml");
             let track;
 
             if (dom.childNodes[0] &&
@@ -37,7 +36,6 @@ class GpsUploader extends FileUploader {
                        dom.childNodes[0].tagName === "kml") {
                 track = geojson.kml(dom);
             }
-            console.log("track is", track);
 
             // TODO: handle errors in XML parsing, or when not gpx or kml
 
@@ -160,4 +158,4 @@ class GpsUploader extends FileUploader {
 
 export default (props) => {
     return React.createElement(GpsUploader, {...props});
-}
+};

@@ -8,7 +8,6 @@ import express from "express";
 import request from "supertest";
 import db from "../src/db";
 import bcrypt from "bcrypt";
-import { fromString as pp } from "html-to-text";
 
 const auth = require("../src/authentication");
 const session = require("../src/session");
@@ -60,7 +59,7 @@ describe("sessions", () => {
             bcrypt.compareSync.mockReturnValue(false);
         });
 
-        pit("should delete session", (done) => {
+        pit("should delete session", () => {
             return login().then(agent => {
                 return new Promise((resolve, reject) => {
                     agent
@@ -71,9 +70,8 @@ describe("sessions", () => {
                             agent
                                 .get("/sessions")
                                 .expect(200)
-                                .expect({}, (err, res) => {
+                                .expect({}, err => {
                                     if (err) {
-                                        console.error(pp(res.error.text, {wordwrap: 10000}));
                                         reject(err);
                                     } else {
                                         resolve();
@@ -111,9 +109,8 @@ describe("sessions", () => {
                             password: "password"
                         }))
                         .expect(401)
-                        .end((err, res) => {
+                        .end(err => {
                             if (err) {
-                                console.error(pp(res.error.text, {wordwrap: 10000}));
                                 reject(err);
                             } else {
                                 resolve();
@@ -137,9 +134,8 @@ describe("sessions", () => {
                             email: "sam@ifdown.net",
                             password: "password"
                         }))
-                        .expect("set-cookie", /[^ ]+/, (err, res) => {
+                        .expect("set-cookie", /[^ ]+/, err => {
                             if (err) {
-                                console.error(pp(res.error.text, {wordwrap: 10000}));
                                 reject(err);
                             } else {
                                 resolve();
@@ -158,9 +154,8 @@ describe("sessions", () => {
                         .get("/sessions")
                         .expect(200)
                         .expect("Content-Type", /json/)
-                        .expect({}, (err, res) => {
+                        .expect({}, err => {
                             if (err) {
-                                console.error(pp(res.error.text, {wordwrap: 10000}));
                                 reject(err);
                             } else {
                                 resolve();
@@ -181,7 +176,7 @@ describe("sessions", () => {
                 );
             });
 
-            pit("should render the current user", (done) => {
+            pit("should render the current user", () => {
                 return login().then(agent => {
                     return new Promise((resolve, reject) => {
                         agent
@@ -192,9 +187,8 @@ describe("sessions", () => {
                                 let user = res.body;
                                 expect(user.email).toEqual("sam@ifdown.net");
                             })
-                            .end((err, res) => {
+                            .end(err => {
                                 if (err) {
-                                    console.error(pp(res.error.text, {wordwrap: 10000}));
                                     reject(err);
                                 } else {
                                     resolve();

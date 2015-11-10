@@ -12,7 +12,6 @@ import request from "supertest";
 import model from "models/canyon";
 import db from "../src/db";
 import cloudinary from "cloudinary";
-import { fromString as pp } from "html-to-text";
 
 const auth = require("../src/authentication");
 const canyon = require("../src/canyon");
@@ -50,9 +49,8 @@ describe("canyons", () => {
                             .type("json")
                             .send(JSON.stringify({}))
                             .expect(200)
-                            .end((err, res) => {
+                            .end(err => {
                                 if (err) {
-                                    console.error(pp(res.error.text, {wordwrap: 10000}));
                                     reject(err);
                                 } else {
                                     resolve();
@@ -78,7 +76,6 @@ describe("canyons", () => {
                             .expect(400)
                             .end(err => {
                                 if (err) {
-                                    console.error(pp(res.error.text, {wordwrap: 10000}));
                                     reject(err);
                                 } else {
                                     resolve();
@@ -91,7 +88,7 @@ describe("canyons", () => {
 
         describe("when not logged in", () => {
             pit("should respond with a 401 unauthorized", () => {
-                auth.required.mockImpl((req, res, next) => {
+                auth.required.mockImpl((req, res) => {
                     res.status(401).end();
                 });
 
@@ -107,7 +104,6 @@ describe("canyons", () => {
                         .expect(401)
                         .end(err => {
                             if (err) {
-                                console.error(pp(res.error.text, {wordwrap: 10000}));
                                 reject(err);
                             } else {
                                 resolve();

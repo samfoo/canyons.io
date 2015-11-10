@@ -1,11 +1,10 @@
-/* eslint-env node, jest */
+/* eslint-env node, jest, jasmine */
 
 jest.dontMock("../../../src/components/canyons/new");
 jest.dontMock("../../../src/components/forms");
 
 import Immutable from "immutable";
 import React from "react";
-import ReactDOM from "react-dom";
 import TestUtils from "react-addons-test-utils";
 import * as model from "models/canyon";
 import * as CanyonActions from "../../../src/actions/canyon";
@@ -14,7 +13,7 @@ const NewCanyon = require("../../../src/components/canyons/new");
 
 const newCanyon = (props) => {
     return React.createElement(NewCanyon, props);
-}
+};
 
 describe("the new canyon form", () => {
     let store;
@@ -25,11 +24,12 @@ describe("the new canyon form", () => {
         history = {
             pushState: jest.genMockFn()
         };
+
         store = {
             subscribe: () => {},
             dispatch: jest.genMockFn(),
             getState: jest.genMockFn()
-        }
+        };
 
         store.getState.mockReturnValue({});
 
@@ -42,7 +42,6 @@ describe("the new canyon form", () => {
         });
 
         it("should dispatch a 'createCanyon' action with the state of the form fields", () => {
-            let node = ReactDOM.findDOMNode(form);
             let canyon = Immutable.fromJS({name: "Arethusa", notes: "Really fun...", access: "Bell's line..."});
             canyon.forEach((v, k) => {
                 let input = TestUtils.findRenderedDOMComponentWithClass(form, `${k}-input`);

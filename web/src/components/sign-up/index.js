@@ -38,7 +38,7 @@ export default class SignUp extends React.Component {
                     this.state.register.get("confirmation")
                 )
             )
-            .then(c => {
+            .then(() => {
                 this.props.history.pushState({}, `/`);
             })
             .catch(e => {

@@ -1,5 +1,4 @@
 import * as CanyonActions from "../../actions/canyon";
-import Immutable from "immutable";
 import React from "react";
 import { connect } from "react-redux";
 import { fetch, resourceRequired } from "../../decorators";

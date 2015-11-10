@@ -146,6 +146,6 @@ export default class CanyonForm extends React.Component {
                     })
                 )
             )
-        )
+        );
     }
 }

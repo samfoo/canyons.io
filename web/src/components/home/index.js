@@ -10,11 +10,11 @@ const link = (props, ...children) => {
     return React.createElement(
         Link, props, ...children
     );
-}
+};
 
 @fetch((store) => {
     if (!store.loaded("canyons.list")) {
-        return store.dispatch(CanyonActions.getCanyons())
+        return store.dispatch(CanyonActions.getCanyons());
     }
 })
 @connect(state => ({canyons: state.canyons.get("list")}))

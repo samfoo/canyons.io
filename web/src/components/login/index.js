@@ -26,7 +26,7 @@ export default class Login extends React.Component {
         if (errors.isEmpty()) {
             this.setState({submitting: true});
             dispatch(UserActions.login(this.state.login.get("email"), this.state.login.get("password")))
-            .then(c => {
+            .then(() => {
                 // todo - redirect back to where they were going?
                 this.props.history.pushState({}, `/`);
             })
