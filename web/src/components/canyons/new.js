@@ -1,7 +1,6 @@
 import * as CanyonActions from "../../actions/canyon";
-import * as canyon from "models/canyon";
+import * as Canyon from "models/canyon";
 import * as forms from "../forms";
-import Immutable from "immutable";
 import React from "react";
 import gpsUploader from "./gps-uploader";
 import spinner from "../spinner";
@@ -10,58 +9,21 @@ import { connect } from "react-redux";
 var d = React.DOM;
 
 @connect(state => state)
-export default class CanyonForm extends React.Component {
+export default class CanyonForm extends forms.ValidatedForm {
     constructor(props, context) {
         super(props, context);
-        this.state = { canyon: new Immutable.Map() };
     }
 
-    submit(e) {
-        const { dispatch } = this.props;
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        let errors = Immutable.fromJS(canyon.validate(this.state.canyon.toJS()) || {});
-
-        if (errors.isEmpty()) {
-            this.setState({submitting: true});
-            dispatch(CanyonActions.createCanyon(this.state.canyon.delete("errors"))).then(c => {
-                this.props.history.pushState({}, `/canyons/${c.id}`);
-            })
-            .catch(e => {
-                this.setState({
-                    error: e,
-                    submitting: false
-                });
-            });
-        } else {
-            let updated = errors.reduce((c, msgs, field) => {
-                return c.setIn(["errors", field], msgs);
-            }, this.state.canyon);
-
-            this.setState({
-                canyon: updated
-            });
-        }
+    validate(model) {
+        return Canyon.validate(model);
     }
 
-    set(field) {
-        return (e) => {
-            let updated = this.state.canyon.set(field, e.target.value);
-            let errors = Immutable.fromJS(canyon.validate(updated.toJS()));
+    send(model) {
+        let { dispatch } = this.props;
 
-            let fieldErrors = errors.get(field, Immutable.Set(errors[field]));
-            updated = updated.setIn(["errors", field], fieldErrors);
-
-            this.setState({
-                canyon: updated
-            });
-        }.bind(this);
-    }
-
-    errors(field) {
-        return this.state.canyon.getIn(["errors", field], Immutable.Set());
+        return dispatch(CanyonActions.createCanyon(model.delete("errors"))).then(c => {
+            this.props.history.pushState({}, `/canyons/${c.id}`);
+        });
     }
 
     render() {

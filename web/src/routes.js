@@ -1,6 +1,7 @@
 import App from "./components/application";
 import CanyonForm from "./components/canyons/new";
 import CanyonShow from "./components/canyons/show";
+import TripReportForm from "./components/canyons/trip-reports/new";
 import Home from "./components/home";
 import Login from "./components/login";
 import SignUp from "./components/sign-up";
@@ -36,6 +37,7 @@ export default function(store) {
         r("/sign-up", SignUp),
         r("/canyons/new", CanyonForm),
         r("/canyons/:id", CanyonShow),
+        r("/canyons/:id/trip-reports/new", TripReportForm),
         r("*", NotFound)
     );
 

@@ -103,7 +103,7 @@ export default class CanyonShow extends React.Component {
                 d.div(
                     {className: "actions"},
                     link({
-                        to: `/canyons/${this.canyon().get("id")}/descents/new`,
+                        to: `/canyons/${this.canyon().get("id")}/trip-reports/new`,
                         className: "button secondary left"
                     }, d.i({className: "fa fa-book"}), " Add trip report"),
                     link({

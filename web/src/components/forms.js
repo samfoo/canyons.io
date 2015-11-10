@@ -1,6 +1,7 @@
-import spinner from "./spinner";
+import Immutable from "immutable";
 import React from "react";
 import ReactDOM from "react-dom";
+import spinner from "./spinner";
 
 var d = React.DOM;
 
@@ -324,3 +325,56 @@ class ImageUploader extends FileUploader {
 export const imageUploader = function(title, props) {
     return React.createElement(ImageUploader, Object.assign({title: title}, props));
 };
+
+export class ValidatedForm extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        this.state = { model: new Immutable.Map() };
+    }
+
+    set(field) {
+        return (e) => {
+            let updated = this.state.model.set(field, e.target.value);
+            let errors = Immutable.fromJS(this.validate(updated.toJS()));
+
+            let fieldErrors = errors.get(field, Immutable.Set(errors[field]));
+            updated = updated.setIn(["errors", field], fieldErrors);
+
+            this.setState({
+                model: updated
+            });
+        }.bind(this);
+    }
+
+    submit(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let errors = Immutable.fromJS(this.validate(this.state.model.toJS()));
+
+        if (errors.isEmpty()) {
+            this.setState({submitting: true});
+
+            this.send(this.state.model)
+                .catch(e => {
+                    this.setState({
+                        error: e,
+                        submitting: false
+                    });
+                });
+        } else {
+            let updated = errors.reduce((c, msgs, field) => {
+                return c.setIn(["errors", field], msgs);
+            }, this.state.model);
+
+            this.setState({
+                model: updated
+            });
+        }
+    }
+
+    errors(field) {
+        return this.state.model.getIn(["errors", field], Immutable.Set());
+    }
+
+}
