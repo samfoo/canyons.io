@@ -37,6 +37,7 @@ class GpsUploader extends FileUploader {
                        dom.childNodes[0].tagName === "kml") {
                 track = geojson.kml(dom);
             }
+            console.log("track is", track);
 
             // TODO: handle errors in XML parsing, or when not gpx or kml
 
@@ -45,9 +46,7 @@ class GpsUploader extends FileUploader {
             if (this.props.onChange) {
                 this.props.onChange({
                     target: {
-                        value: {
-                            track
-                        }
+                        value: track
                     }
                 });
             }

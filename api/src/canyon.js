@@ -21,7 +21,7 @@ const router = express.Router();
 
 const canyons = sql.define({
     name: "canyons",
-    columns: ["id", "name", "access", "notes"]
+    columns: ["id", "name", "access", "notes", "gps"]
 });
 
 const canyonImages = sql.define({
@@ -82,7 +82,8 @@ router.post("/", authentication.required, (req, res) => {
             let canyonSql = canyons.insert(
                 canyons.name.value(c.name),
                 canyons.access.value(c.access),
-                canyons.notes.value(c.notes)
+                canyons.notes.value(c.notes),
+                canyons.gps.value(JSON.stringify(c.gps))
             ).returning("*").toString();
 
             db.query(canyonSql).then(results => {
