@@ -112,6 +112,7 @@ class TextAreaAutoresize extends React.Component {
             {},
             this.props,
             {
+                maxLength: null,
                 className: "real " + this.props.className,
                 onChange: this.changed.bind(this),
                 style: {
@@ -139,7 +140,27 @@ class TextAreaAutoresize extends React.Component {
 class TextArea extends Field {
     constructor(props, context) {
         super(props, context);
-        this.state = {focus: false};
+        this.state = {value: "", focus: false};
+    }
+
+    hasInfo() {
+        return typeof this.props.maxLength !== "undefined";
+    }
+
+    infoMessages() {
+        if (this.hasInfo()) {
+            return `${this.state.value.length} / ${this.props.maxLength}`;
+        } else {
+            return "";
+        }
+    }
+
+    proxyOnChange(e) {
+        this.setState({value: e.target.value});
+
+        if (typeof this.props.onChange === "function") {
+            this.props.onChange(e);
+        }
     }
 
     render() {
@@ -149,8 +170,11 @@ class TextArea extends Field {
             React.createElement(TextAreaAutoresize, Object.assign({}, {
                 onFocus: () => this.setState({focus: true}),
                 onBlur: () => this.setState({focus: false})
-            }, this.props)),
-            this.hasErrors() ? d.div({className: `error-message ${this.props.name}-error`}, this.errorMessages()) : null
+            }, this.props, {
+                onChange: this.proxyOnChange.bind(this),
+            })),
+            this.hasErrors() ? d.div({className: `error-message ${this.props.name}-error`}, this.errorMessages()) : null,
+            this.hasInfo() ? d.div({className: `info-message ${this.props.name}-info`}, this.infoMessages()) : null
         );
     }
 }

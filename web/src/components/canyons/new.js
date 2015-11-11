@@ -30,7 +30,7 @@ export default class CanyonForm extends forms.ValidatedForm {
         var e = this.state.error ? `${this.state.error.statusText}: ${this.state.error.data.message}` : null;
 
         return d.div(
-            {id: "new-canyon-form"},
+            {id: "new-canyon"},
             d.form(
                 {action: "/canyons", method: "POST", onSubmit: this.submit.bind(this)},
 
@@ -41,7 +41,7 @@ export default class CanyonForm extends forms.ValidatedForm {
 
                 d.div(
                     {
-                        className: "notification error",
+                        className: "notification error plain",
                         style: {
                             display: e ? "block" : "none"
                         }
