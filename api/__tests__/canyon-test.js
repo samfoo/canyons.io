@@ -53,7 +53,7 @@ describe("canyons", () => {
                                 }
                             }
                         ))
-                        .end((err, res) => {
+                        .end(err => {
                             if (err) {
                                 reject(err);
                             } else {

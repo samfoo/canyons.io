@@ -1,0 +1,17 @@
+@import "palette";
+
+.rating-star {
+    color: @label-color;
+    font-size: 24px;
+    letter-spacing: 5px;
+    padding: 15px 0;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.selected, &.hovered {
+        color: @rating-color;
+    }
+}
+

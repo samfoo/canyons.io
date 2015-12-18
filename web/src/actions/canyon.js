@@ -1,3 +1,10 @@
+export function createTripReport(canyonId, tripReport) {
+    return {
+        type: "CREATE_CANYON_TRIP_REPORT",
+        promise: api => api.post(`canyons/${canyonId}/trip-reports`, tripReport.toJS())
+    };
+}
+
 export function createCanyon(canyon) {
     return {
         type: "CREATE_CANYON",

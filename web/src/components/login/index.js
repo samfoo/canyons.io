@@ -1,7 +1,6 @@
 import * as UserActions from "../../actions/user";
 import * as forms from "../forms";
 import * as Login from "models/user";
-import Immutable from "immutable";
 import React from "react";
 import spinner from "../spinner";
 import { connect } from "react-redux";
@@ -22,7 +21,7 @@ export default class LoginForm extends forms.ValidatedForm {
         let { dispatch } = this.props;
 
         return dispatch(
-            UserActions.login(this.state.model.get("email"), this.state.model.get("password"))
+            UserActions.login(model.get("email"), model.get("password"))
         ).then(() => {
             // todo - redirect back to where they were going?
             this.props.history.pushState({}, `/`);
@@ -82,21 +81,7 @@ export default class LoginForm extends forms.ValidatedForm {
                     }
                 ),
 
-                d.div(
-                    {className: "submission"},
-
-                    d.button({
-                        className: "submit " + (this.state.submitting ? "disabled" : ""),
-                        onClick: this.submit.bind(this),
-                        disabled: this.state.submitting
-                    }, "Login"),
-
-                    spinner({
-                        style: {
-                            display: this.state.submitting ? "inline-block" : "none"
-                        }
-                    })
-                )
+                forms.submit("Login", this.submit.bind(this), this.state.submitting)
             )
         );
     }

@@ -1,23 +1,34 @@
+import Field from "./field";
 import Immutable from "immutable";
 import React from "react";
 import ReactDOM from "react-dom";
-import spinner from "./spinner";
+import spinner from "../spinner";
 
 var d = React.DOM;
 
-class Field extends React.Component {
-    errorClass() {
-        return this.hasErrors() ? "error" : "";
-    }
+class Submit extends React.Component {
+    render() {
+        return d.div(
+            {className: "submission"},
 
-    hasErrors() {
-        return !this.props.errors.isEmpty();
-    }
+            d.button({
+                className: "submit " + (this.props.isSubmitting ? "disabled" : ""),
+                onClick: this.props.submit,
+                disabled: this.props.isSubmitting
+            }, this.props.label),
 
-    errorMessages() {
-        return this.props.errors.join(", ");
+            spinner({
+                style: {
+                    display: this.props.isSubmitting ? "inline-block" : "none"
+                }
+            })
+        )
     }
 }
+
+export const submit = function(label, submit, isSubmitting) {
+    return React.createElement(Submit, {label, submit, isSubmitting});
+};
 
 class Text extends Field {
     constructor(props, context) {
@@ -171,7 +182,7 @@ class TextArea extends Field {
                 onFocus: () => this.setState({focus: true}),
                 onBlur: () => this.setState({focus: false})
             }, this.props, {
-                onChange: this.proxyOnChange.bind(this),
+                onChange: this.proxyOnChange.bind(this)
             })),
             this.hasErrors() ? d.div({className: `error-message ${this.props.name}-error`}, this.errorMessages()) : null,
             this.hasInfo() ? d.div({className: `info-message ${this.props.name}-info`}, this.infoMessages()) : null
@@ -400,5 +411,7 @@ export class ValidatedForm extends React.Component {
     errors(field) {
         return this.state.model.getIn(["errors", field], Immutable.Set());
     }
-
 }
+
+export { default as date } from "./date";
+export { default as rating } from "./rating";

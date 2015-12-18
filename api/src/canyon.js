@@ -1,5 +1,6 @@
 import * as authentication from "./authentication";
-import * as canyon from "models/canyon";
+import * as Canyon from "models/canyon";
+import * as TripReport from "models/trip-report";
 import Immutable from "immutable";
 import cloudinary from "cloudinary";
 import db from "./db";
@@ -58,6 +59,38 @@ router.get("/:id/images", (req, res) => {
     .catch(err => res.status(500).send({error: err}));
 });
 
+const tripReports = sql.define({
+    name: "trip_reports",
+    columns: ["id", "date", "comments", "rating", "canyon_id", "user_id"]
+});
+
+router.post("/:id/trip-reports", (req, res) => {
+    let errors = Immutable.fromJS(TripReport.validate(req.body));
+    let tr = req.body;
+
+    if (errors.isEmpty()) {
+        let tripReportSql = tripReports.insert(
+            tripReports.date.value(new Date(tr.date)),
+            tripReports.comments.value(tr.comments || null),
+            tripReports.rating.value(tr.rating),
+            tripReports.canyon_id.value(req.params.id),
+            tripReports.user_id.value(req.user.id)
+        ).returning("*").toString();
+
+        db.query(tripReportSql).then(r => {
+            res.status(200).send(r);
+        })
+        .catch(err => {
+            res.status(500).send({error: err});
+        });
+    } else {
+        res.status(400).send({
+            message: "invalid canyon",
+            errors: errors.toJS()
+        });
+    }
+});
+
 router.get("/:id", (req, res) => {
     let select = canyons.select(canyons.star())
                         .from(canyons)
@@ -82,7 +115,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", authentication.required, (req, res) => {
-    let errors = Immutable.fromJS(canyon.validate(req.body));
+    let errors = Immutable.fromJS(Canyon.validate(req.body));
     let c = req.body;
     if (errors.isEmpty()) {
         // todo some kind of error handling for cloudinary

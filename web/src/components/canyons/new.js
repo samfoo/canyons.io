@@ -46,7 +46,7 @@ export default class CanyonForm extends forms.ValidatedForm {
                             display: e ? "block" : "none"
                         }
                     },
-                    `There was an problem creating the canyon. ${e}`
+                    "There was a problem creating the canyon."
                 ),
 
                 forms.text(
@@ -92,21 +92,7 @@ export default class CanyonForm extends forms.ValidatedForm {
                     disabled: this.state.submitting
                 }),
 
-                d.div(
-                    {className: "submission"},
-
-                    d.button({
-                        className: "submit " + (this.state.submitting ? "disabled" : ""),
-                        onClick: this.submit.bind(this),
-                        disabled: this.state.submitting
-                    }, "Create"),
-
-                    spinner({
-                        style: {
-                            display: this.state.submitting ? "inline-block" : "none"
-                        }
-                    })
-                )
+                forms.submit("Create Canyon", this.submit.bind(this), this.state.submitting)
             )
         );
     }

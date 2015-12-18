@@ -1,7 +1,6 @@
 import * as UserActions from "../../actions/user";
 import * as forms from "../forms";
 import * as User from "models/user";
-import Immutable from "immutable";
 import React from "react";
 import spinner from "../spinner";
 import { connect } from "react-redux";
@@ -23,14 +22,14 @@ export default class SignUpForm extends forms.ValidatedForm {
 
         return dispatch(
             UserActions.register(
-                this.state.model.get("email"),
-                this.state.model.get("password"),
-                this.state.model.get("confirmation")
+                model.get("email"),
+                model.get("password"),
+                model.get("confirmation")
             )
         )
         .then(() => {
             this.props.history.pushState({}, `/`);
-        })
+        });
     }
 
     render() {
@@ -85,21 +84,7 @@ export default class SignUpForm extends forms.ValidatedForm {
                     }
                 ),
 
-                d.div(
-                    {className: "submission"},
-
-                    d.button({
-                        className: "submit " + (this.state.submitting ? "disabled" : ""),
-                        onClick: this.submit.bind(this),
-                        disabled: this.state.submitting
-                    }, "Register"),
-
-                    spinner({
-                        style: {
-                            display: this.state.submitting ? "inline-block" : "none"
-                        }
-                    })
-                )
+                forms.submit("Create Account", this.submit.bind(this), this.state.submitting)
             )
         );
     }

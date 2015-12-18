@@ -37,7 +37,7 @@ export default function(store) {
         r("/sign-up", SignUp),
         r("/canyons/new", CanyonForm),
         r("/canyons/:id", CanyonShow),
-        r("/canyons/:id/trip-reports/new", TripReportForm),
+        r("/canyons/:canyonId/trip-reports/new", TripReportForm),
         r("*", NotFound)
     );
 
