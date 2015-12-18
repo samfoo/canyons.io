@@ -23,7 +23,7 @@ export const schema = {
             maxLength: 300
         }
     }
-}
+};
 
 export const validate = function(tripReport) {
     let results = v.validate(tripReport, schema);

@@ -20,7 +20,7 @@ export default class TripReportForm extends forms.ValidatedForm {
         let { dispatch } = this.props;
         let { canyonId } = this.props.params;
 
-        return dispatch(CanyonActions.createTripReport(canyonId, model.delete("errors"))).then(c => {
+        return dispatch(CanyonActions.createTripReport(canyonId, model.delete("errors"))).then(() => {
             this.props.history.pushState({}, `/canyons/${canyonId}`);
         });
     }

@@ -22,7 +22,7 @@ class Submit extends React.Component {
                     display: this.props.isSubmitting ? "inline-block" : "none"
                 }
             })
-        )
+        );
     }
 }
 

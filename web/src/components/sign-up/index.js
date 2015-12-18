@@ -2,7 +2,6 @@ import * as UserActions from "../../actions/user";
 import * as forms from "../forms";
 import * as User from "models/user";
 import React from "react";
-import spinner from "../spinner";
 import { connect } from "react-redux";
 
 var d = React.DOM;

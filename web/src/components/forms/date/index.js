@@ -25,4 +25,4 @@ class DatePicker extends Field {
 export default function(label, name, options) {
     let props = Object.assign({}, options, {label: label, name: name, type: "date"});
     return React.createElement(DatePicker, props);
-};
+}

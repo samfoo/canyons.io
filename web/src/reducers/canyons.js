@@ -8,6 +8,7 @@ export default function canyonReducer(state=defaultState, action) {
         state = state
             .remove("list")
             .setIn(["meta", "@@loaded/list"], false);
+        // falls through
     case "GET_CANYON":
         return state
             .setIn(["ids", action.res.data.id], Immutable.fromJS(action.res.data))

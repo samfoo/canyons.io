@@ -51,7 +51,7 @@ class Rating extends Field {
         });
     }
 
-    unhover(rating) {
+    unhover() {
         this.setState({
             hoverOver: 0
         });
@@ -64,9 +64,9 @@ class Rating extends Field {
                 selected: this.state.hoverOver === 0 && this.state.rating >= i,
                 hovered: this.state.hoverOver >= i,
                 key: `star-${i}`,
-                onMouseOver: (e) => this.hover(i),
-                onMouseOut: (e) => this.unhover(i),
-                onClick: (e) => this.select(i)
+                onMouseOver: () => this.hover(i),
+                onMouseOut: () => this.unhover(i),
+                onClick: () => this.select(i)
             }));
         }
 
