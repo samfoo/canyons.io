@@ -69,7 +69,7 @@ export default class TripReportForm extends forms.ValidatedForm {
                         maxLength: 300,
                         className: "comments-input",
                         errors: this.errors("comments"),
-                        placeholder: "The main abseil was clogged with flotsom...",
+                        placeholder: "e.g. The main abseil was clogged with flotsom, the last storm made this really dodgey.",
                         onChange: this.set("comments"),
                         disabled: this.state.submitting
                     }
