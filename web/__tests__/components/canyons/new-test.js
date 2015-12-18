@@ -2,6 +2,7 @@
 
 jest.dontMock("../../../src/components/canyons/new");
 jest.dontMock("../../../src/components/forms");
+jest.dontMock("../../../src/components/forms/field");
 
 import Immutable from "immutable";
 import React from "react";

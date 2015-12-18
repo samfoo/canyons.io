@@ -5,6 +5,9 @@ const defaultState = new Immutable.Map();
 export default function canyonReducer(state=defaultState, action) {
     switch (action.type) {
     case "CREATE_CANYON":
+        state = state
+            .remove("list")
+            .setIn(["meta", "@@loaded/list"], false);
     case "GET_CANYON":
         return state
             .setIn(["ids", action.res.data.id], Immutable.fromJS(action.res.data))
