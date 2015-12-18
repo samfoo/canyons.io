@@ -137,7 +137,14 @@ router.post("/", authentication.required, (req, res) => {
                 return results[0];
             })
             .then(r => {
-                res.status(200).send(r);
+                let canyon = r;
+                Object.assign(canyon, {
+                    formatted: {
+                        access: markdown.toHTML(canyon.access),
+                        notes: markdown.toHTML(canyon.notes)
+                    }
+                });
+                res.status(200).send(canyon);
             })
             .catch(err => {
                 res.status(500).send({error: err});
