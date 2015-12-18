@@ -1,16 +1,17 @@
 /* eslint-env node, jest */
 
+jest.setMock("pg-promise", () => () => { return undefined; });
 jest.dontMock("../src/session");
 jest.dontMock("../src/authentication");
 
 import bodyParser from "body-parser";
 import express from "express";
 import request from "supertest";
-import db from "../src/db";
 import bcrypt from "bcrypt";
 
 const auth = require("../src/authentication");
 const session = require("../src/session");
+const db  = require("../src/db");
 
 describe("sessions", () => {
     let app;
@@ -48,7 +49,7 @@ describe("sessions", () => {
 
     describe("POST /sessions/logout", () => {
         beforeEach(() => {
-            db.one.mockReturnValue(
+            db.users.get.mockReturnValue(
                 Promise.resolve({
                     id: "user-id",
                     email: "sam@ifdown.net",
@@ -56,7 +57,13 @@ describe("sessions", () => {
                 })
             );
 
-            bcrypt.compareSync.mockReturnValue(false);
+            db.users.getByEmail.mockReturnValue(
+                Promise.resolve({
+                    id: "user-id",
+                    email: "sam@ifdown.net",
+                    password: "crypted-password"
+                })
+            );
         });
 
         pit("should delete session", () => {
@@ -66,17 +73,12 @@ describe("sessions", () => {
                         .post("/sessions/logout")
                         .type("json")
                         .expect(200)
-                        .end(() => {
-                            agent
-                                .get("/sessions")
-                                .expect(200)
-                                .expect({}, err => {
-                                    if (err) {
-                                        reject(err);
-                                    } else {
-                                        resolve();
-                                    }
-                                });
+                        .expect({}, err => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve();
+                            }
                         });
                 });
             });
@@ -85,7 +87,15 @@ describe("sessions", () => {
 
     describe("POST /sessions", () => {
         beforeEach(() => {
-            db.one.mockReturnValue(
+            db.users.get.mockReturnValue(
+                Promise.resolve({
+                    id: "user-id",
+                    email: "sam@ifdown.net",
+                    password: "crypted-password"
+                })
+            );
+
+            db.users.getByEmail.mockReturnValue(
                 Promise.resolve({
                     id: "user-id",
                     email: "sam@ifdown.net",
@@ -167,7 +177,15 @@ describe("sessions", () => {
 
         describe("when logged in", () => {
             beforeEach(() => {
-                db.one.mockReturnValue(
+                db.users.get.mockReturnValue(
+                    Promise.resolve({
+                        id: "user-id",
+                        email: "sam@ifdown.net",
+                        password: "crypted-password"
+                    })
+                );
+
+                db.users.getByEmail.mockReturnValue(
                     Promise.resolve({
                         id: "user-id",
                         email: "sam@ifdown.net",

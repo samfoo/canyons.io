@@ -10,7 +10,7 @@ module.exports = {
         var stage = process.env.BABEL_JEST_STAGE || 2;
 
         var module = filename.indexOf("node_modules") !== -1,
-            models = filename.match(/node_modules\/models\/\w+.js$/);
+            models = filename.indexOf("node_modules/models") !== -1;
 
         if (module && !models) {
             return src;
@@ -28,3 +28,4 @@ module.exports = {
         }
     }
 };
+

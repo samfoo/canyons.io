@@ -1,21 +1,21 @@
 /* eslint-env node, jest */
 
-jest.dontMock("../src/canyon");
 jest.setMock("pg-promise", () => () => { return undefined; });
+
+jest.dontMock("../src/canyon");
 jest.setMock("../src/authentication", {
     required: jest.genMockFn()
 });
 
 import bodyParser from "body-parser";
 import cloudinary from "cloudinary";
-import db from "../src/db";
 import express from "express";
-import { markdown } from "markdown";
 import model from "models/canyon";
 import request from "supertest";
 
 const auth = require("../src/authentication");
 const canyon = require("../src/canyon");
+const db = require("../src/db");
 
 describe("canyons", () => {
     let app;
@@ -28,31 +28,23 @@ describe("canyons", () => {
 
     describe("GET /canyons/:id", () => {
         describe("when canyon exists", () => {
-            pit("should contain formatted access & notes", () => {
+            pit("should render the canyon", () => {
                 let canyon = {
                     id: "canyon-id",
+                    slug: "canyon-slug",
                     access: "Down to Bell's Line of Road\n\n* Then... \n* Next...",
                     notes: "Be careful of the tiger snakes\n\nThey're vicious in the summer"
                 };
 
-                db.query.mockReturnValue(
-                    Promise.resolve([canyon])
+                db.canyons.get.mockReturnValue(
+                    Promise.resolve(canyon)
                 );
 
                 return new Promise((resolve, reject) => {
                     request(app)
                         .get("/canyons/canyon-id")
                         .type("json")
-                        .expect(200, Object.assign(
-                            {},
-                            canyon,
-                            {
-                                formatted: {
-                                    access: markdown.toHTML(canyon.access),
-                                    notes: markdown.toHTML(canyon.notes)
-                                }
-                            }
-                        ))
+                        .expect(200, canyon)
                         .end(err => {
                             if (err) {
                                 reject(err);
@@ -81,7 +73,9 @@ describe("canyons", () => {
                         cb({});
                     });
 
-                    db.query.mockReturnValue(Promise.resolve([{id: "canyon-id"}]));
+                    db.canyons.create.mockReturnValue(
+                        Promise.resolve([{id: "canyon-id"}])
+                    );
 
                     return new Promise((resolve, reject) => {
                         request(app)

@@ -1,6 +1,8 @@
 import * as CanyonActions from "../../actions/canyon";
 import * as Canyon from "models/canyon";
 import * as forms from "../forms";
+import * as links from "../../utils/links";
+import Immutable from "immutable";
 import React from "react";
 import gpsUploader from "./gps-uploader";
 import { connect } from "react-redux";
@@ -21,12 +23,12 @@ export default class CanyonForm extends forms.ValidatedForm {
         let { dispatch } = this.props;
 
         return dispatch(CanyonActions.createCanyon(model.delete("errors"))).then(c => {
-            this.props.history.pushState({}, `/canyons/${c.id}`);
+            this.props.history.pushState({}, links.canyons.show(Immutable.fromJS(c)));
         });
     }
 
     render() {
-        var e = this.state.error ? `${this.state.error.statusText}: ${this.state.error.data.message}` : null;
+        var e = this.state.error ? `${this.state.error.statusText}` : null;
 
         return d.div(
             {id: "new-canyon"},

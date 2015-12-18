@@ -1,4 +1,5 @@
 import * as CanyonActions from "../../actions/canyon";
+import * as links from "../../utils/links";
 import React from "react";
 import { fetch } from "../../decorators";
 import { connect } from "react-redux";
@@ -38,10 +39,17 @@ export default class Home extends React.Component {
                 d.h2({}, "Recent Canyons"),
                 d.ul(
                     {className: "canyons"},
-                    canyons.map((c) => d.li({key: c.get("id")},
-                                            link({to: `/canyons/${c.get("id")}`}, c.get("name"))))
+                    canyons.map(c => {
+                        return d.li(
+                            {key: c.get("id")},
+                             link(
+                                 {to: links.canyons.show(c)},
+                                 c.get("name")
+                             )
+                        );
+                    })
                 ),
-                link({to: "/canyons/new"}, d.button({}, "Add a new canyon"))
+                link({to: links.canyons.new()}, d.button({}, "Add a new canyon"))
             )
         );
     }

@@ -3,6 +3,7 @@
 jest.dontMock("../../../src/components/canyons/new");
 jest.dontMock("../../../src/components/forms");
 jest.dontMock("../../../src/components/forms/field");
+jest.dontMock("../../../src/utils/links");
 
 import Immutable from "immutable";
 import React from "react";
@@ -60,7 +61,7 @@ describe("the new canyon form", () => {
         });
 
         it("should redirect to the newly created canyon", () => {
-            store.dispatch.mockReturnValue(Promise.resolve({id: "canyon-id"}));
+            store.dispatch.mockReturnValue(Promise.resolve({id: "canyon-id", slug: "canyon-slug"}));
 
             let submit = TestUtils.findRenderedDOMComponentWithTag(form, "button");
             TestUtils.Simulate.click(submit);
@@ -70,7 +71,7 @@ describe("the new canyon form", () => {
             }, "The URL should have been updated", 100);
 
             runs(() => {
-                expect(history.pushState).toBeCalledWith({}, "/canyons/canyon-id");
+                expect(history.pushState).toBeCalledWith({}, "/canyons/canyon-slug");
             });
         });
     });

@@ -2,7 +2,6 @@ import db from "./db";
 import passport from "passport";
 import bcrypt from "bcrypt";
 import sessionMgt from "express-session";
-import sql from "sql";
 import { Strategy } from "passport-local";
 
 if (!process.env.SESSION_SECRET) {
@@ -21,18 +20,9 @@ if (process.env.NODE_ENV !== "test") {
     COOKIE_DOMAIN = `.${baseDomain[0]}.${baseDomain[1]}`;
 }
 
-const users = sql.define({
-    name: "users",
-    columns: ["id", "email", "password"]
-});
-
 const auth = (email, password, done) => {
-    let select = users.select(users.id, users.email, users.password)
-                      .from(users)
-                      .where(users.email.equals(email))
-                      .toString();
-
-    db.one(select)
+    db.users
+        .getByEmail(db.connection, email)
         .then(user => {
             let valid = bcrypt.compareSync(password, user.password);
 
@@ -61,11 +51,8 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    let select = users.table.select(users.table.star())
-                            .where(users.table.id.equals(id))
-                            .toString();
-
-    db.one(select)
+    db.users
+        .get(db.connection, id)
         .then(user => done(null, user))
         .catch(e => done(e));
 });

@@ -1,4 +1,5 @@
 import * as CanyonActions from "../../actions/canyon";
+import * as links from "../../utils/links";
 import GoogleMap from "google-map-react";
 import React from "react";
 import { connect } from "react-redux";
@@ -103,11 +104,11 @@ export default class CanyonShow extends React.Component {
                 d.div(
                     {className: "actions"},
                     link({
-                        to: `/canyons/${this.canyon().get("id")}/trip-reports/new`,
+                        to: links.canyons.tripReports(this.canyon()).new(),
                         className: "button secondary left"
                     }, d.i({className: "fa fa-book"}), " Add trip report"),
                     link({
-                        to: `/canyons/${this.canyon().get("id")}/edit`,
+                        to: links.canyons.edit(this.canyon()),
                         className: "button tertiary right"
                     }, d.i({className: "fa fa-pencil"}), " Edit")
                 ),

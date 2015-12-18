@@ -1,6 +1,7 @@
 import * as CanyonActions from "../../../actions/canyon";
 import * as TripReport from "models/trip-report";
 import * as forms from "../../forms";
+import * as links from "../../../utils/links";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -21,18 +22,18 @@ export default class TripReportForm extends forms.ValidatedForm {
         let { canyonId } = this.props.params;
 
         return dispatch(CanyonActions.createTripReport(canyonId, model.delete("errors"))).then(() => {
-            this.props.history.pushState({}, `/canyons/${canyonId}`);
+            this.props.history.pushState({}, links.canyons.show(canyonId));
         });
     }
 
     render() {
-        let e = this.state.error ? `${this.state.error.statusText}: ${this.state.error.data.message}` : null;
+        let e = this.state.error ? `${this.state.error.statusText}` : null;
 
         return d.div(
             {id: "new-trip-report"},
 
             d.form(
-                {action: `/canyons/todo-add-id/trip-reports`, method: "POST", onSubmit: this.submit.bind(this)},
+                {action: `/canyons/${this.props.params.canyonId}/trip-reports`, method: "POST", onSubmit: this.submit.bind(this)},
 
                 d.div(
                     {

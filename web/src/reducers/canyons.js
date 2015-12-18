@@ -11,7 +11,9 @@ export default function canyonReducer(state=defaultState, action) {
         // falls through
     case "GET_CANYON":
         return state
+            .setIn(["ids", action.res.data.slug], Immutable.fromJS(action.res.data))
             .setIn(["ids", action.res.data.id], Immutable.fromJS(action.res.data))
+            .setIn(["meta", `@@loaded/ids/${action.res.data.slug}`], true)
             .setIn(["meta", `@@loaded/ids/${action.res.data.id}`], true);
     case "GET_CANYONS":
         return state
