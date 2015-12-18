@@ -24,7 +24,7 @@ export default class LoginForm extends forms.ValidatedForm {
             UserActions.login(model.get("email"), model.get("password"))
         ).then(() => {
             // todo - redirect back to where they were going?
-            this.props.history.pushState({}, `/`);
+            this.props.history.pushState({}, "/");
         })
         .catch(e => {
             this.setState({ submitting: false });

@@ -4,6 +4,7 @@ const defaultState = new Immutable.Map();
 
 export default function userReducer(state=defaultState, action) {
     switch (action.type) {
+    case "REGISTER_USER":
     case "GET_CURRENT_USER":
         return state
             .set("current", Immutable.fromJS(action.res.data))
