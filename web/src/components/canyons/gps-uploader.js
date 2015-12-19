@@ -1,3 +1,4 @@
+import * as gps from "../../utils/gps";
 import GoogleMap from "google-map-react";
 import React from "react";
 import geojson from "togeojson";
@@ -38,6 +39,8 @@ class GpsUploader extends FileUploader {
             }
 
             // TODO: handle errors in XML parsing, or when not gpx or kml
+
+            track = gps.compress(track);
 
             this.setState({ track: track });
 
