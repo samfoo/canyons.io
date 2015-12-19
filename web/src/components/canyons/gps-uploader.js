@@ -18,6 +18,10 @@ class GpsUploader extends FileUploader {
     }
 
     setFile(file) {
+        if (!file) {
+            return;
+        }
+
         this.setState({
             loading: true,
             finished: false
