@@ -20,10 +20,10 @@ test-api: api/node_modules
 		CLOUDINARY_SECRET_KEY=apisecret \
 		SESSION_SECRET=secret \
 		WEB_DOMAIN=canyons.test \
-		./node_modules/.bin/jest --no-cache --verbose)
+		./node_modules/.bin/mocha --compilers js:babel-core/register --recursive)
 
 test-models: models/node_modules
-	(cd models && NODE_ENV=test mocha --compilers js:babel-core/register)
+	(cd models && NODE_ENV=test mocha --compilers js:babel-core/register --recursive)
 
 test: test-api test-models test-web
 

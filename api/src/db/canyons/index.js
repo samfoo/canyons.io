@@ -1,5 +1,5 @@
 import slug from "slug";
-import * as model from "models/canyon";
+import { Canyon as model } from "models";
 import { Canyons } from "../tables";
 
 function isUUID(s) {

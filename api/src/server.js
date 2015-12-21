@@ -1,12 +1,12 @@
 import bodyParser from "body-parser";
 import express from "express";
 import logger from "morgan";
-import authentication from "./authentication";
+import * as authentication from "./authentication";
 
 // routes...
-import session from "./session";
-import canyon from "./canyon";
-import user from "./user";
+import * as session from "./session";
+import * as canyon from "./canyon";
+import * as user from "./user";
 
 if (!process.env.WEB_DOMAIN) {
     throw new Error("please make sure WEB_DOMAIN is set on the environment");

@@ -1,16 +1,16 @@
 /* eslint-env node, mocha */
 
-import * as canyon from "../canyon";
+import { Canyon } from "../lib";
 import { markdown } from "markdown";
 import { expect } from "chai";
 
-describe("the canyon data model", () => {
+describe("the canyon model", () => {
     const requiredFields = ["name", "access", "notes"];
 
     describe("decorate", () => {
         let access = "Super\n\ncool\n\naccess";
         let notes = "Super\n\ncool\n\nnotes";
-        let decorated = canyon.decorate({ notes, access });
+        let decorated = Canyon.decorate({ notes, access });
 
         it("should add the key path `formatted.access` with access parsed as markdown", () => {
             expect(decorated.formatted.access).to.equal(markdown.toHTML(access));
@@ -33,7 +33,7 @@ describe("the canyon data model", () => {
 
                     delete c[field];
 
-                    let results = canyon.validate(c);
+                    let results = Canyon.validate(c);
                     let errors = {};
                     errors[field] = ["is required"];
 

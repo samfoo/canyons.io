@@ -1,17 +1,15 @@
-import * as Canyon from "models/canyon";
-import * as TripReport from "models/trip-report";
 import * as authentication from "./authentication";
 import Immutable from "immutable";
 import cloudinary from "cloudinary";
-import db from "./db";
+import * as db from "./db";
 import express from "express";
+import * as foo from "models";
+import { Canyon, TripReport } from "models";
 
 if (typeof process.env.CLOUDINARY_API_KEY === "undefined" ||
     typeof process.env.CLOUDINARY_SECRET_KEY === "undefined") {
     throw new Error("please make sure CLOUDINARY_API_KEY and CLOUDINARY_SECRET_KEY are set on the environment");
 }
-
-console.log("cloudinary is", cloudinary);
 
 cloudinary.config({ 
     cloud_name: "adventure",

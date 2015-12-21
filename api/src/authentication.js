@@ -1,6 +1,6 @@
-import db from "./db";
-import passport from "passport";
+import * as db from "./db";
 import bcrypt from "bcrypt";
+import passport from "passport";
 import sessionMgt from "express-session";
 import { Strategy } from "passport-local";
 
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV !== "test") {
     COOKIE_DOMAIN = `.${baseDomain[0]}.${baseDomain[1]}`;
 }
 
-const auth = (email, password, done) => {
+function auth(email, password, done) {
     db.users
         .getByEmail(db.connection, email)
         .then(user => {
@@ -33,29 +33,20 @@ const auth = (email, password, done) => {
                 done(null, null);
             }
         })
-        .catch(() => done(null, null));
+        .catch(e => {
+            console.log(e.stack);
+            done(null, null)
+        });
 };
 
-passport.use(
-    new Strategy(
-        {
-            usernameField: "email",
-            passwordField: "password"
-        },
-        auth
-    )
-);
-
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
+function deserialize(id, done) {
     db.users
         .get(db.connection, id)
-        .then(user => done(null, user))
-        .catch(e => done(e));
-});
+        .then(user => {
+            done(null, user)
+        })
+        .catch(done);
+};
 
 export function required(req, res, next) {
     if (req.isAuthenticated()) {
@@ -79,6 +70,23 @@ export function initialize(app) {
             saveUninitialized: true
         })
     );
+
+    passport.use(
+        new Strategy(
+            {
+                usernameField: "email",
+                passwordField: "password"
+            },
+            auth
+        )
+    );
+
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
+    });
+
+    passport.deserializeUser(deserialize);
+
 
     app.use(passport.initialize());
     app.use(passport.session());
