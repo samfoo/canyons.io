@@ -17,7 +17,7 @@ const auth = require("../src/authentication");
 const canyon = require("../src/canyon");
 const db = require("../src/db");
 
-describe("canyons", () => {
+describe("/canyons", () => {
     let app;
 
     beforeEach(() => {

@@ -1,5 +1,5 @@
 import slug from "slug";
-import { markdown } from "markdown";
+import * as model from "models/canyon";
 import { Canyons } from "../tables";
 
 function isUUID(s) {
@@ -23,12 +23,7 @@ export function create(db, data) {
     return db.query(insert)
         .then(canyons => {
             let canyon = canyons[0];
-            return Object.assign(canyon, {
-                formatted: {
-                    access: markdown.toHTML(canyon.access),
-                    notes: markdown.toHTML(canyon.notes)
-                }
-            });
+            return model.decorate(canyon);
         });
 }
 
@@ -55,14 +50,7 @@ export function get(db, id) {
     return db.query(select.toString()).then(r => {
         if (r.length > 0) {
             let canyon = r[0];
-            Object.assign(canyon, {
-                formatted: {
-                    access: markdown.toHTML(canyon.access),
-                    notes: markdown.toHTML(canyon.notes)
-                }
-            });
-
-            return canyon;
+            return model.decorate(canyon);
         } else {
             return null;
         }

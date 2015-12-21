@@ -13,7 +13,7 @@ const auth = require("../src/authentication");
 const session = require("../src/session");
 const db  = require("../src/db");
 
-describe("sessions", () => {
+describe("/sessions", () => {
     let app;
 
     let login = () => {

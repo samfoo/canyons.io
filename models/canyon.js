@@ -1,5 +1,5 @@
-import v from "revalidator";
 import Immutable from "immutable";
+import v from "revalidator";
 
 export const schema = {
     properties: {
@@ -23,7 +23,22 @@ export const schema = {
     }
 };
 
-export const validate = function(canyon) {
+export function decorate(canyon) {
+    var markdown = require("markdown").markdown;
+
+    return Object.assign(
+        {},
+        canyon,
+        {
+            formatted: {
+                access: markdown.toHTML(canyon.access),
+                notes: markdown.toHTML(canyon.notes)
+            }
+        }
+    );
+}
+
+export function validate(canyon) {
     let results = v.validate(canyon, schema);
     let errors = Immutable.fromJS(results.errors);
 
@@ -34,4 +49,4 @@ export const validate = function(canyon) {
         },
         Immutable.Map()
     ).toJS();
-};
+}

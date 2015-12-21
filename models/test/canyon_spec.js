@@ -1,27 +1,44 @@
 /* eslint-env node, mocha */
 
 import * as canyon from "../canyon";
+import { markdown } from "markdown";
 import { expect } from "chai";
 
-describe("The canyon data model", () => {
+describe("the canyon data model", () => {
     const requiredFields = ["name", "access", "notes"];
 
-    requiredFields.forEach((field) => {
-        describe("when " + field + " is not present", () => {
-            it("should contain a validation error for " + field, () => {
-                let c = {
-                    name: "Starlight",
-                    access: "Head to the wollangambe...",
-                    notes: "Long walk in accross the river..."
-                };
+    describe("decorate", () => {
+        let access = "Super\n\ncool\n\naccess";
+        let notes = "Super\n\ncool\n\nnotes";
+        let decorated = canyon.decorate({ notes, access });
 
-                delete c[field];
+        it("should add the key path `formatted.access` with access parsed as markdown", () => {
+            expect(decorated.formatted.access).to.equal(markdown.toHTML(access));
+        });
 
-                let results = canyon.validate(c);
-                let errors = {};
-                errors[field] = ["is required"];
+        it("should add the key path `formatted.notes` with notes parsed as markdown", () => {
+            expect(decorated.formatted.notes).to.equal(markdown.toHTML(notes));
+        });
+    });
 
-                expect(results).to.deep.equal(errors);
+    describe("validate", () => {
+        requiredFields.forEach((field) => {
+            describe("when " + field + " is not present", () => {
+                it("should contain a validation error for " + field, () => {
+                    let c = {
+                        name: "Starlight",
+                        access: "Head to the wollangambe...",
+                        notes: "Long walk in accross the river..."
+                    };
+
+                    delete c[field];
+
+                    let results = canyon.validate(c);
+                    let errors = {};
+                    errors[field] = ["is required"];
+
+                    expect(results).to.deep.equal(errors);
+                });
             });
         });
     });
