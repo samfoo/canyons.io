@@ -1,4 +1,4 @@
-require('babel/register')({
+require("babel-register")({
     ignore: function(filename) {
         if (filename.indexOf("node_modules") > -1) {
             if (filename.indexOf("node_modules/models") > -1) {

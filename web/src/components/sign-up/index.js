@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 var d = React.DOM;
 
 @connect(state => state)
-export class SignUpForm extends forms.ValidatedForm {
+export class SignUp extends forms.ValidatedForm {
     constructor(props, context) {
         super(props, context);
     }
