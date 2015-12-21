@@ -1,5 +1,5 @@
 import React from "react";
-import Field from "../field";
+import { Field } from "../field";
 
 var d = React.DOM;
 
@@ -84,7 +84,7 @@ class Rating extends Field {
     }
 }
 
-export default function(label, options) {
+export function rating(label, options) {
     let props = Object.assign({}, options, {label});
     return React.createElement(Rating, props);
 }

@@ -1,14 +1,14 @@
 import * as CanyonActions from "../../../actions/canyon";
-import * as TripReport from "models/trip-report";
 import * as forms from "../../forms";
 import * as links from "../../../utils/links";
 import React from "react";
+import { TripReport } from "models/trip-report";
 import { connect } from "react-redux";
 
 var d = React.DOM;
 
 @connect(state => state)
-export default class TripReportForm extends forms.ValidatedForm {
+export class TripReportForm extends forms.ValidatedForm {
     constructor(props, context) {
         super(props, context);
     }

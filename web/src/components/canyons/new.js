@@ -4,13 +4,17 @@ import * as forms from "../forms";
 import * as links from "../../utils/links";
 import Immutable from "immutable";
 import React from "react";
-import gpsUploader from "./gps-uploader";
+import { GpsUploader } from "./gps-uploader";
 import { connect } from "react-redux";
 
 var d = React.DOM;
 
+function gpsUploader(props) {
+    return React.createElement(GpsUploader, props);
+}
+
 @connect(state => state)
-export default class CanyonForm extends forms.ValidatedForm {
+export class NewCanyon extends forms.ValidatedForm {
     constructor(props, context) {
         super(props, context);
     }

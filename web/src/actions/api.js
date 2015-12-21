@@ -12,11 +12,11 @@ const CONFIG = {
     withCredentials: true
 };
 
-const api = (resource) => {
+const path = (resource) => {
     return `${base}/${resource}`;
 };
 
-export default (cookie) => {
+export function api(cookie) {
     let headers = {
         "X-Isomorphic-From": typeof window === "undefined" ? "server" : "client"
     };
@@ -30,14 +30,14 @@ export default (cookie) => {
     return {
         get: (resource) => {
             return request.get(
-                api(resource),
+                path(resource),
                 opts
             );
         },
 
         post: (resource, data) => {
             return request.post(
-                api(resource),
+                path(resource),
                 data,
                 opts
             );

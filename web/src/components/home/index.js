@@ -19,7 +19,7 @@ const link = (props, ...children) => {
     }
 })
 @connect(state => ({canyons: state.canyons.get("list")}))
-export default class Home extends React.Component {
+export class Home extends React.Component {
     render() {
         let { canyons } = this.props;
 

@@ -2,7 +2,7 @@ import Immutable from "immutable";
 
 const defaultState = new Immutable.Map();
 
-export default function canyonReducer(state=defaultState, action) {
+export function reducer(state=defaultState, action) {
     switch (action.type) {
     case "CREATE_CANYON":
         state = state

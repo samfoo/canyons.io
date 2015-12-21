@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function(fn) {
+export function decorator(fn) {
     return DecoratedComponent => class D extends React.Component {
         static onEnter = store => {
             return (state, _, callback) => {

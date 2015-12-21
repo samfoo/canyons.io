@@ -1,5 +1,5 @@
 import React from "react";
-import Field from "../field";
+import { Field } from "../field";
 
 var d = React.DOM;
 
@@ -22,7 +22,7 @@ class DatePicker extends Field {
     }
 }
 
-export default function(label, name, options) {
+export function date(label, name, options) {
     let props = Object.assign({}, options, {label: label, name: name, type: "date"});
     return React.createElement(DatePicker, props);
 }

@@ -11,7 +11,7 @@ import ReactDOM from "react-dom";
 import TestUtils from "react-addons-test-utils";
 import Immutable from "immutable";
 
-const ShowCanyon = require("../../../src/components/canyons/show");
+const { ShowCanyon } = require("../../../src/components/canyons/show");
 
 const showCanyon = (props) => {
     return React.createElement(ShowCanyon, props);

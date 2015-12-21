@@ -1,2 +1,2 @@
-export { default as fetch } from "./fetch";
-export { default as resourceRequired } from "./resource-required";
+export { decorator as fetch } from "./fetch";
+export { decorator as resourceRequired } from "./resource-required";

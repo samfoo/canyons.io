@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class Field extends React.Component {
+export class Field extends React.Component {
     errorClass() {
         return this.hasErrors() ? "error" : "";
     }

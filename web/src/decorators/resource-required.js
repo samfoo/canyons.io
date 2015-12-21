@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function(predicate) {
+export function decorator(predicate) {
     return ResourceComponent => class D extends React.Component {
         static contextTypes = {
             store: React.PropTypes.object.isRequired

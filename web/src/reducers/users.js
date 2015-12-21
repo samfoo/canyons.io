@@ -2,7 +2,7 @@ import Immutable from "immutable";
 
 const defaultState = new Immutable.Map();
 
-export default function userReducer(state=defaultState, action) {
+export function reducer(state=defaultState, action) {
     switch (action.type) {
     case "REGISTER_USER":
     case "GET_CURRENT_USER":

@@ -1,6 +1,6 @@
 import * as UserActions from "../actions/user";
 import React from "react";
-import Header from "./header";
+import { Header } from "./header";
 import { connect } from "react-redux";
 import { fetch } from "../decorators";
 
@@ -12,7 +12,7 @@ var d = React.DOM;
     }
 })
 @connect(state => ({users: state.users}))
-export default class Application extends React.Component {
+export class Application extends React.Component {
     render() {
         return d.div(
             { className: "wrapper" },

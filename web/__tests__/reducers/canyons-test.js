@@ -4,7 +4,7 @@ jest.dontMock("../../src/reducers/canyons");
 
 import Immutable from "immutable";
 
-var reducer = require("../../src/reducers/canyons");
+var reducer = require("../../src/reducers/canyons").reducer;
 
 describe("the canyon reducer", () => {
     describe("CREATE_CANYON", () => {

@@ -11,7 +11,7 @@ import TestUtils from "react-addons-test-utils";
 import * as model from "models/canyon";
 import * as CanyonActions from "../../../src/actions/canyon";
 
-const NewCanyon = require("../../../src/components/canyons/new");
+const { NewCanyon } = require("../../../src/components/canyons/new");
 
 const newCanyon = (props) => {
     return React.createElement(NewCanyon, props);

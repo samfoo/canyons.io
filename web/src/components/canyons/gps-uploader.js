@@ -2,12 +2,12 @@ import * as gps from "../../utils/gps";
 import GoogleMap from "google-map-react";
 import React from "react";
 import geojson from "togeojson";
-import spinner from "../spinner";
+import { Spinner } from "../spinner";
 import { FileUploader } from "../forms";
 
 var d = React.DOM;
 
-class GpsUploader extends FileUploader {
+export class GpsUploader extends FileUploader {
     static defaults = {
         center: { lat: -33.7865352, lng: 150.4087605 },
         zoom: 10
@@ -144,11 +144,14 @@ class GpsUploader extends FileUploader {
                     d.i({className: "fa fa-map"}),
                     "Add GPS track"
                 ),
-                spinner({
-                    style: {
-                        display: this.state.loading ? "inline-block" : "none"
+                React.createElement(
+                    Spinner,
+                    {
+                        style: {
+                            display: this.state.loading ? "inline-block" : "none"
+                        }
                     }
-                }),
+                ),
             ),
 
             d.a(
@@ -163,6 +166,3 @@ class GpsUploader extends FileUploader {
     }
 }
 
-export default (props) => {
-    return React.createElement(GpsUploader, {...props});
-};

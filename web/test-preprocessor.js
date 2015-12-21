@@ -15,8 +15,10 @@ module.exports = {
         if (module && !models) {
             return src;
         } else {
-            if (babel.canCompile(filename)) {
+            if (babel.util.canCompile(filename)) {
                 return babel.transform(src, {
+                    plugins: ["transform-decorators-legacy"],
+                    presets: ["es2015", "stage-0"],
                     filename: filename,
                     retainLines: true
                 }).code;
@@ -26,3 +28,5 @@ module.exports = {
         }
     }
 };
+
+

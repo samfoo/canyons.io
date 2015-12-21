@@ -2,7 +2,7 @@ import React from "react";
 
 var d = React.DOM;
 
-class Spinner extends React.Component {
+export class Spinner extends React.Component {
     render() {
         return d.div(
             Object.assign({className: "spinner"}, this.props),
@@ -12,8 +12,4 @@ class Spinner extends React.Component {
             d.div({className: "four"})
         );
     }
-}
-
-export default function spinner(props={}) {
-    return React.createElement(Spinner, props);
 }

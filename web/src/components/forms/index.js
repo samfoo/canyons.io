@@ -1,10 +1,14 @@
-import Field from "./field";
 import Immutable from "immutable";
 import React from "react";
 import ReactDOM from "react-dom";
-import spinner from "../spinner";
+import { Field } from "./field";
+import { Spinner } from "../spinner";
 
 var d = React.DOM;
+
+function spinner(props) {
+    React.createElement(Spinner, props);
+}
 
 class Submit extends React.Component {
     render() {
@@ -368,7 +372,7 @@ export class ValidatedForm extends React.Component {
     }
 
     set(field) {
-        return (e) => {
+        let setter = (e) => {
             let updated = this.state.model.set(field, e.target.value);
             let errors = Immutable.fromJS(this.validate(updated.toJS()));
 
@@ -378,7 +382,9 @@ export class ValidatedForm extends React.Component {
             this.setState({
                 model: updated
             });
-        }.bind(this);
+        };
+
+        return setter.bind(this);
     }
 
     submit(e) {
@@ -413,5 +419,5 @@ export class ValidatedForm extends React.Component {
     }
 }
 
-export { default as date } from "./date";
-export { default as rating } from "./rating";
+export { date } from "./date";
+export { rating } from "./rating";

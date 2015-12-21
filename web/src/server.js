@@ -1,18 +1,18 @@
 import * as reducers from "./reducers";
-import NotFound from "./components/not-found";
 import React from "react";
 import cookieParser from "cookie-parser";
 import express from "express";
 import logger from "morgan";
 import path from "path";
-import routes from "./routes";
+import { NotFound } from "./components/not-found";
 import { Provider } from "react-redux";
 import { addLoaded } from "./utils/enhancers";
+import { api } from "./actions/api";
 import { compose, createStore, combineReducers, applyMiddleware } from "redux";
 import { match, RoutingContext } from "react-router";
 import { promises } from "./reducers/middleware";
 import { renderToString } from "react-dom/server";
-import api from "./actions/api";
+import { routes } from "./routes";
 
 export var app = express();
 

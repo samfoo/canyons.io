@@ -7,7 +7,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import TestUtils from "react-addons-test-utils";
 
-const Header = require("../../src/components/header");
+const { Header } = require("../../src/components/header");
 
 const header = (props) => {
     return React.createElement(Header, props);

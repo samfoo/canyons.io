@@ -1,15 +1,15 @@
-import App from "./components/application";
-import CanyonForm from "./components/canyons/new";
-import CanyonShow from "./components/canyons/show";
-import TripReportForm from "./components/canyons/trip-reports/new";
-import Home from "./components/home";
-import Login from "./components/login";
-import SignUp from "./components/sign-up";
-import NotFound from "./components/not-found";
 import React from "react";
+import { Application } from "./components/application";
+import { Home } from "./components/home";
 import { IndexRoute, Route } from "react-router";
+import { LoginForm } from "./components/login";
+import { NewCanyon } from "./components/canyons/new";
+import { NotFound } from "./components/not-found";
+import { ShowCanyon } from "./components/canyons/show";
+import { SignUp } from "./components/sign-up";
+import { TripReportForm } from "./components/canyons/trip-reports/new";
 
-export default function(store) {
+export function routes(store) {
     const r = (path, comp) => {
         let onEnter = comp.onEnter;
 
@@ -30,13 +30,13 @@ export default function(store) {
 
     var Root = React.createElement(
         Route,
-        {path: "/", component: App, onEnter: App.onEnter(store)},
+        {path: "/", component: Application, onEnter: Application.onEnter(store)},
 
         home(),
-        r("/login", Login),
+        r("/login", LoginForm),
         r("/sign-up", SignUp),
-        r("/canyons/new", CanyonForm),
-        r("/canyons/:id", CanyonShow),
+        r("/canyons/new", NewCanyon),
+        r("/canyons/:id", ShowCanyon),
         r("/canyons/:canyonId/trip-reports/new", TripReportForm),
         r("*", NotFound)
     );

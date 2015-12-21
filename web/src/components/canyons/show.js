@@ -39,7 +39,7 @@ const link = (props, ...children) => {
     }
 })
 @connect(state => ({canyons: state.canyons}))
-export default class CanyonShow extends React.Component {
+export class ShowCanyon extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {};
