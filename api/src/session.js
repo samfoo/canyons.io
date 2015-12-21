@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 
 const router = express.Router();
-const required = (req, res, next) => {
+export function required(req, res, next) {
     if (req.user) {
         next();
     } else {
@@ -23,7 +23,4 @@ router.get("/", (req, res) => {
     res.send(req.user || {});
 });
 
-export default {
-    routes: router,
-    required: required
-};
+export const routes = router;

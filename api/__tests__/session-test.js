@@ -11,7 +11,7 @@ import bcrypt from "bcrypt";
 
 const auth = require("../src/authentication");
 const session = require("../src/session");
-const db  = require("../src/db");
+const db = require("../src/db");
 
 describe("/sessions", () => {
     let app;

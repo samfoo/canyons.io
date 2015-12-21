@@ -11,6 +11,8 @@ if (typeof process.env.CLOUDINARY_API_KEY === "undefined" ||
     throw new Error("please make sure CLOUDINARY_API_KEY and CLOUDINARY_SECRET_KEY are set on the environment");
 }
 
+console.log("cloudinary is", cloudinary);
+
 cloudinary.config({ 
     cloud_name: "adventure",
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -119,6 +121,5 @@ router.post("/", authentication.required, (req, res) => {
     }
 });
 
-export default {
-    routes: router
-};
+export const routes = router;
+

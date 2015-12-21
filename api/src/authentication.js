@@ -57,31 +57,29 @@ passport.deserializeUser((id, done) => {
         .catch(e => done(e));
 });
 
-export default {
-    required: (req, res, next) => {
-        if (req.isAuthenticated()) {
-            return next();
-        } else {
-            res.status(401).send({error: "unauthorized"});
-        }
-    },
-
-    initialize: (app) => {
-        app.use(
-            sessionMgt({
-                name: "canyons.sid",
-                cookie: {
-                    domain: COOKIE_DOMAIN,
-                    path: "/",
-                    httpOnly: false
-                },
-                secret: process.env.SESSION_SECRET,
-                resave: false,
-                saveUninitialized: true
-            })
-        );
-
-        app.use(passport.initialize());
-        app.use(passport.session());
+export function required(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        res.status(401).send({error: "unauthorized"});
     }
-};
+}
+
+export function initialize(app) {
+    app.use(
+        sessionMgt({
+            name: "canyons.sid",
+            cookie: {
+                domain: COOKIE_DOMAIN,
+                path: "/",
+                httpOnly: false
+            },
+            secret: process.env.SESSION_SECRET,
+            resave: false,
+            saveUninitialized: true
+        })
+    );
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+}

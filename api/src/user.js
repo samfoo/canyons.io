@@ -31,6 +31,5 @@ router.post("/", (req, res) => {
     }
 });
 
-export default {
-    routes: router
-};
+export const routes = router;
+

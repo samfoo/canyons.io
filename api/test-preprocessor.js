@@ -15,12 +15,11 @@ module.exports = {
         if (module && !models) {
             return src;
         } else {
-            if (babel.canCompile(filename)) {
+            if (babel.util.canCompile(filename)) {
                 return babel.transform(src, {
+                    presets: ["es2015"],
                     filename: filename,
-                    stage: stage,
-                    retainLines: true,
-                    auxiliaryCommentBefore: "istanbul ignore next"
+                    retainLines: true
                 }).code;
             } else {
                 return src;
