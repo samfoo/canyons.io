@@ -3,7 +3,6 @@ import Immutable from "immutable";
 import cloudinary from "cloudinary";
 import * as db from "./db";
 import express from "express";
-import * as foo from "models";
 import { Canyon, TripReport } from "models";
 
 if (typeof process.env.CLOUDINARY_API_KEY === "undefined" ||

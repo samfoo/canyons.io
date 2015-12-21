@@ -33,20 +33,17 @@ function auth(email, password, done) {
                 done(null, null);
             }
         })
-        .catch(e => {
-            console.log(e.stack);
-            done(null, null)
-        });
-};
+        .catch(done);
+}
 
 function deserialize(id, done) {
     db.users
         .get(db.connection, id)
         .then(user => {
-            done(null, user)
+            done(null, user);
         })
         .catch(done);
-};
+}
 
 export function required(req, res, next) {
     if (req.isAuthenticated()) {

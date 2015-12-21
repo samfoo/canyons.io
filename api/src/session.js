@@ -8,7 +8,7 @@ export function required(req, res, next) {
     } else {
         res.sendStatus(401);
     }
-};
+}
 
 router.post("/logout", (req, res) => {
     req.logout();

@@ -72,7 +72,7 @@ lint:
 	find web/__tests__ -name "*.js" | xargs eslint
 	find api/src -name "*.js" | xargs eslint
 	find api/__tests__ -name "*.js" | xargs eslint
-	find models -name "*.js" | grep -v node_modules | xargs eslint
+	find models/src -name "*.js" | grep -v node_modules | xargs eslint
 
 watch-client: web/node_modules
 	(cd web && npm link ../models)

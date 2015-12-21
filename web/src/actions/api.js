@@ -43,5 +43,5 @@ export function api(cookie) {
             );
         }
     };
-};
+}
 
