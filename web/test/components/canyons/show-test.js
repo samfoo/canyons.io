@@ -1,15 +1,14 @@
-/* eslint-env node, jest, jasmine */
+/* eslint-env node, mocha */
 
-jest.dontMock("../../../src/components/canyons/show");
-jest.dontMock("../../../src/utils/links");
-jest.dontMock("../../../src/decorators");
-jest.dontMock("../../../src/decorators/fetch");
-jest.dontMock("../../../src/decorators/resource-required");
-
+import Immutable from "immutable";
 import React from "react";
 import ReactDOM from "react-dom";
 import TestUtils from "react-addons-test-utils";
-import Immutable from "immutable";
+import sinon from "sinon";
+
+const chai = require("chai");
+const expect = chai.expect;
+chai.use(require("sinon-chai"));
 
 const { ShowCanyon } = require("../../../src/components/canyons/show");
 
@@ -43,7 +42,7 @@ describe("the canyon show page", () => {
 
     let store = {
         subscribe: () => {},
-        dispatch: jest.genMockFn(),
+        dispatch: sinon.stub(),
         getState: () => state
     };
 
@@ -61,7 +60,7 @@ describe("the canyon show page", () => {
         let node = ReactDOM.findDOMNode(rendered);
         let access = node.getElementsByClassName("access")[0];
 
-        expect(access.textContent).toEqual(canyon.get("access"));
+        expect(access.textContent).to.equal(canyon.get("access"));
     });
 
     it("should display the canyon's formatted notes", () => {
@@ -74,7 +73,7 @@ describe("the canyon show page", () => {
         let node = ReactDOM.findDOMNode(rendered);
         let notes = node.getElementsByClassName("notes")[0];
 
-        expect(notes.textContent).toEqual(canyon.get("notes"));
+        expect(notes.textContent).to.equal(canyon.get("notes"));
     });
 
     describe("when there are trip reports", () => {
@@ -101,14 +100,15 @@ describe("the canyon show page", () => {
 
             expect(
                 tripReports.getElementsByClassName("trip-report").length
-            ).toEqual(1);
+            ).to.equal(1);
 
             let date = tripReports.getElementsByClassName("date")[0];
-            expect(date.textContent).toEqual("2015-12-21");
+            expect(date.textContent).to.equal("2015-12-21");
 
-            expect(tripReports.textContent).toEqual(
+            expect(tripReports.textContent).to.equal(
                 "2015-12-21 samfoo descended. "
             );
         });
     });
 });
+

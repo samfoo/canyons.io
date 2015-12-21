@@ -1,13 +1,11 @@
-/* eslint-env node, jest */
-
-jest.dontMock("../../src/components/header");
+/* eslint-env node, mocha */
 
 import Immutable from "immutable";
 import React from "react";
 import ReactDOM from "react-dom";
 import TestUtils from "react-addons-test-utils";
-
-const { Header } = require("../../src/components/header");
+import { Header } from "../../src/components/header";
+import { expect } from "chai";
 
 const header = (props) => {
     return React.createElement(Header, props);
@@ -39,8 +37,8 @@ describe("the site header", () => {
             let signUp = node.getElementsByClassName("sign-up")[0];
             let login = node.getElementsByClassName("login")[0];
 
-            expect(signUp.href).toEqual("/sign-up");
-            expect(login.href).toEqual("/login");
+            expect(signUp.href).to.equal("/sign-up");
+            expect(login.href).to.equal("/login");
         });
     });
 
@@ -60,7 +58,8 @@ describe("the site header", () => {
             let node = ReactDOM.findDOMNode(rendered);
             let email = node.getElementsByClassName("logged-in-user")[0].textContent;
 
-            expect(email).toEqual(state.users.getIn(["current", "email"]));
+            expect(email).to.equal(state.users.getIn(["current", "email"]));
         });
     });
 });
+

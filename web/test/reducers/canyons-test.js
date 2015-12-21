@@ -1,10 +1,8 @@
-/* eslint-env node, jest */
-
-jest.dontMock("../../src/reducers/canyons");
+/* eslint-env node, mocha */
 
 import Immutable from "immutable";
-
-var reducer = require("../../src/reducers/canyons").reducer;
+import { reducer } from "../../src/reducers/canyons";
+import { expect } from "chai";
 
 describe("the canyon reducer", () => {
     describe("CREATE_CANYON", () => {
@@ -14,7 +12,7 @@ describe("the canyon reducer", () => {
 
             let newState = reducer(Immutable.Map(), createCanyon);
 
-            expect(newState.getIn(["ids", "created-canyon"])).toEqual(
+            expect(newState.getIn(["ids", "created-canyon"])).to.deep.equal(
                 Immutable.fromJS(canyon)
             );
         });
@@ -34,7 +32,8 @@ describe("the canyon reducer", () => {
 
             let newState = reducer(withListLoaded, createCanyon);
 
-            expect(newState.getIn(["meta", "@@loaded/list"])).toBeFalsy();
+            expect(newState.getIn(["meta", "@@loaded/list"])).to.not.be.ok;
         });
     });
 });
+

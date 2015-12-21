@@ -11,7 +11,7 @@ models/node_modules: models/package.json
 	touch models/node_modules
 
 test-web: web/node_modules
-	(cd web && NODE_ENV=test ./node_modules/.bin/jest --no-cache --verbose)
+	(cd web && NODE_ENV=test mocha --compilers js:babel-core/register --recursive --require test/setup.js)
 
 test-api: api/node_modules
 	(cd api && \

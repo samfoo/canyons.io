@@ -1,9 +1,9 @@
 import * as CanyonActions from "../../actions/canyon";
-import * as Canyon from "models/canyon";
 import * as forms from "../forms";
 import * as links from "../../utils/links";
 import Immutable from "immutable";
 import React from "react";
+import { Canyon } from "models";
 import { GpsUploader } from "./gps-uploader";
 import { connect } from "react-redux";
 

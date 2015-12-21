@@ -1,6 +1,6 @@
 import * as UserActions from "../../actions/user";
 import * as forms from "../forms";
-import * as User from "models/user";
+import { User } from "models";
 import React from "react";
 import { connect } from "react-redux";
 
