@@ -2,7 +2,7 @@ import * as CanyonActions from "../../../actions/canyon";
 import * as forms from "../../forms";
 import * as links from "../../../utils/links";
 import React from "react";
-import { TripReport } from "models/trip-report";
+import { TripReport } from "models";
 import { connect } from "react-redux";
 
 var d = React.DOM;

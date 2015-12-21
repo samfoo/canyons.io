@@ -7,7 +7,7 @@
   "author": "Sam Gibson",
   "license": "GPL-3.0",
   "scripts": {
-    "serve": "DEBUG=canyons nodemon --use_strict server.js"
+    "serve": "DEBUG=canyons node --use_strict server.js"
   },
   "dependencies": {
     "axios": "^0.7.0",
@@ -29,7 +29,6 @@
     "less": "^2.5.3",
     "models": "file:../models",
     "morgan": "^1.6.1",
-    "nodemon": "^1.7.1",
     "normalize.css": "^3.0.3",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",

@@ -6,7 +6,7 @@
   "author": "Sam Gibson",
   "license": "GPL-3.0",
   "scripts": {
-    "serve": "DEBUG=canyons-api nodemon --use_strict start.js"
+    "serve": "DEBUG=canyons-api node --use_strict start.js"
   },
   "dependencies": {
     "babel": "^6.3.13",
@@ -22,7 +22,6 @@
     "immutable": "^3.7.5",
     "models": "file:../models",
     "morgan": "^1.6.1",
-    "nodemon": "^1.7.1",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "pg": "^4.4.2",
