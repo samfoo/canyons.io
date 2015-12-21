@@ -10,6 +10,12 @@ export const schema = {
             format: "email"
         },
 
+        name: {
+            required: true,
+            allowEmpty: false,
+            type: "string"
+        },
+
         password: {
             required: true,
             allowEmpty: false,

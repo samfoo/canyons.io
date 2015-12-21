@@ -22,6 +22,7 @@ export default class SignUpForm extends forms.ValidatedForm {
         return dispatch(
             UserActions.register(
                 model.get("email"),
+                model.get("name"),
                 model.get("password"),
                 model.get("confirmation")
             )
@@ -55,6 +56,17 @@ export default class SignUpForm extends forms.ValidatedForm {
                         errors: this.errors("email"),
                         placeholder: "email@example.com",
                         onChange: this.set("email"),
+                        disabled: this.state.submitting
+                    }
+                ),
+
+                forms.text(
+                    "Display Name",
+                    "name",
+                    {
+                        errors: this.errors("name"),
+                        placeholder: "Sam Gibson",
+                        onChange: this.set("name"),
                         disabled: this.state.submitting
                     }
                 ),

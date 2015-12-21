@@ -35,7 +35,7 @@ describe("the new canyon form", () => {
 
         store.getState.mockReturnValue({});
 
-        form = TestUtils.renderIntoDocument(newCanyon({store: store, history: history}));
+        form = TestUtils.renderIntoDocument(newCanyon({store, history}));
     });
 
     describe("when submitting a valid form", () => {

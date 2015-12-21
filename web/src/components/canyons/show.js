@@ -14,12 +14,19 @@ const link = (props, ...children) => {
     );
 };
 
-@resourceRequired((store, r) => store.loaded(`canyons.ids.${r.params.id}`))
+@resourceRequired((store, r) => {
+    return store.loaded(`canyons.ids.${r.params.id}`) &&
+        store.loaded(`canyons.images.ids.${r.params.id}`) &&
+        store.loaded(`canyons.trip-reports.ids.${r.params.id}`);
+})
 @fetch((store, r) => {
     let resources = [];
 
+    if (!store.loaded(`canyons.trip-reports.ids.${r.params.id}`)) {
+        resources.push(store.dispatch(CanyonActions.getCanyonTripReports(r.params.id)));
+    }
+
     if (!store.loaded(`canyons.images.ids.${r.params.id}`)) {
-        // todo: resolve to default image when 404
         resources.push(store.dispatch(CanyonActions.getCanyonImages(r.params.id)));
     }
 
@@ -46,6 +53,11 @@ export default class CanyonShow extends React.Component {
     images() {
         const { canyons } = this.props;
         return canyons.getIn(["images", "ids", this.props.params.id]);
+    }
+
+    tripReports() {
+        const { canyons } = this.props;
+        return canyons.getIn(["trip-reports", "ids", this.props.params.id]);
     }
 
     mapLoaded({map, maps}) {
@@ -113,8 +125,6 @@ export default class CanyonShow extends React.Component {
                     }, d.i({className: "fa fa-pencil"}), " Edit")
                 ),
 
-                d.h2({}, "Access"),
-
                 d.div(
                     { className: "map" },
                     React.createElement(GoogleMap, {
@@ -132,10 +142,45 @@ export default class CanyonShow extends React.Component {
                     })
                 ),
 
-                d.div({className: "formatted", dangerouslySetInnerHTML: {__html: this.canyon().getIn(["formatted", "access"])}}),
+                d.h2({}, "Access"),
+                d.div({className: "access formatted", dangerouslySetInnerHTML: {__html: this.canyon().getIn(["formatted", "access"])}}),
 
                 d.h2({}, "Track Notes"),
-                d.div({className: "formatted", dangerouslySetInnerHTML: {__html: this.canyon().getIn(["formatted", "notes"])}}),
+                d.div({className: "notes formatted", dangerouslySetInnerHTML: {__html: this.canyon().getIn(["formatted", "notes"])}}),
+
+                d.h2({}, "Activity"),
+                d.div({className: "activity"}, this.tripReports().map((tripReport, i) => {
+                    let local = new Date(tripReport.get("date"));
+                    local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
+                    let date = local.toJSON().slice(0, 10);
+
+                    let stars = [];
+                    for (let i=0; i < tripReport.get("rating"); i++) {
+                        stars.push(d.i({className: "rating-star fa fa-star", key: `star-${i}`}));
+                    }
+
+                    let comments;
+                    if (tripReport.get("comments")) {
+                        comments = d.div(
+                            {className: "comments"},
+                            "\u201c",
+                            tripReport.get("comments"),
+                            "\u201d"
+                        );
+                    }
+
+                    return d.li(
+                        {className: "trip-report", key: i},
+                        d.span({className: "date"}, date),
+                        " ",
+                        link({
+                            to: links.users.show(tripReport.get("slug"))
+                        }, tripReport.get("name")),
+                        " descended. ",
+                        stars,
+                        comments
+                    );
+                }))
             )
         );
     }

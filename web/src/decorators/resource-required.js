@@ -9,13 +9,13 @@ export default function(predicate) {
         static onEnter = store => {
             return (state, _, callback) => {
                 if (ResourceComponent.onEnter) {
-                    ResourceComponent.onEnter(store)(state, _, (err) => {
+                    ResourceComponent.onEnter(store)(state, _, err => {
                         if (err) return callback(err);
 
                         if (predicate(store, state)) {
                             callback();
                         } else {
-                            callback({type: "not-found", status: 404});
+                            callback({status: 404});
                         }
                     });
                 }

@@ -18,9 +18,7 @@ module.exports = {
             if (babel.canCompile(filename)) {
                 return babel.transform(src, {
                     filename: filename,
-                    stage: stage,
-                    retainLines: true,
-                    auxiliaryCommentBefore: "istanbul ignore next"
+                    retainLines: true
                 }).code;
             } else {
                 return src;

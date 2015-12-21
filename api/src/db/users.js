@@ -1,3 +1,4 @@
+import slug from "slug";
 import bcrypt from "bcrypt";
 import { Users } from "./tables";
 
@@ -7,6 +8,8 @@ export function create(db, data) {
 
     let insert = Users.insert(
         Users.email.value(data.email),
+        Users.name.value(data.name),
+        Users.slug.value(slug(data.name, {lower: true})),
         Users.password.value(crypted)
     ).returning("*").toString();
 

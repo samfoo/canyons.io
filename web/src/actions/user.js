@@ -22,11 +22,12 @@ export function logout() {
     };
 }
 
-export function register(email, pass, confirmation) {
+export function register(email, name, pass, confirmation) {
     return {
         type: "REGISTER_USER",
         promise: api => api.post("users", {
             email: email,
+            name: name,
             password: pass,
             confirmation: confirmation
         })

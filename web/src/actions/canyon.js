@@ -12,6 +12,14 @@ export function createCanyon(canyon) {
     };
 }
 
+export function getCanyonTripReports(id) {
+    return {
+        type: "GET_CANYON_TRIP_REPORTS",
+        canyonId: id,
+        promise: api => api.get(`canyons/${id}/trip-reports`)
+    };
+}
+
 export function getCanyonImages(id) {
     return {
         type: "GET_CANYON_IMAGES",

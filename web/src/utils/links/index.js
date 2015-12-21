@@ -1,4 +1,14 @@
 export default {
+    users: {
+        show: (user) => {
+            if (typeof user === "string") {
+                return `/users/${user}`;
+            } else {
+                return `/users/${user.get("slug")}`;
+            }
+        }
+    },
+
     canyons: {
         new: () => {
             return "/canyons/new";

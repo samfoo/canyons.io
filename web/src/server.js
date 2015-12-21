@@ -54,7 +54,7 @@ app.use((req, res) => {
 
     match({routes: routes(store), location: req.url}, (error, redir, props) => {
         if (error) {
-            if (error.type === "not-found") {
+            if (error.status === 404) {
                 res.status(404);
                 store.getState().error = 404;
 

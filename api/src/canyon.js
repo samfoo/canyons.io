@@ -29,13 +29,19 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id/images", (req, res) => {
-    db.canyons.images.getForCanyon(db.connection, req.params.id)
+    db.canyons.images
+        .getForCanyon(db.connection, req.params.id)
         .then(images => {
-            if (images.length > 0) {
-                res.status(200).send(images.map(i => i.cloudinary_response));
-            } else {
-                res.status(404).end();
-            }
+            res.status(200).send(images.map(i => i.cloudinary_response));
+        })
+        .catch(err => res.status(500).send({error: err}));
+});
+
+router.get("/:id/trip-reports", (req, res) => {
+    db.canyons.tripReports
+        .getForCanyon(db.connection, req.params.id)
+        .then(tripReports => {
+            res.status(200).send(tripReports);
         })
         .catch(err => res.status(500).send({error: err}));
 });

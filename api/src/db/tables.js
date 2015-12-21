@@ -12,7 +12,7 @@ export const CanyonImages = sql.define({
 
 export const Users = sql.define({
     name: "users",
-    columns: ["id", "email", "password"]
+    columns: ["id", "email", "name", "slug", "password"]
 });
 
 export const TripReports = sql.define({
