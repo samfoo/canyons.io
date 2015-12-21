@@ -11,7 +11,7 @@ models/node_modules: models/package.json
 	touch models/node_modules
 
 test-web: web/node_modules
-	(cd web && NODE_ENV=test ./node_modules/.bin/jest --verbose)
+	(cd web && NODE_ENV=test ./node_modules/.bin/jest --no-cache --verbose)
 
 test-api: api/node_modules
 	(cd api && \
@@ -20,7 +20,7 @@ test-api: api/node_modules
 		CLOUDINARY_SECRET_KEY=apisecret \
 		SESSION_SECRET=secret \
 		WEB_DOMAIN=canyons.test \
-		./node_modules/.bin/jest --verbose)
+		./node_modules/.bin/jest --no-cache --verbose)
 
 test-models: models/node_modules
 	(cd models && NODE_ENV=test mocha --compilers js:babel-core/register)
