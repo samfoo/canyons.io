@@ -43,11 +43,12 @@ describe("the site header", () => {
     });
 
     describe("when logged in", () => {
-        it("should display user's email", () => {
+        it("should display user's name", () => {
             state.users = Immutable.fromJS({
                 current: {
                     id: "user-id",
-                    email: "user@example.com"
+                    email: "sam@ifdown.net",
+                    name: "samfoo"
                 }
             });
 
@@ -58,7 +59,7 @@ describe("the site header", () => {
             let node = ReactDOM.findDOMNode(rendered);
             let email = node.getElementsByClassName("logged-in-user")[0].textContent;
 
-            expect(email).to.equal(state.users.getIn(["current", "email"]));
+            expect(email).to.equal(state.users.getIn(["current", "name"]));
         });
     });
 });

@@ -21,7 +21,7 @@ export class Header extends React.Component {
     render() {
         const { users } = this.props;
 
-        if (users.hasIn(["current", "email"])) {
+        if (users.hasIn(["current", "name"])) {
             return d.header(
                 {id: "site-header"},
                 d.div(
@@ -35,7 +35,7 @@ export class Header extends React.Component {
                         "Hello, ",
                         d.span(
                             {className: "logged-in-user"},
-                            users.getIn(["current", "email"])
+                            users.getIn(["current", "name"])
                         ),
                         d.span(
                             {id: "logout"},
