@@ -1,7 +1,5 @@
-require("babel-register");
-
 var debug = require("debug")("canyons"),
-    app = require("./src/server").app;
+    app = require("./lib/server").app;
 
 app.set("port", process.env.PORT || 5678);
 

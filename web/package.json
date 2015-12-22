@@ -7,11 +7,13 @@
   "author": "Sam Gibson",
   "license": "GPL-3.0",
   "scripts": {
-    "serve": "DEBUG=canyons node --use_strict server.js"
+    "serve": "DEBUG=canyons node --use_strict server.js",
+    "compile": "./node_modules/babel-cli/bin/babel.js -d lib/ src/"
   },
   "dependencies": {
     "axios": "^0.7.0",
     "babel": "^6.3.13",
+    "babel-cli": "^6.3.17",
     "babel-core": "^6.3.21",
     "babel-loader": "^6.2.0",
     "babel-plugin-transform-class-properties": "^6.3.13",

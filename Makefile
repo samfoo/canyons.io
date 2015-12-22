@@ -81,6 +81,12 @@ watch-client: web/node_modules
 watch-styles:
 	fswatch -i "\\.less" -e ".*" -o ./web/src | xargs -n1 -I{} make styles
 
+watch-web: web/node_modules
+	(cd web && ./node_modules/babel-cli/bin/babel.js -w -d lib src)
+
+watch-api: api/node_modules
+	(cd api && ./node_modules/babel-cli/bin/babel.js -w -d lib src)
+
 .watch-fake: watch-client watch-styles
 
 watch-all:
