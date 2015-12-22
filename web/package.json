@@ -11,7 +11,7 @@
     "compile": "./node_modules/babel-cli/bin/babel.js -d lib/ src/"
   },
   "dependencies": {
-    "axios": "^0.7.0",
+    "axios": "^0.8.0",
     "babel": "^6.3.13",
     "babel-core": "^6.3.21",
     "babel-loader": "^6.2.0",
