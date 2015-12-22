@@ -5,6 +5,27 @@ import { reducer } from "../../src/reducers/canyons";
 import { expect } from "chai";
 
 describe("the canyon reducer", () => {
+    describe("CREATE_CANYON_TRIP_REPORT", () => {
+        it("should set in the store that the canyon trip reports haven't been loaded", () => {
+            let withLoaded = Immutable.fromJS({
+                meta: {
+                    "@@loaded/trip-reports/ids/canyon-id": true
+                }
+            });
+
+            expect(withLoaded.getIn(["meta", "@@loaded/trip-reports/ids/canyon-id"])).to.be.ok;
+
+            let createTripReport = {
+                type: "CREATE_CANYON_TRIP_REPORT",
+                canyonId: "canyon-id"
+            };
+
+            let newState = reducer(withLoaded, createTripReport);
+
+            expect(newState.getIn(["meta", "@@loaded/trip-reports/ids/canyon-id"])).to.not.be.ok;
+        });
+    });
+
     describe("CREATE_CANYON", () => {
         it("should set the created canyon in the store", () => {
             let canyon = { id: "created-canyon" };

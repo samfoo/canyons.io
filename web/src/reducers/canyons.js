@@ -4,6 +4,10 @@ const defaultState = new Immutable.Map();
 
 export function reducer(state=defaultState, action) {
     switch (action.type) {
+    case "CREATE_CANYON_TRIP_REPORT":
+        return state
+            .removeIn(["trip-reports", "ids", action.canyonId])
+            .setIn(["meta", `@@loaded/trip-reports/ids/${action.canyonId}`], false);
     case "CREATE_CANYON":
         state = state
             .remove("list")
