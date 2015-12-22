@@ -13,7 +13,10 @@ export class LoginForm extends forms.ValidatedForm {
     }
 
     validate(model) {
-        return Login.validate(model);
+        let results = Login.validate(model);
+        delete results["name"];
+
+        return results;
     }
 
     send(model) {

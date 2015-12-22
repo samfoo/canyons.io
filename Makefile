@@ -42,7 +42,7 @@ build:
 	docker-compose build
 
 up: models/node_modules
-	docker-compose up -d
+	DOCKER_CLIENT_TIMEOUT=180 docker-compose up -d
 	make migrate
 
 down:
