@@ -33,7 +33,7 @@
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-redux": "^4.0.0",
-    "react-router": "1.0.0-rc3",
+    "react-router": "1.0.2",
     "redux": "^3.0.2",
     "simplify-js": "^1.2.1",
     "togeojson": "^0.13.0",

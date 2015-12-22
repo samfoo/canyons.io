@@ -15,6 +15,7 @@ export class GpsUploader extends FileUploader {
 
     constructor(props, context) {
         super(props, context);
+        this.state = {};
     }
 
     setFile(file) {
@@ -67,6 +68,8 @@ export class GpsUploader extends FileUploader {
                 finished: true
             });
         };
+
+        reader.onload = reader.onload.bind(this);
 
         reader.readAsText(file);
     }
