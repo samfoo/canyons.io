@@ -34,10 +34,6 @@ clean: down
 	docker images | sed "1 d" | awk '{ print $3; }' | xargs docker rmi -f
 
 build:
-	echo "clean node_modules for built docker"
-	rm -rf web/node_modules
-	rm -rf api/node_modules
-	rm -rf models/node_modules
 	(cd models; docker build -t models .)
 	docker-compose build
 
@@ -87,7 +83,9 @@ watch-web: web/node_modules
 watch-api: api/node_modules
 	(cd api && ./node_modules/babel-cli/bin/babel.js -w -d lib src)
 
-.watch-fake: watch-client watch-styles
+.develop-fake: watch-client watch-styles watch-web watch-api
 
-watch-all:
-	make -j2 .watch-fake
+develop:
+	make -j4 .develop-fake
+
+precommit: lint test

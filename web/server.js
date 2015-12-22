@@ -1,5 +1,3 @@
-require("babel-polyfill");
-
 var debug = require("debug")("canyons"),
     app = require("./lib/server").app;
 
