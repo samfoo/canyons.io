@@ -29,7 +29,7 @@ export function get(db, id) {
 }
 
 export function getByEmail(db, email) {
-    let select = Users.select(Users.id, Users.email, Users.password)
+    let select = Users.select(Users.star())
                       .from(Users)
                       .where(Users.email.equals(email))
                       .toString();
