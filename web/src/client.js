@@ -3,6 +3,7 @@ import Immutable from "immutable";
 import React from "react";
 import ReactDOM from "react-dom";
 import createBrowserHistory from "history/lib/createBrowserHistory";
+import { Unauthorized } from "./components/unauthorized";
 import { NotFound } from "./components/not-found";
 import { Provider } from "react-redux";
 import { Router } from "react-router";
@@ -32,14 +33,33 @@ if (store.getState().error == 404) {
         React.createElement(NotFound, {}),
         document.getElementById("render")
     );
+} else if (store.getState().error == 403) {
+    ReactDOM.render(
+        React.createElement(Unauthorized, {}),
+        document.getElementById("render")
+    );
 } else {
+    let onError = (e) => {
+        if (e.status == 403) {
+            ReactDOM.render(
+                React.createElement(Unauthorized, {}),
+                document.getElementById("render")
+            );
+            return;
+        } else {
+            throw e;
+        }
+    };
+
+    let children = routes(store);
+
     ReactDOM.render(
         React.createElement(
             Provider,
             {store: store},
             React.createElement(
                 Router,
-                {children: routes(store), history: history}
+                {children, history, onError}
             )
         ),
         document.getElementById("render")

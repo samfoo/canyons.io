@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import logger from "morgan";
 import path from "path";
+import { Unauthorized } from "./components/unauthorized";
 import { NotFound } from "./components/not-found";
 import { Provider } from "react-redux";
 import { addLoaded } from "./utils/enhancers";
@@ -59,6 +60,14 @@ app.use((req, res) => {
                 store.getState().error = 404;
 
                 const app = React.createElement(NotFound, {});
+                const html = renderToString(app);
+
+                res.end(layout(html, store.getState()));
+            } else if (error.status === 403) {
+                res.status(403);
+                store.getState().error = 403;
+
+                const app = React.createElement(Unauthorized, {});
                 const html = renderToString(app);
 
                 res.end(layout(html, store.getState()));

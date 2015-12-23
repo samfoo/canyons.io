@@ -10,10 +10,10 @@ import { SignUp } from "./components/sign-up";
 import { TripReportForm } from "./components/canyons/trip-reports/new";
 
 export function routes(store) {
-    const r = (path, comp) => {
-        let onEnter = comp.onEnter;
+    const r = (path, component) => {
+        let { onEnter } = component;
 
-        let props = { path: path, component: comp };
+        let props = { path, component };
         if (onEnter) {
             props.onEnter = onEnter(store);
         }
