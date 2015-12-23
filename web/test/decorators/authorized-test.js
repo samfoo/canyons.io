@@ -1,5 +1,6 @@
 /* eslint-env node, mocha */
 
+import Immutable from "immutable";
 import { authorized } from "../../src/decorators";
 import { expect } from "chai";
 
@@ -8,7 +9,7 @@ describe("the @authorize decorator", () => {
     let store;
 
     beforeEach(() => {
-        state = {};
+        state = { users: Immutable.Map() };
         store = {
             getState: () => state
         };
@@ -29,10 +30,10 @@ describe("the @authorize decorator", () => {
         });
 
         it("should call the predicate with the current user", done => {
-            state.user = "current-user";
+            state.users = Immutable.fromJS({current: "current-user"});
 
             @authorized(user => {
-                expect(user).to.equal(state.user);
+                expect(user).to.equal(state.users.get("current"));
                 done();
             })
             class NotAuthd {}

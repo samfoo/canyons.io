@@ -15,10 +15,10 @@ export function decorator(predicate) {
                     AuthorizationComponent.onEnter(store)(state, _, err => {
                         if (err) return callback(err);
 
-                        authorize(store.getState().user, callback);
+                        authorize(store.getState().users.get("current"), callback);
                     });
                 } else {
-                    authorize(store.getState().user, callback);
+                    authorize(store.getState().users.get("current"), callback);
                 }
             };
         }

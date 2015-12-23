@@ -3,10 +3,12 @@ import * as forms from "../../forms";
 import * as links from "../../../utils/links";
 import React from "react";
 import { TripReport } from "models";
+import { authorized } from "../../../decorators";
 import { connect } from "react-redux";
 
 var d = React.DOM;
 
+@authorized(user => !user.isEmpty())
 @connect(state => state)
 export class TripReportForm extends forms.ValidatedForm {
     constructor(props, context) {

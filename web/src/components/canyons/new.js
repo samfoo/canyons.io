@@ -5,6 +5,7 @@ import Immutable from "immutable";
 import React from "react";
 import { Canyon } from "models";
 import { GpsUploader } from "./gps-uploader";
+import { authorized } from "../../decorators";
 import { connect } from "react-redux";
 
 var d = React.DOM;
@@ -13,6 +14,7 @@ function gpsUploader(props) {
     return React.createElement(GpsUploader, props);
 }
 
+@authorized(user => !user.isEmpty())
 @connect(state => state)
 export class NewCanyon extends forms.ValidatedForm {
     constructor(props, context) {
