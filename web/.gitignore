@@ -15,6 +15,8 @@ build/Release
 node_modules
 
 .vagrant
-public
 .DS_Store
 lib
+public/app.js
+public/app.js.map
+public/site.css

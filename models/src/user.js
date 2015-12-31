@@ -24,7 +24,7 @@ export const schema = {
     }
 };
 
-export const validate = function(user) {
+export function validate(user) {
     let results = v.validate(user, schema);
     let errors = Immutable.fromJS(results.errors);
 
@@ -35,4 +35,4 @@ export const validate = function(user) {
         },
         Immutable.Map()
     ).toJS();
-};
+}
