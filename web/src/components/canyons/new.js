@@ -33,6 +33,31 @@ export class NewCanyon extends forms.ValidatedForm {
         });
     }
 
+    setBadge(field) {
+        let setter = (e) => {
+            let model = this.state.model;
+
+            if (!this.state.model.get("badges")) {
+                model = this.state.model.set("badges", Immutable.Set());
+            }
+
+            let badges = model.get("badges"),
+                updated;
+
+            if (e.target.value) {
+                updated = badges.add(field);
+            } else {
+                updated = badges.delete(field);
+            }
+
+            this.setState({
+                model: model.set("badges", updated)
+            });
+        };
+
+        return setter.bind(this);
+    }
+
     render() {
         var e = this.state.error ? `${this.state.error.statusText}` : null;
 
@@ -57,7 +82,7 @@ export class NewCanyon extends forms.ValidatedForm {
                 ),
 
                 forms.text(
-                    "Canyon Name",
+                    "Name",
                     "name",
                     {
                         className: "name-input",
@@ -66,6 +91,17 @@ export class NewCanyon extends forms.ValidatedForm {
                         onChange: this.set("name"),
                         disabled: this.state.submitting
                     }
+                ),
+
+                d.div(
+                    {className: "badges field"},
+
+                    d.label({}, "Badges"),
+
+                    forms.badge("Abseiling", "abseil", { onChange: this.setBadge("abseil") } ),
+                    forms.badge("Summer Only", "cold", { onChange: this.setBadge("cold") } ),
+                    forms.badge("Swimming", "swim", { onChange: this.setBadge("swim") } ),
+                    forms.badge("Wetsuit Required", "wetsuit", { onChange: this.setBadge("wetsuit") } )
                 ),
 
                 forms.textarea(

@@ -6,6 +6,39 @@ import { Spinner } from "../spinner";
 
 var d = React.DOM;
 
+class Badge extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        this.state = { selected: false };
+    }
+
+    toggle() {
+        let selected = this.state.selected;
+        this.setState({ selected: !selected });
+
+        if (this.props.onChange) {
+            this.props.onChange({
+                target: {
+                    value: !selected
+                }
+            });
+        }
+    }
+
+    render() {
+        return d.div(
+            {className: `badge ${this.state.selected ? 'selected' : ''}`, onClick: this.toggle.bind(this)},
+            d.div({className: `badge-inner badge-${this.props.name}`}),
+            d.div({className: "label"}, this.props.label)
+        );
+    }
+}
+
+export function badge(label, name, options) {
+    let props = Object.assign({}, options, {label, name});
+    return React.createElement(Badge, props);
+}
+
 function spinner(props) {
     React.createElement(Spinner, props);
 }

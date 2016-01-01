@@ -236,3 +236,79 @@ label {
         right: 0;
     }
 }
+
+.badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+
+    &.selected {
+        &:hover .badge-inner, .badge-inner {
+            background: black;
+            position: relative;
+        }
+
+        &:hover .label, .label {
+            color: black;
+        }
+
+
+        &:after {
+            content: '\f058';
+            color: @selected-color;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+        }
+    }
+
+    &:hover {
+        .badge-inner {
+            background: darken(@label-color, 20%);
+        }
+
+        .label {
+            color: darken(@label-color, 20%);
+        }
+    }
+
+    .badge-inner {
+        transition: background 100ms;
+        margin: 0 auto;
+        background: @label-color;
+        width: 80%;
+        height: 80%;
+    }
+
+    .label {
+        transition: color 100ms;
+        font-weight: bold;
+        position: absolute;
+        top: 40px;
+        left: 50%;
+        font-size: @font-small;
+        color: @label-color;
+        text-align: center;
+        transform: translateX(-50%);
+    }
+}
+
+.mask(@img) {
+    mask: url(@img) center / contain no-repeat;
+    -webkit-mask: url(@img) center / contain no-repeat;
+    -moz-mask: url(@img) center / contain no-repeat;
+}
+
+.badge-abseil { .mask("/img/abseil.svg"); }
+.badge-swim { .mask("/img/swim.svg"); }
+.badge-cold { .mask("/img/cold.svg"); }
+.badge-rope { .mask("/img/rope.svg"); }
+.badge-wetsuit { .mask("/img/wetsuit.svg"); }
+

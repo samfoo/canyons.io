@@ -3,7 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.validate = exports.schema = undefined;
+exports.schema = undefined;
+exports.validate = validate;
 
 var _revalidator = require("revalidator");
 
@@ -38,7 +39,7 @@ var schema = exports.schema = {
     }
 };
 
-var validate = exports.validate = function validate(user) {
+function validate(user) {
     var results = _revalidator2.default.validate(user, schema);
     var errors = _immutable2.default.fromJS(results.errors);
 
@@ -46,4 +47,4 @@ var validate = exports.validate = function validate(user) {
         var msgs = m.get(e.get("property"), _immutable2.default.Set()).add(e.get("message"));
         return m.set(e.get("property"), msgs);
     }, _immutable2.default.Map()).toJS();
-};
+}
