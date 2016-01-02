@@ -13,10 +13,7 @@ export function create(db, data) {
         Users.password.value(crypted)
     ).returning("*").toString();
 
-    return db.query(insert)
-        .then(users => {
-            return users[0];
-        });
+    return db.one(insert);
 }
 
 export function get(db, id) {
