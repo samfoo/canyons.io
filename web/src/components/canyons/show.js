@@ -98,6 +98,13 @@ export class ShowCanyon extends React.Component {
     }
 
     render() {
+        const labelFor = {
+            abseil: "Abseiling",
+            cold: "Summer Only",
+            swim: "Swimming",
+            wetsuit: "Wetsuit Required"
+        };
+
         return d.div(
             {id: "canyon-show", className: "canyon"},
 
@@ -139,6 +146,22 @@ export class ShowCanyon extends React.Component {
                                 mapTypeId: maps.MapTypeId.TERRAIN
                             };
                         }
+                    })
+                ),
+
+                d.ul(
+                    {className: "badges"},
+                    (this.canyon().get("badges") || []).map(badge => {
+                        return d.li(
+                            {key: badge},
+                            d.span({className: "badge"},
+                                d.div(
+                                    {className: `badge-inner badge-${badge}`}
+                                )
+                            ),
+                            d.span({className: "label"},
+                                   labelFor[badge])
+                        );
                     })
                 ),
 

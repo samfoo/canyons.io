@@ -22,6 +22,7 @@ describe("the canyon show page", () => {
         name: "Arethusa",
         notes: "Really fun...",
         access: "Bell's line...",
+        badges: ["wetsuit"],
         formatted: {
             notes: "<p>Really fun...</p>",
             access: "<p>Bell's line...</p>"
@@ -74,6 +75,25 @@ describe("the canyon show page", () => {
         let notes = node.getElementsByClassName("notes")[0];
 
         expect(notes.textContent).to.equal(canyon.get("notes"));
+    });
+
+    describe("when there are badges", () => {
+        it("should display the badges", () => {
+            state = { canyons };
+
+            let rendered = TestUtils.renderIntoDocument(
+                showCanyon({ store: store, params: { id: "arethusa" } })
+            );
+
+            let node = ReactDOM.findDOMNode(rendered);
+            let badges = node.getElementsByClassName("badges")[0];
+
+            expect(badges.getElementsByClassName("badge").length).to.equal(1);
+
+            expect(
+                badges.getElementsByTagName("li")[0].textContent
+            ).to.equal("Wetsuit Required");
+        });
     });
 
     describe("when there are trip reports", () => {

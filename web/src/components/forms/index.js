@@ -27,7 +27,7 @@ class Badge extends React.Component {
 
     render() {
         return d.div(
-            {className: `badge ${this.state.selected ? 'selected' : ''}`, onClick: this.toggle.bind(this)},
+            {className: `badge ${this.state.selected ? "selected" : ""}`, onClick: this.toggle.bind(this)},
             d.div({className: `badge-inner badge-${this.props.name}`}),
             d.div({className: "label"}, this.props.label)
         );

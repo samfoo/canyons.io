@@ -17,7 +17,8 @@ export function create(db, data) {
             Canyons.slug.value(slug(data.name, {lower: true})),
             Canyons.access.value(data.access),
             Canyons.notes.value(data.notes),
-            Canyons.gps.value(JSON.stringify(data.gps))
+            Canyons.gps.value(JSON.stringify(data.gps)),
+            Canyons.badges.value(JSON.stringify(data.badges || []))
         ).returning("*").toString();
 
     return db.query(insert)

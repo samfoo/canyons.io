@@ -94,4 +94,40 @@
             font-size: 8px;
         }
     }
+
+    ul.badges {
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+        list-style-type: none;
+
+        @media @phones {
+            margin-top: 35px;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: @label-color;
+            font-weight: bold;
+
+            .label {
+                font-family: "Roboto Condensed", sans-serif;
+            }
+
+            .badge {
+                width: 25px;
+                height: 25px;
+                cursor: default;
+                display: inline-block;
+                margin-right: 10px;
+
+                .badge-inner {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
 }

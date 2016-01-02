@@ -2,7 +2,7 @@ import sql from "sql";
 
 export const Canyons = sql.define({
     name: "canyons",
-    columns: ["id", "name", "slug", "access", "notes", "gps"]
+    columns: ["id", "name", "slug", "access", "notes", "gps", "badges"]
 });
 
 export const CanyonImages = sql.define({
