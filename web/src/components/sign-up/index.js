@@ -23,8 +23,7 @@ export class SignUp extends forms.ValidatedForm {
             UserActions.register(
                 model.get("email"),
                 model.get("name"),
-                model.get("password"),
-                model.get("confirmation")
+                model.get("password")
             )
         )
         .then(() => {
@@ -78,18 +77,6 @@ export class SignUp extends forms.ValidatedForm {
                         errors: this.errors("password"),
                         placeholder: "super secret",
                         onChange: this.set("password"),
-                        type: "password",
-                        disabled: this.state.submitting
-                    }
-                ),
-
-                forms.password(
-                    "Confirm Password",
-                    "confirmation",
-                    {
-                        errors: this.errors("confirmation"),
-                        placeholder: "super secret",
-                        onChange: this.set("confirmation"),
                         type: "password",
                         disabled: this.state.submitting
                     }
