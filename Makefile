@@ -83,9 +83,12 @@ watch-web: web/node_modules
 watch-api: api/node_modules
 	(cd api && ./node_modules/babel-cli/bin/babel.js -w -d lib src)
 
-.develop-fake: watch-client watch-styles watch-web watch-api
+watch-models:
+	(cd models && ./node_modules/babel-cli/bin/babel.js -w -d lib src)
+
+.develop-fake: watch-client watch-styles watch-web watch-api watch-models
 
 develop:
-	make -j4 .develop-fake
+	make -j5 .develop-fake
 
 precommit: lint test

@@ -24,6 +24,16 @@ export const schema = {
     }
 };
 
+export function can(user, verb) {
+    if (verb === "create-canyon" ||
+        verb === "edit-canyon" ||
+        verb === "create-trip-report") {
+        return !!user && !user.isEmpty();
+    } else {
+        return false;
+    }
+}
+
 export function validate(user) {
     let results = v.validate(user, schema);
     let errors = Immutable.fromJS(results.errors);

@@ -2,9 +2,10 @@ import * as CanyonActions from "../../actions/canyon";
 import * as links from "../../utils/links";
 import GoogleMap from "google-map-react";
 import React from "react";
+import { Link } from "react-router";
+import { User } from "models";
 import { connect } from "react-redux";
 import { fetch, resourceRequired } from "../../decorators";
-import { Link } from "react-router";
 
 var d = React.DOM;
 
@@ -38,7 +39,10 @@ const link = (props, ...children) => {
         return Promise.all(resources);
     }
 })
-@connect(state => ({canyons: state.canyons}))
+@connect(state => ({
+    currentUser: state.users.get("current"),
+    canyons: state.canyons
+}))
 export class ShowCanyon extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -105,6 +109,8 @@ export class ShowCanyon extends React.Component {
             wetsuit: "Wetsuit Required"
         };
 
+        let { currentUser } = this.props;
+
         return d.div(
             {id: "canyon-show", className: "canyon"},
 
@@ -120,17 +126,19 @@ export class ShowCanyon extends React.Component {
 
                 d.h1({className: "name"}, this.canyon().get("name")),
 
-                d.div(
-                    {className: "actions"},
-                    link({
-                        to: links.canyons.tripReports(this.canyon()).new(),
-                        className: "button secondary left"
-                    }, d.i({className: "fa fa-book"}), " Add trip report"),
-                    link({
-                        to: links.canyons.edit(this.canyon()),
-                        className: "button tertiary right"
-                    }, d.i({className: "fa fa-pencil"}), " Edit")
-                ),
+                User.can(currentUser, "create-trip-report") ? 
+                    d.div(
+                        {className: "actions"},
+                        link({
+                            to: links.canyons.tripReports(this.canyon()).new(),
+                            className: "button secondary left"
+                        }, d.i({className: "fa fa-book"}), " Add trip report"),
+                        link({
+                            to: links.canyons.edit(this.canyon()),
+                            className: "button tertiary right"
+                        }, d.i({className: "fa fa-pencil"}), " Edit")
+                    ) :
+                    null,
 
                 d.div(
                     { className: "map" },

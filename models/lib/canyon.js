@@ -25,6 +25,14 @@ var schema = exports.schema = {
             type: "string"
         },
 
+        badges: {
+            type: "array",
+            items: {
+                type: "string",
+                enum: ["cold", "wetsuit", "swim", "rope", "abseil"]
+            }
+        },
+
         access: {
             required: true,
             allowEmpty: false,

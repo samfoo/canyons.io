@@ -33,6 +33,8 @@ describe("the canyon show page", () => {
         secure_url: "https://example.com/cat-picture"
     });
 
+    let users = Immutable.Map();
+
     let canyons = Immutable.fromJS({
         ids: { arethusa: canyon },
         images: { ids: { arethusa: [image] } },
@@ -52,7 +54,7 @@ describe("the canyon show page", () => {
     });
 
     it("should display the canyon's formatted access details", () => {
-        state = { canyons };
+        state = { users, canyons };
 
         let rendered = TestUtils.renderIntoDocument(
             showCanyon({ store: store, params: { id: "arethusa" } })
@@ -65,7 +67,7 @@ describe("the canyon show page", () => {
     });
 
     it("should display the canyon's formatted notes", () => {
-        state = { canyons };
+        state = { users, canyons };
 
         let rendered = TestUtils.renderIntoDocument(
             showCanyon({ store: store, params: { id: "arethusa" } })
@@ -79,7 +81,7 @@ describe("the canyon show page", () => {
 
     describe("when there are badges", () => {
         it("should display the badges", () => {
-            state = { canyons };
+            state = { users, canyons };
 
             let rendered = TestUtils.renderIntoDocument(
                 showCanyon({ store: store, params: { id: "arethusa" } })
@@ -99,6 +101,7 @@ describe("the canyon show page", () => {
     describe("when there are trip reports", () => {
         it("should display the trip reports", () => {
             state = {
+                users: users,
                 canyons: canyons.updateIn(["trip-reports", "ids", "arethusa"], () => {
                     return Immutable.fromJS([
                         {

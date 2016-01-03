@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.schema = undefined;
+exports.can = can;
 exports.validate = validate;
 
 var _revalidator = require("revalidator");
@@ -38,6 +39,14 @@ var schema = exports.schema = {
         }
     }
 };
+
+function can(user, verb) {
+    if (verb === "create-canyon" || verb === "edit-canyon" || verb === "create-trip-report") {
+        return !!user && !user.isEmpty();
+    } else {
+        return false;
+    }
+}
 
 function validate(user) {
     var results = _revalidator2.default.validate(user, schema);
