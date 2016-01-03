@@ -28,15 +28,18 @@ export class Header extends React.Component {
                     {},
                     d.span(
                         {id: "logo"},
-                        React.createElement(Link, {to: "/"}, "canyons.io")
+                        React.createElement(
+                            Link, {to: "/"},
+                            d.img({src: "/img/logo-small.png", alt: "canyons.io"})
+                        )
                     ),
                     d.span(
                         {id: "account-actions"},
-                        "Hello, ",
                         d.span(
                             {className: "logged-in-user"},
                             users.getIn(["current", "name"])
                         ),
+                        " | ",
                         d.span(
                             {id: "logout"},
                             d.a({onClick: this.logout.bind(this), href: "/logout"}, "logout")
@@ -51,11 +54,15 @@ export class Header extends React.Component {
                     {},
                     d.span(
                         {id: "logo"},
-                        React.createElement(Link, {to: "/"}, "canyons.io")
+                        React.createElement(
+                            Link, {to: "/"},
+                            d.img({src: "/img/logo-small.png", alt: "canyons.io"})
+                        )
                     ),
                     d.span(
                         {id: "account-actions"},
                         React.createElement(Link, {href: "/sign-up", to: "/sign-up", className: "sign-up"}, "sign up"),
+                        " | ",
                         React.createElement(Link, {href: "/login", to: "/login", className: "login"}, "login")
                     )
                 )
