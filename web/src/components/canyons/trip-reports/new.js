@@ -32,7 +32,9 @@ export class TripReportForm extends forms.ValidatedForm {
         let e = this.state.error ? `${this.state.error.statusText}` : null;
 
         return d.div(
-            {id: "new-trip-report"},
+            {id: "new-trip-report", className: "page"},
+
+            d.h2({}, "New Trip Report"),
 
             d.form(
                 {action: `/canyons/${this.props.params.canyonId}/trip-reports`, method: "POST", onSubmit: this.submit.bind(this)},

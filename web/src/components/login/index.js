@@ -45,7 +45,9 @@ export class LoginForm extends forms.ValidatedForm {
 
     render() {
         return d.div(
-            {id: "login"},
+            {id: "login", className: "page"},
+
+            d.h2({}, "Login"),
 
             d.form(
                 {action: "/sessions", method: "POST"},

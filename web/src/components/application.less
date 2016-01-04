@@ -12,6 +12,12 @@
 @import "notifications";
 @import "canyons/new";
 @import "canyons/show";
+@import "beard/index.less";
+@import "sign-up/index.less";
+@import "login/index.less";
+
+@page-vert-padding: 15px;
+@page-horiz-padding: 35px;
 
 * {
     box-sizing: border-box;
@@ -41,11 +47,11 @@ h2 {
 }
 
 a {
-    color: #2196f3;
+    color: @link-color;
     text-decoration: none;
 
     &:visited {
-        color: #9c27b0;
+        color: @link-visited-color;
     }
 }
 
@@ -88,4 +94,12 @@ body {
 #account-actions {
     position: absolute;
     right: 15px;
+}
+
+.page {
+    padding: @page-vert-padding @page-horiz-padding;
+
+    h2 {
+        margin-bottom: 50px;
+    }
 }

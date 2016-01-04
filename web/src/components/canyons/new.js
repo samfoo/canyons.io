@@ -81,51 +81,55 @@ export class NewCanyon extends forms.ValidatedForm {
                     "There was a problem creating the canyon."
                 ),
 
-                forms.text(
-                    "Name",
-                    "name",
-                    {
-                        className: "name-input",
-                        errors: this.errors("name"),
-                        placeholder: "e.g. Claustral",
-                        onChange: this.set("name"),
-                        disabled: this.state.submitting
-                    }
-                ),
-
                 d.div(
-                    {className: "badges field"},
+                    {className: "page"},
 
-                    d.label({}, "Badges"),
+                    forms.text(
+                        "Name",
+                        "name",
+                        {
+                            className: "name-input",
+                            errors: this.errors("name"),
+                            placeholder: "e.g. Claustral",
+                            onChange: this.set("name"),
+                            disabled: this.state.submitting
+                        }
+                    ),
 
-                    forms.badge("Abseiling", "abseil", { onChange: this.setBadge("abseil") } ),
-                    forms.badge("Summer Only", "cold", { onChange: this.setBadge("cold") } ),
-                    forms.badge("Swimming", "swim", { onChange: this.setBadge("swim") } ),
-                    forms.badge("Wetsuit Required", "wetsuit", { onChange: this.setBadge("wetsuit") } )
-                ),
+                    d.div(
+                        {className: "badges field"},
 
-                forms.textarea(
-                    "Access",
-                    "access",
-                    {
-                        className: "access-input",
-                        errors: this.errors("access"),
-                        placeholder: "How do you get to the canyon entrance?",
-                        onChange: this.set("access"),
-                        disabled: this.state.submitting
-                    }
-                ),
+                        d.label({}, "Badges"),
 
-                forms.textarea(
-                    "Track Notes",
-                    "notes",
-                    {
-                        className: "notes-input",
-                        errors: this.errors("notes"),
-                        placeholder: "How do you get to the canyon, through it, and out?",
-                        onChange: this.set("notes"),
-                        disabled: this.state.submitting
-                    }
+                        forms.badge("Abseiling", "abseil", { onChange: this.setBadge("abseil") } ),
+                        forms.badge("Summer Only", "cold", { onChange: this.setBadge("cold") } ),
+                        forms.badge("Swimming", "swim", { onChange: this.setBadge("swim") } ),
+                        forms.badge("Wetsuit Required", "wetsuit", { onChange: this.setBadge("wetsuit") } )
+                    ),
+
+                    forms.textarea(
+                        "Access",
+                        "access",
+                        {
+                            className: "access-input",
+                            errors: this.errors("access"),
+                            placeholder: "How do you get to the canyon entrance?",
+                            onChange: this.set("access"),
+                            disabled: this.state.submitting
+                        }
+                    ),
+
+                    forms.textarea(
+                        "Track Notes",
+                        "notes",
+                        {
+                            className: "notes-input",
+                            errors: this.errors("notes"),
+                            placeholder: "How do you get to the canyon, through it, and out?",
+                            onChange: this.set("notes"),
+                            disabled: this.state.submitting
+                        }
+                    )
                 ),
 
                 gpsUploader({

@@ -33,7 +33,9 @@ export class SignUp extends forms.ValidatedForm {
 
     render() {
         return d.div(
-            {id: "sign-up"},
+            {id: "sign-up", className: "page"},
+
+            d.h2({}, "Create Account"),
 
             d.form(
                 {action: "/sign-up", method: "POST"},

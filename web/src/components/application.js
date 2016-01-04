@@ -1,5 +1,6 @@
 import * as UserActions from "../actions/user";
 import React from "react";
+import { Beard } from "./beard";
 import { Header } from "./header";
 import { connect } from "react-redux";
 import { fetch } from "../decorators";
@@ -17,7 +18,8 @@ export class Application extends React.Component {
         return d.div(
             { className: "wrapper" },
             React.createElement(Header, this.props),
-            this.props.children
+            this.props.children,
+            React.createElement(Beard, this.props)
         );
     }
 }
