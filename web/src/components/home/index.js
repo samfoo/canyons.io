@@ -34,8 +34,9 @@ export class Home extends React.Component {
                 d.div({id: "hero-background"}),
                 d.div(
                     {id: "hero-foreground"},
+                    d.img({src: "/img/logo-icon-only.png", alt: "canyons.io"}),
                     d.h1({}, "canyons.io"),
-                    d.h2({}, "The collaborative canyoning database")
+                    d.h2({}, "The canyoning database")
                 )
             ),
             d.div(

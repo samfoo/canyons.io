@@ -1,8 +1,8 @@
 @import (inline) "./node_modules/normalize.css/normalize.css";
 @import (inline) "./node_modules/font-awesome/css/font-awesome.min.css";
 
-@import url(https://fonts.googleapis.com/css?family=Roboto:700,400);
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:700,300);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 @import "home/index";
 @import "palette";
@@ -15,7 +15,8 @@
 
 * {
     box-sizing: border-box;
-    font-family: "Open Sans", Helvetica Neue, sans-serif;
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
 }
 
 p {
@@ -25,8 +26,8 @@ p {
 
 h1, h2, h3, h4 {
     color: @heading-primary-color;
-    font-family: Roboto;
-    font-weight: 700;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
 }
 
 h1 {
@@ -37,6 +38,15 @@ h2 {
     font-size: 32px;
     margin-bottom: 10px;
     color: @heading-secondary-color;
+}
+
+a {
+    color: #2196f3;
+    text-decoration: none;
+
+    &:visited {
+        color: #9c27b0;
+    }
 }
 
 @header-height: 50px;
