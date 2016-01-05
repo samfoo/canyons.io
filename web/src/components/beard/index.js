@@ -1,6 +1,14 @@
+import * as links from "../../utils/links";
 import React from "react";
+import { Link } from "react-router";
 
 var d = React.DOM;
+
+function link(props, ...children) {
+    return React.createElement(
+        Link, props, ...children
+    );
+}
 
 export class Beard extends React.Component {
     render() {
@@ -12,15 +20,23 @@ export class Beard extends React.Component {
                 d.ul(
                     {id: "legal"},
                     d.h3({}, "Legal"),
-                    d.li({}, "Privacy policy"),
-                    d.li({}, "Terms of service")
+                    d.li(
+                        {},
+                        link({to: links.terms}, "Terms of use")
+                    )
                 ),
 
                 d.ul(
                     {id: "about"},
                     d.h3({}, "About"),
-                    d.li({}, "Contact"),
-                    d.li({}, "Source Code")
+                    d.li(
+                        {},
+                        link({to: links.contactUs}, "Contact")
+                    ),
+                    d.li(
+                        {},
+                        d.a({href: "https://github.com/samfoo/canyons.io"}, "Source Code")
+                    )
                 )
             ),
 

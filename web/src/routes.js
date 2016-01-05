@@ -1,5 +1,6 @@
 import React from "react";
 import { Application } from "./components/application";
+import { Contact } from "./components/contact";
 import { Home } from "./components/home";
 import { IndexRoute, Route } from "react-router";
 import { LoginForm } from "./components/login";
@@ -33,6 +34,7 @@ export function routes(store) {
         {path: "/", component: Application, onEnter: Application.onEnter(store)},
 
         home(),
+        r("/contact-us", Contact),
         r("/login", LoginForm),
         r("/sign-up", SignUp),
         r("/canyons/new", NewCanyon),

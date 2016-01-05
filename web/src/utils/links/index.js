@@ -8,6 +8,9 @@ export const users = {
     }
 };
 
+export const contactUs = "/contact-us";
+export const terms = "/terms";
+
 export const canyons = {
     new: () => {
         return "/canyons/new";
