@@ -12,7 +12,7 @@ export class GpsUploader extends FileUploader {
     static defaults = {
         center: { lat: -33.7865352, lng: 150.4087605 },
         zoom: 10
-    }
+    };
 
     constructor(props, context) {
         super(props, context);

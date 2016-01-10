@@ -12,7 +12,7 @@ export function decorator(fn) {
                     callback();
                 }
             };
-        }
+        };
 
         render() {
             return React.createElement(

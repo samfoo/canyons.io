@@ -1,3 +1,36 @@
+staging:
+	# echo "building fresh image to deploy"
+	# make build
+	echo "building digital ocean docker host"
+	docker-machine create --driver digitalocean \
+		--digitalocean-access-token $(DIGITAL_OCEAN_API_TOKEN) \
+		--digitalocean-size 2gb \
+		--digitalocean-region sgp1 \
+		staging.canyons.io
+
+staging.migrate:
+	docker-compose -f docker-compose.staging.yml run migrations sql-migrate status -config /migrations/dbconfig.yml -env production
+	docker-compose -f docker-compose.staging.yml run migrations sql-migrate up -config /migrations/dbconfig.yml -env production
+
+staging.destroy: staging.down
+	docker-compose -f docker-compose.staging.yml rm -f -v
+
+staging.down:
+	DOCKER_CLIENT_TIMEOUT=300 docker-compose -f docker-compose.staging.yml stop
+
+staging.up:
+	DOCKER_CLIENT_TIMEOUT=300 docker-compose -f docker-compose.staging.yml up -d
+
+staging.build:
+	(cd models; docker build -t models .)
+	docker-compose -f docker-compose.staging.yml build
+
+staging.sql:
+	docker-compose -f docker-compose.staging.yml run db sh -c 'exec psql -h db -U canyons'
+
+staging.logs:
+	docker-compose -f docker-compose.staging.yml logs
+
 api/node_modules: api/package.json
 	(cd api && npm install)
 	touch api/node_modules
@@ -38,7 +71,7 @@ build:
 	docker-compose build
 
 up: models/node_modules
-	DOCKER_CLIENT_TIMEOUT=180 docker-compose up -d
+	DOCKER_CLIENT_TIMEOUT=300 docker-compose up -d
 	make migrate
 
 down:

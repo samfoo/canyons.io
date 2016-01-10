@@ -4,7 +4,7 @@ export function decorator(predicate) {
     return ResourceComponent => class D extends React.Component {
         static contextTypes = {
             store: React.PropTypes.object.isRequired
-        }
+        };
 
         static onEnter = store => {
             return (state, _, callback) => {
@@ -20,7 +20,7 @@ export function decorator(predicate) {
                     });
                 }
             };
-        }
+        };
 
         render() {
             return React.createElement(

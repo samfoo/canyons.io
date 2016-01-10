@@ -33,9 +33,7 @@ api:
         NODE_DEBUG: canyon-api
     command: bash -c 'cd /app; DEBUG=canyons supervisor -w lib /app/server.js'
 db:
-    volumes:
-        - ./db:/docker-entrypoint-initdb.d
-    image: postgres
+    build: ./db
 migrations:
     build: ./migrations
     links:

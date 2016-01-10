@@ -92,7 +92,7 @@ export class CanyonForm extends forms.ValidatedForm {
                                 errors: this.errors("name"),
                                 placeholder: "e.g. Claustral",
                                 onChange: this.set("name"),
-                                disabled: "disabled"
+                                disabled: this.state.submitting
                             }
                         ),
 
