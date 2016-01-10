@@ -81,18 +81,20 @@ export class CanyonForm extends forms.ValidatedForm {
                 d.div(
                     {className: "page"},
 
-                    forms.text(
-                        "Name",
-                        "name",
-                        {
-                            className: "name-input",
-                            value: this.state.model.get("name"),
-                            errors: this.errors("name"),
-                            placeholder: "e.g. Claustral",
-                            onChange: this.set("name"),
-                            disabled: this.state.submitting
-                        }
-                    ),
+                    this.props.editting ?
+                        d.h1({}, this.state.model.get("name")) :
+                        forms.text(
+                            "Name",
+                            "name",
+                            {
+                                className: "name-input",
+                                value: this.state.model.get("name"),
+                                errors: this.errors("name"),
+                                placeholder: "e.g. Claustral",
+                                onChange: this.set("name"),
+                                disabled: "disabled"
+                            }
+                        ),
 
                     d.div(
                         {className: "badges field"},
@@ -152,7 +154,9 @@ export class CanyonForm extends forms.ValidatedForm {
                     disabled: this.state.submitting
                 }),
 
-                forms.submit("Create Canyon", this.submit.bind(this), this.state.submitting)
+                this.props.editting ?
+                    forms.submit("Save Changes", this.submit.bind(this), this.submitting) :
+                    forms.submit("Create Canyon", this.submit.bind(this), this.state.submitting)
             )
         );
     }

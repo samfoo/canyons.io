@@ -61,6 +61,7 @@ export class EditCanyon extends React.Component {
         return React.createElement(
             CanyonForm,
             {
+                editting: true,
                 send: this.send.bind(this),
                 model: this.state.model
             }

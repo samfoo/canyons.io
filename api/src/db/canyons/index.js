@@ -12,7 +12,6 @@ export const tripReports = require("./trip-reports");
 
 export function update(db, id, data) {
     let updates = {
-        name: data.name,
         access: data.access,
         notes: data.notes,
         gps: JSON.stringify(data.gps),
