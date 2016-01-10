@@ -88,12 +88,34 @@ router.get("/:id", (req, res) => {
         });
 });
 
+router.post("/:id", (req, res) => {
+    let data = req.body;
+    let errors = Immutable.fromJS(Canyon.validate(data));
+
+    if (errors.isEmpty()) {
+        // todo - update images. need to checksum the image somehow
+        db.canyons
+            .update(db.connection, req.params.id, data)
+            .then(canyon => {
+                res.status(200).send(canyon);
+            })
+            .catch(err => {
+                res.status(500).send({error: err});
+            });
+    } else {
+        res.status(400).send({
+            message: "invalid canyon",
+            errors: errors.toJS()
+        });
+    }
+});
+
 router.post("/", authentication.required, (req, res) => {
     let data = req.body;
     let errors = Immutable.fromJS(Canyon.validate(data));
 
     if (errors.isEmpty()) {
-        // todo some kind of error handling for cloudinary
+        // todo - some kind of error handling for cloudinary
         cloudinary.uploader.upload(data.cover, result => {
             db.canyons
                 .create(db.connection, data)

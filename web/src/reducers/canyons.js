@@ -13,6 +13,8 @@ export function reducer(state=defaultState, action) {
             .remove("list")
             .setIn(["meta", "@@loaded/list"], false);
         // falls through
+    case "UPDATE_CANYON":
+        // falls through
     case "GET_CANYON":
         return state
             .setIn(["ids", action.res.data.slug], Immutable.fromJS(action.res.data))

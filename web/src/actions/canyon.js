@@ -6,6 +6,13 @@ export function createTripReport(canyonId, tripReport) {
     };
 }
 
+export function updateCanyon(id, canyon) {
+    return {
+        type: "UPDATE_CANYON",
+        promise: api => api.post(`canyons/${id}`, canyon.toJS())
+    };
+}
+
 export function createCanyon(canyon) {
     return {
         type: "CREATE_CANYON",

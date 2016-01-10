@@ -23,7 +23,7 @@ export class CanyonForm extends forms.ValidatedForm {
     }
 
     send(model) {
-        return this.props.send(model.delete("errors"));
+        return this.props.send(model);
     }
 
     setBadge(field) {

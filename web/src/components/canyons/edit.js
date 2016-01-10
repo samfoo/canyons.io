@@ -1,4 +1,6 @@
 import * as CanyonActions from "../../actions/canyon";
+import * as links from "../../utils/links";
+import Immutable from "immutable";
 import React from "react";
 import { CanyonForm } from "./form";
 import { authorized } from "../../decorators";
@@ -41,7 +43,18 @@ export class EditCanyon extends React.Component {
     }
 
     send(model) {
-        throw new Error("implement me", model);
+        let { dispatch } = this.props;
+
+        return dispatch(CanyonActions.updateCanyon(
+            this.props.params.id,
+            model.delete("errors")
+                .delete("cover") // todo - form this submit better.
+                .delete("id")
+                .delete("formatted")
+                .delete("slug")
+        )).then(c => {
+            this.props.history.pushState({}, links.canyons.show(Immutable.fromJS(c)));
+        });
     }
 
     render() {

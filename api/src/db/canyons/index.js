@@ -10,6 +10,32 @@ function isUUID(s) {
 export const images = require("./images");
 export const tripReports = require("./trip-reports");
 
+export function update(db, id, data) {
+    let updates = {
+        name: data.name,
+        access: data.access,
+        notes: data.notes,
+        gps: JSON.stringify(data.gps),
+        badges: JSON.stringify(data.badges)
+    };
+
+    let update = Canyons
+        .update(updates);
+
+    if (isUUID(id)) {
+        update = update.where(Canyons.id.equals(id));
+    } else {
+        update = update.where(Canyons.slug.equals(id));
+    }
+
+
+    return db.query(update.returning("*").toString())
+        .then(canyons => {
+            let canyon = canyons[0];
+            return model.decorate(canyon);
+        });
+}
+
 export function create(db, data) {
     let insert = Canyons
         .insert(
