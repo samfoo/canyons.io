@@ -2,6 +2,7 @@ import * as gps from "../../utils/gps";
 import GoogleMap from "google-map-react";
 import React from "react";
 import geojson from "togeojson";
+import Immutable from "immutable";
 import { Spinner } from "../spinner";
 import { FileUploader } from "../forms";
 
@@ -15,7 +16,17 @@ export class GpsUploader extends FileUploader {
 
     constructor(props, context) {
         super(props, context);
-        this.state = {};
+        this.state = {
+            value: props.value
+        };
+    }
+
+    drawTrack(track) {
+        this.state.map.data.forEach(feature => {
+            this.state.map.data.remove(feature);
+        });
+
+        this.state.map.data.addGeoJson(track.toJS());
     }
 
     setFile(file) {
@@ -45,9 +56,9 @@ export class GpsUploader extends FileUploader {
 
             // TODO: handle errors in XML parsing, or when not gpx or kml
 
-            track = gps.compress(track);
+            track = Immutable.fromJS(gps.compress(track));
 
-            this.setState({ track: track });
+            this.setState({ value: track });
 
             if (this.props.onChange) {
                 this.props.onChange({
@@ -57,11 +68,7 @@ export class GpsUploader extends FileUploader {
                 });
             }
 
-            this.state.map.data.forEach((feature) => {
-                this.state.map.data.remove(feature);
-            });
-
-            this.state.map.data.addGeoJson(track);
+            this.drawTrack(track);
 
             this.setState({
                 loading: false,
@@ -103,6 +110,15 @@ export class GpsUploader extends FileUploader {
             let bounds = extendTo(feature.getGeometry(), this.state.bounds);
             map.fitBounds(bounds);
         });
+
+        if (this.state.value) {
+            this.drawTrack(this.state.value);
+
+            this.setState({
+                loading: false,
+                finished: true
+            });
+        }
     }
 
     render() {

@@ -9,17 +9,17 @@ var d = React.DOM;
 class Badge extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = { selected: false };
+        this.state = { value: props.value};
     }
 
     toggle() {
-        let selected = this.state.selected;
-        this.setState({ selected: !selected });
+        let value = this.state.value;
+        this.setState({ value: !value});
 
         if (this.props.onChange) {
             this.props.onChange({
                 target: {
-                    value: !selected
+                    value: !value
                 }
             });
         }
@@ -27,7 +27,7 @@ class Badge extends React.Component {
 
     render() {
         return d.div(
-            {className: `badge ${this.state.selected ? "selected" : ""}`, onClick: this.toggle.bind(this)},
+            {className: `badge ${this.state.value ? "selected" : ""}`, onClick: this.toggle.bind(this)},
             d.div({className: `badge-inner badge-${this.props.name}`}),
             d.div({className: "label"}, this.props.label)
         );
@@ -300,7 +300,9 @@ class ImageUploader extends FileUploader {
 
     constructor(props, context) {
         super(props, context);
-        this.state = {};
+        this.state = {
+            image: props.value
+        };
     }
 
     resize(data) {

@@ -5,6 +5,7 @@ import { Home } from "./components/home";
 import { IndexRoute, Route } from "react-router";
 import { LoginForm } from "./components/login";
 import { NewCanyon } from "./components/canyons/new";
+import { EditCanyon } from "./components/canyons/edit";
 import { NotFound } from "./components/not-found";
 import { ShowCanyon } from "./components/canyons/show";
 import { SignUp } from "./components/sign-up";
@@ -39,6 +40,7 @@ export function routes(store) {
         r("/sign-up", SignUp),
         r("/canyons/new", NewCanyon),
         r("/canyons/:id", ShowCanyon),
+        r("/canyons/:id/edit", EditCanyon),
         r("/canyons/:canyonId/trip-reports/new", TripReportForm),
         r("*", NotFound)
     );
